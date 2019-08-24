@@ -1,0 +1,24 @@
+{
+  "name": "laurens-codes",
+  "version": "1.0.0",
+  "description": "Personal website and blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typescript": "tsc",
+    "prettier:build": "prettier --write build/*",
+    "build:html": "npm run typescript && node scripts/build-html.js"
+  },
+  "keywords": [
+    "Personal",
+    "website",
+    "blog"
+  ],
+  "author": "Laurens Dewaele",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.0.10",
+    "prettier": "^1.18.2",
+    "typescript": "^2.7.2"
+  }
+}
