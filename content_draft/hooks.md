@@ -2,6 +2,8 @@
 
 12 August 2019
 
+![react logo](images/react.svg)
+
 ## Written down notes
 
   * useEffect runs after every render
@@ -55,9 +57,9 @@ Lessons learned in a nutshell:
 
 ## Sources
 
-Everything in the offical docs ❤️. https://reactjs.org/docs/hooks-intro.html
-Api call useEffect snippet. https://codesandbox.io/s/jvvkoo8pq3
-Data fechting blog post on hooks by Robin Wieruch. https://www.robinwieruch.de/react-hooks-fetch-data/
+Everything in the offical docs ❤️. [https://reactjs.org/docs/hooks-intro.html](https://reactjs.org/docs/hooks-intro.html)
+Api call useEffect snippet. [https://codesandbox.io/s/jvvkoo8pq3](https://codesandbox.io/s/jvvkoo8pq3)
+Data fechting blog post on hooks by Robin Wieruch. [https://www.robinwieruch.de/react-hooks-fetch-data/](https://www.robinwieruch.de/react-hooks-fetch-data/)
 
 
 
