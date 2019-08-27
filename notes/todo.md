@@ -10,5 +10,9 @@ In a later stage, lol :) start coding dummy ;)
 
 1) Write content DONE
 2) Convert ALL .md to .HTML
+
+Learn shell as well.
+
+
 3) Extract the header, date and image from the html => grep
 
