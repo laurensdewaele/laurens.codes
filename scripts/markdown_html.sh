@@ -1,10 +1,12 @@
 #!/bin/sh
 
 echo 'Converting markdown files to html...'
-FILES=../content_ready/*.md
-for f in $FILES
+files=../content_ready/*.md
+for file in $files
 do
-	echo "Processing $f files..."
+	regex=/.md/
+	echo $regex
+	echo "Processing $file file..."
 done
 
 
