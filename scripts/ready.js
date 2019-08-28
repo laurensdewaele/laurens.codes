@@ -17,8 +17,8 @@ async function ready() {
 
   const createdDate = extractCreatedDate(file)
   const allImagesRe = /(\.\/images\/.*(?=\)))/g;
-  const fileContent = fs.readFileSync(file, { encoding: 'UTF-8'})
-  console.log(fileContent.match(allImagesRe));
+  const fileAsText = fs.readFileSync(file, { encoding: 'UTF-8'})
+  const referencedImagesInPost = fileAsText.match(allImagesRe)
 }
 
 function promtFilename() {
