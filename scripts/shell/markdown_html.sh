@@ -1,11 +1,13 @@
 #!/bin/sh
 
 echo 'Converting markdown files to html...'
+
+
 files=../content_ready/*.md
 for file in $files
 do
 	regex='/.md/'
-	echo $regex
+	echo $f | sed -e 's'
 	echo "Processing $file file..."
 done
 
