@@ -107,6 +107,12 @@ Wow, I'm pretty amazed at the powers of regex. **This will make my development p
 
 That's it for this post, I will continue to make regex exercises to further cement and deepen my knowledge. This will be done on [codewars](https://www.codewars.com/kata/search/javascript?q=&r%5B%5D=-8&tags=Regular+Expressions&xids=played&beta=false&order_by=satisfaction_percent+desc%2Ctotal_completed+desc).
 
+### Conclusion
+
+Like anything else in programming, it requires some effort in order to grasp it. 
+I've been following the course learning how to learn on coursera at the moment. 
+So I realise it's important for me to cement my knowledge. Therefor I will make some 'katas' on regex's the following days so I can imprint it into my long term memory.
+
 
 
 
