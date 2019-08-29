@@ -1,5 +1,10 @@
 const chalk = require('chalk');
 const fs = require('fs');
+const imagemin = require('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
+const imageminSvgo = require('imagemin-svgo');
+const imageminWebp = require('imagemin-webp');
 const moment = require('moment');
 const prompts = require('prompts');
 const sharp = require('sharp');
@@ -21,7 +26,9 @@ async function ready() {
   const fileAsText = fs.readFileSync(file, { encoding: 'UTF-8' });
   const imagePaths = fileAsText.match(allImagesRe);
   const createdImages = await resizeImages(imagePaths, 1200, 500);
-  console.log(createdImages);
+  // Next up: minify images;
+  console.log('created images', createdImages);
+  optimizeImages(createdImages);
 }
 
 function promtFilename() {
@@ -139,4 +146,30 @@ function resizeImages(imagePaths, desktopWidth, mobileWidth) {
         reject();
       });
   });
+}
+
+async function optimizeImages(images) {
+  const svgImages = images.filter(image => /svg$/.test(image));
+  const jpegImages = images.filter(image => /jpe?g$/.test(image));
+  const pngImages = images.filter(image => /png$/.test(image));
+  const webPImages = images.filter(image => /webp$/.test(image));
+
+  const destination = '../content_ready/images_optimized';
+
+  const promises = [
+    imagemin(svgImages, { destination, plugins: [imageminSvgo({})] }),
+    imagemin(jpegImages, { destination, plugins: [imageminJpegtran()] }),
+    imagemin(pngImages, {
+      destination,
+      plugins: [imageminPngquant({ strip: true })]
+    }),
+    imagemin(webPImages, {
+      destination,
+      plugins: [imageminWebp({ quality: 80 })]
+    })
+  ];
+
+  Promise.all(promises)
+    .then(f => console.log('sucessfully optimized all images'))
+    .catch(e => console.log(e));
 }
