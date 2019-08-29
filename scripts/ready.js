@@ -213,7 +213,7 @@ async function optimizeImages(images) {
   ];
 
   Promise.all(promises)
-    .then(f => console.log('sucessfully optimized all images'))
+    .then(f => console.log('successfully optimized all images'))
     .catch(e => console.log(e));
 }
 
