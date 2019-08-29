@@ -20,7 +20,8 @@ async function ready() {
   const allImagesRe = /(\.\/images\/.*(?=\)))/g;
   const fileAsText = fs.readFileSync(file, { encoding: 'UTF-8' });
   const imagePaths = fileAsText.match(allImagesRe);
-  resizeImages(imagePaths, 1200, 500);
+  const createdImages = await resizeImages(imagePaths, 1200, 500);
+  console.log(createdImages);
 }
 
 function promtFilename() {
@@ -127,10 +128,15 @@ function resizeImages(imagePaths, desktopWidth, mobileWidth) {
     );
   });
 
-  Promise.all(resizePromises)
-    .then(images => {
-      createdImages.push(...images.flat());
-      console.log(createdImages);
-    })
-    .catch(e => console.log(e));
+  return new Promise((resolve, reject) => {
+    Promise.all(resizePromises)
+      .then(images => {
+        createdImages.push(...images.flat());
+        resolve(createdImages);
+      })
+      .catch(e => {
+        console.log(e);
+        reject();
+      });
+  });
 }
