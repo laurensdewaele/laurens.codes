@@ -90,33 +90,34 @@ function resizeImages(imagePaths, desktopWidth, mobileWidth) {
 
   const images = addDescriptionAndFileExtension(imagePaths);
 
-  images.forEach(async image => {
-    let desktopImages = [];
-    let mobileImages = [];
-
+  images.forEach(image => {
     const {
       relativePathFromInsideScriptsFolder,
       description,
       extension
     } = image;
-    try {
-      desktopImages = await resizeAndCreateWebp(
+
+    resizePromises.push(
+      resizeAndCreateWebp(
         description,
         extension,
         relativePathFromInsideScriptsFolder,
         desktopWidth
-      );
-      mobileImages = await resizeAndCreateWebp(
+      )
+    );
+    resizePromises.push(
+      resizeAndCreateWebp(
         description,
         extension,
         relativePathFromInsideScriptsFolder,
         mobileWidth
-      );
-      console.log(desktopImages, mobileImages)
-      createdImages.push(...desktopImages, ...mobileImages);
-    } catch (e) {
-      console.log(e);
-    }
+      )
+    );
   });
+
+  Promise.all(resizePromises)
+    .then(f => console.log(f))
+    .catch(e => console.log(e));
+
   console.log('finished', createdImages);
 }
