@@ -12,7 +12,32 @@ const sharp = require('sharp');
 ready();
 
 async function ready() {
+  const blogpost = {
+    filename: '',
+    title: '',
+    createdDate: null,
+    thumbnailSvg: '',
+    images: [
+      {
+        example: [
+          {
+            mobile: {
+              original: 'example_w_500.png',
+              webP: 'example_w_500.webp'
+            },
+            desktop: {
+              original: 'example_w_1200.png',
+              webP: 'example_w_1200.webp'
+            }
+          }
+        ]
+      }
+    ],
+    html: ''
+  };
+
   const { filename } = await promtFilename();
+  blogpost.filename = filename;
   const file = `../content_draft/${filename}.md`;
 
   const exists = filenameExists(file);
@@ -21,13 +46,14 @@ async function ready() {
     return;
   }
 
-  const createdDate = extractCreatedDate(file);
+  blogpost.createdDate = extractCreatedDate(file);
   const allImagesRe = /(\.\/images\/.*(?=\)))/g;
   const fileAsText = fs.readFileSync(file, { encoding: 'UTF-8' });
   const imagePaths = fileAsText.match(allImagesRe);
-  const createdImages = await resizeImages(imagePaths, 1200, 500);
-  // Next up: minify images;
-  console.log('created images', createdImages);
+  const { thumbnailSvg, images } = await resizeImages(imagePaths, 1200, 500);
+  blogpost.thumbnailSvg = thumbnailSvg;
+  blogpost.images = images;
+  console.log('created images', JSON.stringify(createdImages));
   optimizeImages(createdImages);
 }
 
@@ -65,7 +91,7 @@ function addDescriptionAndFileExtension(imagePaths) {
 
 function resizeAndCreateWebp(description, extension, path, width) {
   const outputPath = `../content_ready/images/${description}_w_${width}.${extension}`;
-  const webpOutputPath = `../content_ready/images/${description}_w_${width}.webp`;
+  const webPOutputPath = `../content_ready/images/${description}_w_${width}.webp`;
 
   return new Promise((resolve, reject) => {
     sharp(path)
@@ -74,9 +100,17 @@ function resizeAndCreateWebp(description, extension, path, width) {
       .then(_ => {
         sharp(outputPath)
           .webp({ lossless: true })
-          .toFile(webpOutputPath)
+          .toFile(webPOutputPath)
           .then(_ => {
-            resolve([outputPath, webpOutputPath]);
+            const image = {
+              [description]: {
+                mobile: {
+                  orginal: outputPath,
+                  webP: webPOutputPath
+                }
+              }
+            };
+            resolve(image);
           })
           .catch(err => {
             reject(err);
@@ -98,16 +132,19 @@ function copySvg(svgIconPathRelativeToDraft) {
 }
 
 function resizeImages(imagePaths, desktopWidth, mobileWidth) {
-  const createdImages = [];
+  const createdImages = {
+    thumbnailSvg: '',
+    images: []
+  };
   const resizePromises = [];
 
   // The first referenced image will always be an svg.
-  const svgIconPath = imagePaths[0];
-  const copiedSvgPath = copySvg(svgIconPath);
-  createdImages.push(copiedSvgPath);
+  const thumbnailSvgPath = imagePaths[0];
+  createdImages.thumbnailSvg = copySvg(thumbnailSvgPath);
 
   // Remove svg. We do not need to resize this.
   imagePaths.shift();
+
   const images = addDescriptionAndFileExtension(imagePaths);
 
   images.forEach(image => {
@@ -138,7 +175,7 @@ function resizeImages(imagePaths, desktopWidth, mobileWidth) {
   return new Promise((resolve, reject) => {
     Promise.all(resizePromises)
       .then(images => {
-        createdImages.push(...images.flat());
+        createdImages.images.push(...images.flat());
         resolve(createdImages);
       })
       .catch(e => {
