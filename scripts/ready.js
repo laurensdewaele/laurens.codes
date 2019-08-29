@@ -20,9 +20,7 @@ async function ready() {
   const allImagesRe = /(\.\/images\/.*(?=\)))/g;
   const fileAsText = fs.readFileSync(file, { encoding: 'UTF-8' });
   const imagePaths = fileAsText.match(allImagesRe);
-  resizeImages(imagePaths)
-    .then(_ => chalk.green('Successfully resized referenced images'))
-    .catch(error => chalk.red(`Error in resizing images: ${error}`));
+  resizeImages(imagePaths, 1200, 500);
 }
 
 function promtFilename() {
@@ -43,35 +41,38 @@ function extractCreatedDate(file) {
 }
 
 function addInfoToImagePaths(imagePaths) {
-  const descriptionRe = /^\.\/images\/(.*)\..{3,4}$/;
+  const fileRe = /\w*\.\w{3,4}$/;
   return imagePaths.map(path => {
-    const description = path.match(descriptionRe)[1];
-    const relativePathFromInsideScriptsFolder = `.${imagePath}`;
+    const file = fileRe.exec(path)[0];
+    const relativePathFromInsideScriptsFolder = `../content_draft/${path}`;
     return {
       path,
-      description,
+      file,
       relativePathFromInsideScriptsFolder
     };
   });
 }
 
-function resize(path, width, description) {
+function resize(file, path, width) {
   return sharp(path)
     .resize(width)
-    .toFile(`../content_ready/images/${description}`);
+    .toFile(`../content_ready/images/${file}`);
 }
 
 function resizeImages(imagePaths, desktopWidth, mobileWidth) {
   const resizeTasks = [];
   const images = addInfoToImagePaths(imagePaths);
   images.forEach(image => {
-    const { description, relativePathFromInsideScriptsFolder } = image;
+    const { file, relativePathFromInsideScriptsFolder } = image;
     resizeTasks.push(
-      resize(relativePathFromInsideScriptsFolder, desktopWidth, description)
+      resize(file, relativePathFromInsideScriptsFolder, desktopWidth)
     );
     resizeTasks.push(
-      resize(relativePathFromInsideScriptsFolder, mobileWidth, description)
+      resize(file, relativePathFromInsideScriptsFolder, mobileWidth)
     );
   });
-  return Promise.all(resizeTasks);
+  console.log(resizeTasks);
+  Promise.all(resizeTasks)
+    .then(_ => console.log('yay'))
+    .catch(e => console.log('naay', e));
 }
