@@ -80,14 +80,26 @@ function resizeAndCreateWebp(description, extension, path, width) {
   });
 }
 
+function copySvg(svgIconPathRelativeToDraft) {
+  const draftPath = `../content_draft/${svgIconPathRelativeToDraft}`;
+  const readyPath = `../content_ready/${svgIconPathRelativeToDraft}`;
+  fs.copyFileSync(draftPath, readyPath, e => {
+    e && console.log(e);
+  });
+  return readyPath;
+}
+
 function resizeImages(imagePaths, desktopWidth, mobileWidth) {
   const createdImages = [];
   const resizePromises = [];
 
-  // The first referenced image will always be an svg. We do not need to resize this
-  const svgIcon = imagePaths[0];
-  imagePaths.shift();
+  // The first referenced image will always be an svg.
+  const svgIconPath = imagePaths[0];
+  const copiedSvgPath = copySvg(svgIconPath);
+  createdImages.push(copiedSvgPath);
 
+  // Remove svg. We do not need to resize this.
+  imagePaths.shift();
   const images = addDescriptionAndFileExtension(imagePaths);
 
   images.forEach(image => {
@@ -116,8 +128,9 @@ function resizeImages(imagePaths, desktopWidth, mobileWidth) {
   });
 
   Promise.all(resizePromises)
-    .then(f => console.log(f))
+    .then(images => {
+      createdImages.push(...images.flat());
+      console.log(createdImages);
+    })
     .catch(e => console.log(e));
-
-  console.log('finished', createdImages);
 }
