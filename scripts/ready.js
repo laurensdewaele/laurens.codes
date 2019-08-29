@@ -40,39 +40,83 @@ function extractCreatedDate(file) {
   return moment(birthTime).format('YYYY-MM-DD');
 }
 
-function addInfoToImagePaths(imagePaths) {
-  const fileRe = /\w*\.\w{3,4}$/;
+function addDescriptionAndFileExtension(imagePaths) {
+  const descriptionRe = /(\w*)\.\w{3,4}$/;
+  const extensionRe = /\w{3,4}$/;
   return imagePaths.map(path => {
-    const file = fileRe.exec(path)[0];
+    const description = path.match(descriptionRe)[1];
     const relativePathFromInsideScriptsFolder = `../content_draft/${path}`;
+    const extension = extensionRe.exec(path)[0];
     return {
-      path,
-      file,
-      relativePathFromInsideScriptsFolder
+      description,
+      relativePathFromInsideScriptsFolder,
+      extension
     };
   });
 }
 
-function resize(file, path, width) {
-  return sharp(path)
-    .resize(width)
-    .toFile(`../content_ready/images/${file}`);
+function resizeAndCreateWebp(description, extension, path, width) {
+  const outputPath = `../content_ready/images/${description}_w_${width}.${extension}`;
+  const webpOutputPath = `../content_ready/images/${description}_w_${width}.webp`;
+
+  return new Promise((resolve, reject) => {
+    sharp(path)
+      .resize({ width, options: { withoutEnlargement: true } })
+      .toFile(outputPath)
+      .then(_ => {
+        sharp(outputPath)
+          .webp({ lossless: true })
+          .toFile(webpOutputPath)
+          .then(_ => {
+            resolve([outputPath, webpOutputPath]);
+          })
+          .catch(err => {
+            reject(err);
+          });
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 }
 
 function resizeImages(imagePaths, desktopWidth, mobileWidth) {
-  const resizeTasks = [];
-  const images = addInfoToImagePaths(imagePaths);
-  images.forEach(image => {
-    const { file, relativePathFromInsideScriptsFolder } = image;
-    resizeTasks.push(
-      resize(file, relativePathFromInsideScriptsFolder, desktopWidth)
-    );
-    resizeTasks.push(
-      resize(file, relativePathFromInsideScriptsFolder, mobileWidth)
-    );
+  const createdImages = [];
+  const resizePromises = [];
+
+  // The first referenced image will always be an svg. We do not need to resize this
+  const svgIcon = imagePaths[0];
+  imagePaths.shift();
+
+  const images = addDescriptionAndFileExtension(imagePaths);
+
+  images.forEach(async image => {
+    let desktopImages = [];
+    let mobileImages = [];
+
+    const {
+      relativePathFromInsideScriptsFolder,
+      description,
+      extension
+    } = image;
+    try {
+      desktopImages = await resizeAndCreateWebp(
+        description,
+        extension,
+        relativePathFromInsideScriptsFolder,
+        desktopWidth
+      );
+      mobileImages = await resizeAndCreateWebp(
+        description,
+        extension,
+        relativePathFromInsideScriptsFolder,
+        mobileWidth
+      );
+      console.log(desktopImages, mobileImages)
+      createdImages.push(...desktopImages, ...mobileImages);
+    } catch (e) {
+      console.log(e);
+    }
   });
-  console.log(resizeTasks);
-  Promise.all(resizeTasks)
-    .then(_ => console.log('yay'))
-    .catch(e => console.log('naay', e));
+  console.log('finished', createdImages);
 }
