@@ -6,14 +6,18 @@ const imageminPngquant = require('imagemin-pngquant');
 const imageminSvgo = require('imagemin-svgo');
 const imageminWebp = require('imagemin-webp');
 const moment = require('moment');
+const prettier = require('prettier');
 const prompts = require('prompts');
 const sharp = require('sharp');
+const showdown = require('showdown');
 
 ready();
 
 async function ready() {
   const blogpost = {
     filename: '',
+    markdown: '',
+    html: '',
     title: '',
     createdDate: null,
     thumbnailSvg: '',
@@ -32,8 +36,7 @@ async function ready() {
           }
         ]
       }
-    ],
-    html: ''
+    ]
   };
 
   const { filename } = await promtFilename();
@@ -47,21 +50,24 @@ async function ready() {
   }
 
   blogpost.createdDate = extractCreatedDate(file);
+  blogpost.markdown = fs.readFileSync(file, { encoding: 'UTF-8' });
+  blogpost.html = convertMarkdownToHtml(blogpost.markdown);
+  console.log(blogpost.html);
+
   const allImagesRe = /(\.\/images\/.*(?=\)))/g;
-  const fileAsText = fs.readFileSync(file, { encoding: 'UTF-8' });
-  const imagePaths = fileAsText.match(allImagesRe);
+  const imagePaths = blogpost.markdown.match(allImagesRe);
   const { thumbnailSvg, images } = await resizeImages(imagePaths, 1200, 500);
   blogpost.thumbnailSvg = thumbnailSvg;
   blogpost.images = images;
-  console.log('created images', JSON.stringify(createdImages));
-  optimizeImages(createdImages);
+  console.log('created images', JSON.stringify(images));
+  optimizeImages(images);
 }
 
 function promtFilename() {
   return prompts({
     type: 'text',
     name: 'filename',
-    message: `Enter the draft blogpost filename that's ready`
+    message: `Enter the draft blogpost filename that's ready (without extension)`
   });
 }
 
@@ -209,4 +215,14 @@ async function optimizeImages(images) {
   Promise.all(promises)
     .then(f => console.log('sucessfully optimized all images'))
     .catch(e => console.log(e));
+}
+
+function convertMarkdownToHtml(markdown) {
+  const converter = new showdown.Converter({ noHeaderId: true });
+  const html = converter.makeHtml(markdown);
+  return runPrettierOnHtml(html)
+}
+
+function runPrettierOnHtml(file) {
+  return prettier.format(file, { parser: 'html' });
 }
