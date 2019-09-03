@@ -1,37 +1,37 @@
-const chalk = require('chalk');
-const fs = require('fs');
-const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminPngquant = require('imagemin-pngquant');
-const imageminSvgo = require('imagemin-svgo');
-const imageminWebp = require('imagemin-webp');
-const moment = require('moment');
-const prettier = require('prettier');
-const prompts = require('prompts');
-const sharp = require('sharp');
-const showdown = require('showdown');
+const chalk = require("chalk");
+const fs = require("fs");
+const imagemin = require("imagemin");
+const imageminJpegtran = require("imagemin-jpegtran");
+const imageminPngquant = require("imagemin-pngquant");
+const imageminSvgo = require("imagemin-svgo");
+const imageminWebp = require("imagemin-webp");
+const moment = require("moment");
+const prettier = require("prettier");
+const prompts = require("prompts");
+const sharp = require("sharp");
+const showdown = require("showdown");
 
 ready();
 
 async function ready() {
   const blogpost = {
-    filename: '',
-    markdown: '',
-    html: '',
-    title: '',
+    filename: "",
+    markdown: "",
+    html: "",
+    title: "",
     createdDate: null,
-    thumbnailSvg: '',
+    thumbnailSvg: "",
     images: [
       {
         example: [
           {
             mobile: {
-              original: 'example_w_500.png',
-              webP: 'example_w_500.webp'
+              original: "example_w_500.png",
+              webP: "example_w_500.webp"
             },
             desktop: {
-              original: 'example_w_1200.png',
-              webP: 'example_w_1200.webp'
+              original: "example_w_1200.png",
+              webP: "example_w_1200.webp"
             }
           }
         ]
@@ -50,23 +50,23 @@ async function ready() {
   }
 
   blogpost.createdDate = extractCreatedDate(file);
-  blogpost.markdown = fs.readFileSync(file, { encoding: 'UTF-8' });
+  blogpost.markdown = fs.readFileSync(file, { encoding: "UTF-8" });
   blogpost.html = convertMarkdownToHtml(blogpost.markdown);
-  console.log(blogpost.html);
+  blogpost.title = blogpost.html.match(/<h1>(.*)<\/h1>/)[1];
 
   const allImagesRe = /(\.\/images\/.*(?=\)))/g;
   const imagePaths = blogpost.markdown.match(allImagesRe);
   const { thumbnailSvg, images } = await resizeImages(imagePaths, 1200, 500);
   blogpost.thumbnailSvg = thumbnailSvg;
   blogpost.images = images;
-  console.log('created images', JSON.stringify(images));
+  console.log("created images", JSON.stringify(images));
   optimizeImages(images);
 }
 
 function promtFilename() {
   return prompts({
-    type: 'text',
-    name: 'filename',
+    type: "text",
+    name: "filename",
     message: `Enter the draft blogpost filename that's ready (without extension)`
   });
 }
@@ -77,7 +77,7 @@ function filenameExists(file) {
 
 function extractCreatedDate(file) {
   const { birthTime } = fs.statSync(file);
-  return moment(birthTime).format('YYYY-MM-DD');
+  return moment(birthTime).format("YYYY-MM-DD");
 }
 
 function addDescriptionAndFileExtension(imagePaths) {
@@ -139,7 +139,7 @@ function copySvg(svgIconPathRelativeToDraft) {
 
 function resizeImages(imagePaths, desktopWidth, mobileWidth) {
   const createdImages = {
-    thumbnailSvg: '',
+    thumbnailSvg: "",
     images: []
   };
   const resizePromises = [];
@@ -197,7 +197,7 @@ async function optimizeImages(images) {
   const pngImages = images.filter(image => /png$/.test(image));
   const webPImages = images.filter(image => /webp$/.test(image));
 
-  const destination = '../content_ready/images_optimized';
+  const destination = "../content_ready/images_optimized";
 
   const promises = [
     imagemin(svgImages, { destination, plugins: [imageminSvgo({})] }),
@@ -213,16 +213,16 @@ async function optimizeImages(images) {
   ];
 
   Promise.all(promises)
-    .then(f => console.log('successfully optimized all images'))
+    .then(f => console.log("successfully optimized all images"))
     .catch(e => console.log(e));
 }
 
 function convertMarkdownToHtml(markdown) {
   const converter = new showdown.Converter({ noHeaderId: true });
   const html = converter.makeHtml(markdown);
-  return runPrettierOnHtml(html)
+  return runPrettierOnHtml(html);
 }
 
 function runPrettierOnHtml(file) {
-  return prettier.format(file, { parser: 'html' });
+  return prettier.format(file, { parser: "html" });
 }
