@@ -15,7 +15,7 @@ ready();
 
 async function ready() {
   const blogpost = {
-    filename: "",
+    file: "",
     markdown: "",
     html: "",
     title: "",
@@ -23,10 +23,12 @@ async function ready() {
     thumbnailSvgPath: "",
     images: [
       {
+        description: "",
+        extension: "",
+        relativePathFromInsideScriptsFolder: "",
         originalPath: "",
         originalHtml: "",
         repsonsiveHtml: "",
-        description: "",
         alt: "",
         files: {
           mobile: {
@@ -44,72 +46,73 @@ async function ready() {
   const desktopWidth = 1200;
   const mobileWidth = 500;
 
-  const { filename } = await promtFilename();
-  blogpost.filename = filename;
-  const file = `../content_draft/${filename}.md`;
-
-  const exists = filenameExists(file);
-  if (!exists) {
-    console.log(chalk.red(`${filename}.md not present in content_draft`));
-    return;
-  }
-
-  blogpost.createdDate = extractCreatedDate(file);
-  blogpost.markdown = fs.readFileSync(file, { encoding: "UTF-8" });
+  blogpost.file = await getMarkdownFile();
+  blogpost.createdDate = extractCreatedDate(blogpost.file);
+  blogpost.markdown = fs.readFileSync(blogpost.file, { encoding: "UTF-8" });
   blogpost.html = convertMarkdownToHtml(blogpost.markdown);
+  console.log(blogpost.html);
   blogpost.title = blogpost.html.match(/<h1>(.*)<\/h1>/)[1];
 
-  const allImagesRe = /(\.\/images\/.*(?=\)))/g;
-  const allImagePaths = blogpost.markdown.match(allImagesRe);
-  console.log(allImagePaths);
-  // The first referenced image will always be an svg.
-  blogpost.thumbnailSvgPath = copySvg(allImagePaths[0]);
-  // Remove svg. We do not need to resize this.
-  allImagePaths.shift();
-  const images = await resizeImages(
-    addDescriptionAndFileExtension(allImagePaths),
-    desktopWidth,
-    mobileWidth
+  const allImagesRe = /<img src="(.*)" alt="(.*)" \/>/g;
+  const foundImagesWithCapturingGroups = [
+    ...blogpost.html.matchAll(allImagesRe)
+  ];
+  blogpost.images = mapImages(foundImagesWithCapturingGroups);
+  console.log(blogpost.images);
+
+  // // The first referenced image will always be an svg.
+  // blogpost.thumbnailSvgPath = copySvg(allImagePaths[0]);
+  // // Remove svg. We do not need to resize this.
+  // allImagePaths.shift();
+  // const images = await resizeImages(
+  //   addDescriptionAndFileExtension(allImagePaths),
+  //   desktopWidth,
+  //   mobileWidth
+  // );
+  // blogpost.images = images;
+  // console.log("created images", JSON.stringify(images));
+  // optimizeImages(images);
+
+  // //TODO : Generate responsive image html
+  // //Inline svg
+}
+
+function mapImages(foundImagesWithRegex) {
+  const images = foundImagesWithRegex.map(
+    ([originalHtml, originalPath, alt]) => {
+      return {
+        originalHtml,
+        originalPath,
+        alt,
+        description: originalPath.match(/(\w*)\.\w{3,4}$/)[1],
+        extension: /\w{3,4}$/.exec(originalPath)[0],
+        relativePathFromInsideScriptsFolder: `../content_draft/${originalPath}`
+      };
+    }
   );
-  blogpost.images = images;
-  console.log("created images", JSON.stringify(images));
-  optimizeImages(images);
-
-  //TODO : Generate responsive image html
-  //Inline svg
+  console.log(images);
 }
 
-function promtFilename() {
-  return prompts({
-    type: "text",
-    name: "filename",
-    message: `Enter the draft blogpost filename that's ready (without extension)`
+function getMarkdownFile() {
+  return new Promise(async resolve => {
+    const { filename } = await prompts({
+      type: "text",
+      name: "filename",
+      message: `Enter the draft blogpost filename that's ready (without extension)`
+    });
+
+    const file = `../content_draft/${filename}.md`;
+    if (!fs.existsSync(file)) {
+      throw new Error("`${filename}.md not present in content_draft`");
+    }
+
+    resolve(file);
   });
-}
-
-function filenameExists(file) {
-  return fs.existsSync(file);
 }
 
 function extractCreatedDate(file) {
   const { birthTime } = fs.statSync(file);
   return moment(birthTime).format("YYYY-MM-DD");
-}
-
-function addDescriptionAndFileExtension(imagePaths) {
-  console.log(imagePaths);
-  const descriptionRe = /(\w*)\.\w{3,4}$/;
-  const extensionRe = /\w{3,4}$/;
-  return imagePaths.map(path => {
-    const description = path.match(descriptionRe)[1];
-    const relativePathFromInsideScriptsFolder = `../content_draft/${path}`;
-    const extension = extensionRe.exec(path)[0];
-    return {
-      description,
-      relativePathFromInsideScriptsFolder,
-      extension
-    };
-  });
 }
 
 function resizeAndCreateWebp(description, extension, path, width) {

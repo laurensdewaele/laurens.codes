@@ -1,13 +1,9 @@
 # test
 
+![testing 1](./images/regex.svg)
 
-[some shit](./images/regex.svg)
+![testing 2](./images/design_1.png)
 
-[some shit](./images/design_1.png)
+![testing 4](./images/test.jpeg)
 
-[some shit](./images/test.jpg)
-[some shit](./images/test.jpeg)
-
-
-[some other shit](./images/design_2.png)
-
+![testing 5](./images/design_2.png)
