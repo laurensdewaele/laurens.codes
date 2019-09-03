@@ -20,24 +20,29 @@ async function ready() {
     html: "",
     title: "",
     createdDate: null,
-    thumbnailSvg: "",
+    thumbnailSvgPath: "",
     images: [
       {
-        example: [
-          {
-            mobile: {
-              original: "example_w_500.png",
-              webP: "example_w_500.webp"
-            },
-            desktop: {
-              original: "example_w_1200.png",
-              webP: "example_w_1200.webp"
-            }
+        originalPath: "",
+        originalHtml: "",
+        repsonsiveHtml: "",
+        description: "",
+        alt: "",
+        files: {
+          mobile: {
+            original: "example_w_500.png",
+            webP: "example_w_500.webp"
+          },
+          desktop: {
+            original: "example_w_1200.png",
+            webP: "example_w_1200.webp"
           }
-        ]
+        }
       }
     ]
   };
+  const desktopWidth = 1200;
+  const mobileWidth = 500;
 
   const { filename } = await promtFilename();
   blogpost.filename = filename;
@@ -55,12 +60,23 @@ async function ready() {
   blogpost.title = blogpost.html.match(/<h1>(.*)<\/h1>/)[1];
 
   const allImagesRe = /(\.\/images\/.*(?=\)))/g;
-  const imagePaths = blogpost.markdown.match(allImagesRe);
-  const { thumbnailSvg, images } = await resizeImages(imagePaths, 1200, 500);
-  blogpost.thumbnailSvg = thumbnailSvg;
+  const allImagePaths = blogpost.markdown.match(allImagesRe);
+  console.log(allImagePaths);
+  // The first referenced image will always be an svg.
+  blogpost.thumbnailSvgPath = copySvg(allImagePaths[0]);
+  // Remove svg. We do not need to resize this.
+  allImagePaths.shift();
+  const images = await resizeImages(
+    addDescriptionAndFileExtension(allImagePaths),
+    desktopWidth,
+    mobileWidth
+  );
   blogpost.images = images;
   console.log("created images", JSON.stringify(images));
   optimizeImages(images);
+
+  //TODO : Generate responsive image html
+  //Inline svg
 }
 
 function promtFilename() {
@@ -81,6 +97,7 @@ function extractCreatedDate(file) {
 }
 
 function addDescriptionAndFileExtension(imagePaths) {
+  console.log(imagePaths);
   const descriptionRe = /(\w*)\.\w{3,4}$/;
   const extensionRe = /\w{3,4}$/;
   return imagePaths.map(path => {
@@ -98,6 +115,23 @@ function addDescriptionAndFileExtension(imagePaths) {
 function resizeAndCreateWebp(description, extension, path, width) {
   const outputPath = `../content_ready/images/${description}_w_${width}.${extension}`;
   const webPOutputPath = `../content_ready/images/${description}_w_${width}.webp`;
+
+  // {
+  //   originalHtml: "",
+  //   repsonsiveHtml: "",
+  //   text: "",
+  //   alt: "",
+  //   files: {
+  //     mobile: {
+  //       original: "example_w_500.png",
+  //       webP: "example_w_500.webp"
+  //     },
+  //     desktop: {
+  //       original: "example_w_1200.png",
+  //       webP: "example_w_1200.webp"
+  //     }
+  //   }
+  // }
 
   return new Promise((resolve, reject) => {
     sharp(path)
@@ -137,21 +171,9 @@ function copySvg(svgIconPathRelativeToDraft) {
   return readyPath;
 }
 
-function resizeImages(imagePaths, desktopWidth, mobileWidth) {
-  const createdImages = {
-    thumbnailSvg: "",
-    images: []
-  };
+function resizeImages(images, desktopWidth, mobileWidth) {
+  const createdImages = [];
   const resizePromises = [];
-
-  // The first referenced image will always be an svg.
-  const thumbnailSvgPath = imagePaths[0];
-  createdImages.thumbnailSvg = copySvg(thumbnailSvgPath);
-
-  // Remove svg. We do not need to resize this.
-  imagePaths.shift();
-
-  const images = addDescriptionAndFileExtension(imagePaths);
 
   images.forEach(image => {
     const {
@@ -181,7 +203,7 @@ function resizeImages(imagePaths, desktopWidth, mobileWidth) {
   return new Promise((resolve, reject) => {
     Promise.all(resizePromises)
       .then(images => {
-        createdImages.images.push(...images.flat());
+        createdImages.push(...images.flat());
         resolve(createdImages);
       })
       .catch(e => {
@@ -225,4 +247,22 @@ function convertMarkdownToHtml(markdown) {
 
 function runPrettierOnHtml(file) {
   return prettier.format(file, { parser: "html" });
+}
+
+function generateHtmlForImage(image) {
+  // Image example
+  // {
+  //   example: [
+  //     {
+  //       mobile: {
+  //         original: "example_w_500.png",
+  //         webP: "example_w_500.webp"
+  //       },
+  //       desktop: {
+  //         original: "example_w_1200.png",
+  //         webP: "example_w_1200.webp"
+  //       }
+  //     }
+  //   ]
+  // }
 }
