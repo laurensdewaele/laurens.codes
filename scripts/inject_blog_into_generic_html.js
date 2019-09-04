@@ -70,4 +70,4 @@ function injectBlogIntoGenericHtml(
     `;
 }
 
-export default injectBlogIntoGenericHtml;
+module.exports = injectBlogIntoGenericHtml;

@@ -68,6 +68,7 @@ async function ready() {
     encoding: "UTF-8"
   });
   blogpost.html = convertMarkdownToHtml(blogpost.markdown);
+  console.log(blogpost.html);
   blogpost.title = blogpost.html.match(/<h1>(.*)<\/h1>/)[1];
 
   const foundImagesWithCapturingGroups = [
@@ -77,14 +78,22 @@ async function ready() {
   // The first referenced image will always be the blogpost logo svg
   blogpost.svg = images[0];
   blogpost.svg.strippedOptimizedPath = stripPathForImages(
-    copySvg(blogpost.svg.relativePathFromInsideScriptsFolder)
+    copySvg(
+      blogpost.svg.relativePathFromInsideScriptsFolder,
+      blogpost.svg.description
+    )
   );
   images.shift();
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
-  await optimizeImages(
-    extractAllImagePaths(blogpost.svg.relativePathFromInsideScriptsFolder)
-  );
-  await optimizeImages(extractAllImagePaths(blogpost.images));
+  try {
+    await optimizeImages([
+      stripPathForImages(blogpost.svg.relativePathFromInsideScriptsFolder)
+    ]);
+    await optimizeImages(extractAllImagePaths(blogpost.images));
+  } catch (e) {
+    console.log(e);
+  }
+
   blogpost.images = createResponsiveImageHtml(
     blogpost.images,
     desktopWidth,
@@ -93,6 +102,8 @@ async function ready() {
   blogpost.html = runPrettierOnHtml(
     insertResponsiveImages(blogpost.html, blogpost.images)
   );
+  blogpost.html = removeHeaderAndSvg(blogpost.html);
+  console.log(blogpost.html);
   blogpost.html = injectBlogIntoGenerticHtml(
     blogpost.html,
     blogpost.description,
@@ -101,8 +112,12 @@ async function ready() {
     blogpost.title,
     blogpost.createdDate
   );
-  console.log(blogpost);
+  // console.log(blogpost);
   // //Inline svg
+}
+
+function removeHeaderAndSvg(html) {
+  return html.replace(/^<h1>.*\n.*<\/p>/gm, "");
 }
 
 function stripPathForImages(path) {
@@ -226,19 +241,18 @@ function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
               webP: webPOutputPath
             });
           })
-          .catch(err => {
-            reject(err);
+          .catch(e => {
+            reject(e);
           });
       })
-      .catch(err => {
-        reject(err);
+      .catch(e => {
+        reject(e);
       });
   });
 }
 
-function copySvg(svgIconPathRelativeToDraft) {
-  const draftPath = `../content_draft/${svgIconPathRelativeToDraft}`;
-  const readyPath = `../website/assets/images/${svgIconPathRelativeToDraft}`;
+function copySvg(draftPath, description) {
+  const readyPath = `../website/assets/images/${description}.svg`;
   fs.copyFileSync(draftPath, readyPath, e => {
     e && console.log(e);
   });
@@ -296,7 +310,6 @@ function resizeImages(images, desktopWidth, mobileWidth) {
         resolve(optimizedImages);
       })
       .catch(e => {
-        console.log(e);
         reject(e);
       });
   });
@@ -330,7 +343,6 @@ function optimizeImages(images) {
         resolve();
       })
       .catch(e => {
-        console.log(e);
         reject(e);
       });
   });
