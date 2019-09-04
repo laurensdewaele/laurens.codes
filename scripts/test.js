@@ -1,94 +1,12 @@
-{
-  filename: 'test',
-  file: '../content_draft/test.md',
-  keywords: 'aap,beer',
-  description: 'haarbaar sdfsdf sss',
-  markdown: '# test\n\n![testing 1](./images/regex.svg)\n\n' +
-    '![testing 2](./images/design_1.png)\n\n![testing ' +
-    '4](./images/test.jpeg)\n\n![testing ' +
-    '5](./images/design_2.png)\n',
-  html: '\n  <!--\n  __   __  ___     _______  __   __  _______  ______    _______  ' +
-    '__\n |  | |  ||   |   |       ||  | |  ||       ||    _ |  |       ||  |\n | ' +
-    ' |_|  ||   |   |_     _||  |_|  ||    ___||   | ||  |    ___||  |\n |       ' +
-    '||   |     |   |  |       ||   |___ |   |_||_ |   |___ |  |\n |       ||   ' +
-    '|     |   |  |       ||    ___||    __  ||    ___||__|\n |   _   ||   |     ' +
-    '|   |  |   _   ||   |___ |   |  | ||   |___  __\n |__| |__||___|     |___|  ' +
-    '|__| |__||_______||___|  |_||_______||__|\n \n -->\n \n <!DOCTYPE html>\n <html ' +
-    'lang="en">\n   <head>\n     <meta charset="utf-8" />\n     <meta ' +
-    'name="author" content="Laurens Dewaele" />\n     <meta name="description" ' +
-    'content="haarbaar sdfsdf sss" />\n     <meta name="keywords" ' +
-    'content="aap,beer,blog, personal, laurens dewaele, software engineering" ' +
-    '/>\n     <!--    TODO: Set theme color-->\n     <meta name="theme-color" ' +
-    'content="" />\n     <meta name="color-scheme" content="normal" />\n     ' +
-    '<meta name="robots" content="index,follow" />\n     <meta name="viewport" ' +
-    'content="width=device-width, initial-scale=1" />\n     <title>test</title>\n ' +
-    '  </head>\n   <body>\n     <header>\n       <h1><a href="#">Laurens ' +
-    'codes</a></h1>\n     </header>\n     <main>\n       <article>\n         ' +
-    '<header>\n           <img src="undefined" alt="undefined" />\n           ' +
-    '<h2>test</h2>\n           <p>\n             <time datetime="2019-09-04"\n     ' +
-    '          >Invalid date\n             </time>\n           </p>\n         ' +
-    '</header>\n         <section>\n           <h1>test</h1>\n<p><img ' +
-    'src="./images/regex.svg" alt="testing 1" /></p>\n<p>\n  <picture>\n    ' +
-    '<source\n      type="image/webp"\n      srcset="\n        ' +
-    './assets/images/design_1_w_1200.webp 1200w,\n        ' +
-    './assets/images/design_1_w_500.webp   500w\n      "\n    />\n    <source\n     ' +
-    ' srcset="\n        ./assets/images/design_1_w_1200.png 1200w,\n        ' +
-    './assets/images/design_1_w_500.png   500w\n      "\n    />\n    <img ' +
-    'src="./assets/images/design_1_w_1200.png" alt="testing 2" />\n  </picture>\n' +
-    '</p>\n<p>\n  <picture>\n    <source\n      type="image/webp"\n      srcset="\n   ' +
-    '     ./assets/images/test_w_1200.webp 1200w,\n        ' +
-    './assets/images/test_w_500.webp   500w\n      "\n    />\n    <source\n      ' +
-    'srcset="\n        ./assets/images/test_w_1200.jpeg 1200w,\n        ' +
-    './assets/images/test_w_500.jpeg   500w\n      "\n    />\n    <img ' +
-    'src="./assets/images/test_w_1200.jpeg" alt="testing 4" />\n  </picture>\n' +
-    '</p>\n<p>\n  <picture>\n    <source\n      type="image/webp"\n      srcset="\n   ' +
-    '     ./assets/images/design_2_w_1200.webp 1200w,\n        ' +
-    './assets/images/design_2_w_500.webp   500w\n      "\n    />\n    <source\n     ' +
-    ' srcset="\n        ./assets/images/design_2_w_1200.png 1200w,\n        ' +
-    './assets/images/design_2_w_500.png   500w\n      "\n    />\n    <img ' +
-    'src="./assets/images/design_2_w_1200.png" alt="testing 5" />\n  </picture>\n' +
-    '</p>\n\n         </section>\n       </article>\n     </main>\n     <footer>\n    ' +
-    '   <nav>\n         <ul>\n           <li><a>About</a></li>\n           ' +
-    '<li><a>Contact</a></li>\n         </ul>\n       </nav>\n     </footer>\n   ' +
-    '</body>\n </html>\n \n    ',
-  title: 'test',
-  createdDate: '2019-09-04',
-  svg: {
-    originalHtml: '<img src="./images/regex.svg" alt="testing 1" />',
-    originalPath: './images/regex.svg',
-    alt: 'testing 1',
-    description: 'regex',
-    extension: 'svg',
-    relativePathFromInsideScriptsFolder: '../content_draft/./images/regex.svg',
-    strippedOptimizedPath: './assets/images/regex.svg'
-  },
-  images: [
-    {
-      originalHtml: '<img src="./images/design_1.png" alt="testing 2" />',
-      originalPath: './images/design_1.png',
-      alt: 'testing 2',
-      description: 'design_1',
-      extension: 'png',
-      relativePathFromInsideScriptsFolder: '../content_draft/./images/design_1.png',
-      optimizedImages: [Object]
-    },
-    {
-      originalHtml: '<img src="./images/test.jpeg" alt="testing 4" />',
-      originalPath: './images/test.jpeg',
-      alt: 'testing 4',
-      description: 'test',
-      extension: 'jpeg',
-      relativePathFromInsideScriptsFolder: '../content_draft/./images/test.jpeg',
-      optimizedImages: [Object]
-    },
-    {
-      originalHtml: '<img src="./images/design_2.png" alt="testing 5" />',
-      originalPath: './images/design_2.png',
-      alt: 'testing 5',
-      description: 'design_2',
-      extension: 'png',
-      relativePathFromInsideScriptsFolder: '../content_draft/./images/design_2.png',
-      optimizedImages: [Object]
-    }
-  ]
-}
+const test = {
+  originalHtml: '<img src="./images/regex.svg" alt="testing 1" />',
+  originalPath: "./images/regex.svg",
+  alt: "testing 1",
+  description: "regex",
+  extension: "svg",
+  relativePathFromInsideScriptsFolder: "../content_draft/./images/regex.svg",
+  optimizedPath: "../website/assets/images/regex.svg",
+  strippedOptimizedPath: "./assets/images/regex.svg",
+  asText:
+    '<svg aria-labelledby="svgDesc"width="80" height="80" fill="none" xmlns="http://www.w3.org/2000/svg"><desc id="svgDesc">testing 1</desc>}\n  <path fill="#2B2B2B" stroke="#242424" stroke-width="2" d="M1 1h78v78H1z" />\n  <path\n    d="M20.16 54.082h5.156V60H20.16v-5.918zm44.112-37.841l-6.504 3.516 6.504 3.53-1.026 1.787-6.123-3.677v6.827h-2.095v-6.826l-6.123 3.676-1.025-1.787 6.518-3.53-6.518-3.516 1.025-1.801 6.123 3.676V11.29h2.095v6.826l6.123-3.676 1.026 1.801z"\n    fill="#61DAFB"\n  />\n  <path\n    d="M56.599 54.504v6.357c1.074-.029 1.914-.327 2.52-.893.605-.567.907-1.338.907-2.315 0-.908-.273-1.611-.82-2.11-.547-.507-1.416-.853-2.607-1.04zm-1.465-2.783v-6.05c-1.016.039-1.812.332-2.388.879-.566.547-.85 1.28-.85 2.197 0 .84.264 1.504.791 1.992.538.489 1.353.816 2.447.982zm1.465 15.688h-1.465L55.119 63a17.138 17.138 0 01-2.974-.41 17.902 17.902 0 01-2.9-.938v-2.636a13.62 13.62 0 002.945 1.391c.995.323 1.977.493 2.944.513v-6.71c-1.953-.302-3.423-.898-4.41-1.786-.986-.889-1.479-2.066-1.479-3.53 0-1.534.513-2.754 1.538-3.663 1.035-.918 2.486-1.445 4.35-1.582v-3.442H56.6l.014 3.442c.772.05 1.553.147 2.344.293.791.147 1.597.347 2.417.601v2.534c-.83-.42-1.64-.742-2.432-.967a9.845 9.845 0 00-2.343-.41v6.314c2.011.302 3.545.927 4.6 1.875 1.054.947 1.581 2.172 1.581 3.676s-.571 2.76-1.714 3.765c-1.132 1.006-2.617 1.553-4.453 1.64l-.014 4.44zM23.79 15.203l7.191 8.73-3.12-.014-5.376-5.757-5.361 5.757-3.135.015 7.207-8.73h2.593z"\n    fill="#fff"\n  />\n</svg>\n'
+};

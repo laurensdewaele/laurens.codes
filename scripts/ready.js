@@ -26,6 +26,7 @@ async function ready() {
     title: "",
     createdDate: null,
     svg: {
+      asText: "",
       originalHtml: "",
       originalPath: "",
       alt: "",
@@ -68,7 +69,6 @@ async function ready() {
     encoding: "UTF-8"
   });
   blogpost.html = convertMarkdownToHtml(blogpost.markdown);
-  console.log(blogpost.html);
   blogpost.title = blogpost.html.match(/<h1>(.*)<\/h1>/)[1];
 
   const foundImagesWithCapturingGroups = [
@@ -77,12 +77,15 @@ async function ready() {
   const images = mapImages(foundImagesWithCapturingGroups);
   // The first referenced image will always be the blogpost logo svg
   blogpost.svg = images[0];
-  blogpost.svg.strippedOptimizedPath = stripPathForImages(
-    copySvg(
-      blogpost.svg.relativePathFromInsideScriptsFolder,
-      blogpost.svg.description
-    )
+
+  blogpost.svg.optimizedPath = copySvg(
+    blogpost.svg.relativePathFromInsideScriptsFolder,
+    blogpost.svg.description
   );
+  blogpost.svg.strippedOptimizedPath = stripPathForImages(
+    blogpost.svg.optimizedPath
+  );
+
   images.shift();
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
   try {
@@ -94,6 +97,10 @@ async function ready() {
     console.log(e);
   }
 
+  blogpost.svg.asText = createAccesibleSvg(
+    blogpost.svg.optimizedPath,
+    blogpost.svg.alt
+  );
   blogpost.images = createResponsiveImageHtml(
     blogpost.images,
     desktopWidth,
@@ -103,17 +110,31 @@ async function ready() {
     insertResponsiveImages(blogpost.html, blogpost.images)
   );
   blogpost.html = removeHeaderAndSvg(blogpost.html);
-  console.log(blogpost.html);
-  blogpost.html = injectBlogIntoGenerticHtml(
-    blogpost.html,
-    blogpost.description,
-    blogpost.keywords,
-    stripPathForImages(blogpost.svg.relativePathFromInsideScriptsFolder),
-    blogpost.title,
-    blogpost.createdDate
+  blogpost.html = runPrettierOnHtml(
+    injectBlogIntoGenerticHtml(
+      blogpost.html,
+      blogpost.description,
+      blogpost.keywords,
+      blogpost.svg.asText,
+      blogpost.title,
+      blogpost.createdDate
+    )
   );
-  // console.log(blogpost);
-  // //Inline svg
+  fs.writeFileSync(`../website/${blogpost.filename}.html`, blogpost.html);
+}
+
+function createAccesibleSvg(path, alt) {
+  let asText = runPrettierOnHtml(
+    fs.readFileSync(path, {
+      encoding: "UTF-8"
+    })
+  );
+  asText = asText.replace("<svg ", `<svg aria-labelledby="svgDesc" `);
+  const tag = asText.match(/(^<svg.*>)/g);
+  asText = runPrettierOnHtml(
+    asText.replace(/^<svg.*>/g, `${tag} \n <desc id="svgDesc">${alt}</desc>`)
+  );
+  return asText;
 }
 
 function removeHeaderAndSvg(html) {

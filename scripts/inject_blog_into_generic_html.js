@@ -1,15 +1,16 @@
 const moment = require("moment");
 
-const fixedKeywords = ",blog, personal, laurens dewaele, software engineering";
+const fixedKeywords = ", blog, personal, laurens dewaele, software engineering";
 
 function injectBlogIntoGenericHtml(
   blogHtml,
   description,
   keywords,
-  svg,
+  svgAsText,
   title,
   date
 ) {
+  const formattedDate = moment(date).format("DD MMM YYYY");
   return `
   <!--
   __   __  ___     _______  __   __  _______  ______    _______  __
@@ -43,11 +44,11 @@ function injectBlogIntoGenericHtml(
      <main>
        <article>
          <header>
-           <img src="${svg.optimizedPath}" alt="${svg.alt}" />
+           ${svgAsText}
            <h2>${title}</h2>
            <p>
              <time datetime="${date}"
-               >${moment(date, "MM MMM YYYY", "en")}
+               >${formattedDate}
              </time>
            </p>
          </header>
