@@ -17,7 +17,8 @@ async function ready() {
   const desktopWidth = 1200;
   const mobileWidth = 500;
   const blogpost = {
-    readyFilePath: "",
+    filename: "",
+    file: "",
     markdown: "",
     html: "",
     title: "",
@@ -52,10 +53,11 @@ async function ready() {
       }
     ]
   };
-
-  blogpost.readyFilePath = await getRelativeMarkdownPath();
-  blogpost.createdDate = extractCreatedDate(blogpost.readyFilePath);
-  blogpost.markdown = fs.readFileSync(blogpost.readyFilePath, {
+  const { file, filename } = await getFile();
+  blogpost.file = file;
+  blogpost.filename = filename;
+  blogpost.createdDate = extractCreatedDate(blogpost.file);
+  blogpost.markdown = fs.readFileSync(blogpost.file, {
     encoding: "UTF-8"
   });
   blogpost.html = convertMarkdownToHtml(blogpost.markdown);
@@ -68,11 +70,13 @@ async function ready() {
   // The first referenced image will always be the blogpost logo svg
   blogpost.svg = images[0];
   images.shift();
-  console.log(images);
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
-  console.log(blogpost.images);
   await optimizeImages(extractAllImagePaths(blogpost.images));
-  // //TODO : Generate responsive image html
+  console.log(__dirname);
+  console.log(blogpost.html);
+  console.log(blogpost.images);
+  console.log(blogpost.images[0].optimizedImages.mobile);
+  console.log(blogpost.images[0].optimizedImages.desktop);
   // //Inline svg
 }
 
@@ -89,7 +93,7 @@ function mapImages(foundImagesWithRegex) {
   });
 }
 
-function getRelativeMarkdownPath() {
+function getFile() {
   return new Promise(async resolve => {
     const { filename } = await prompts({
       type: "text",
@@ -102,7 +106,7 @@ function getRelativeMarkdownPath() {
       throw new Error("`${filename}.md not present in content_draft`");
     }
 
-    resolve(file);
+    resolve({ file, filename });
   });
 }
 
@@ -138,7 +142,7 @@ function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
 
 function copySvg(svgIconPathRelativeToDraft) {
   const draftPath = `../content_draft/${svgIconPathRelativeToDraft}`;
-  const readyPath = `../content_ready/${svgIconPathRelativeToDraft}`;
+  const readyPath = `../website/assets/images/${svgIconPathRelativeToDraft}`;
   fs.copyFileSync(draftPath, readyPath, e => {
     e && console.log(e);
   });
@@ -151,19 +155,11 @@ function resizeImages(images, desktopWidth, mobileWidth) {
 
   images.forEach(image => {
     const { originalPath, description, extension } = image;
-    const desktopOutputPath = `../content_ready/images/${description}_w_${desktopWidth}.${extension}`;
-    const desktopWebPOutputPath = `../content_ready/images/${description}_w_${desktopWidth}.webp`;
-    const mobileOutputPath = `../content_ready/images/${description}_w_${mobileWidth}.${extension}`;
-    const mobileWebPOutputPath = `../content_ready/images/${description}_w_${mobileWidth}.webp`;
+    const desktopOutputPath = `../website/assets/images/${description}_w_${desktopWidth}.${extension}`;
+    const desktopWebPOutputPath = `../website/assets/images/${description}_w_${desktopWidth}.webp`;
+    const mobileOutputPath = `../website/assets/images/${description}_w_${mobileWidth}.${extension}`;
+    const mobileWebPOutputPath = `../website/assets/images/${description}_w_${mobileWidth}.webp`;
     const inputPath = `../content_draft/${originalPath}`;
-
-    console.log(
-      inputPath,
-      desktopOutputPath,
-      desktopWebPOutputPath,
-      mobileOutputPath,
-      mobileWebPOutputPath
-    );
 
     desktopPromises.push(
       resizeAndCreateWebp(
@@ -186,7 +182,6 @@ function resizeImages(images, desktopWidth, mobileWidth) {
   return new Promise((resolve, reject) => {
     Promise.all([...desktopPromises, ...mobilePromises])
       .then(createdImages => {
-        console.log(createdImages);
         const createdDesktop = createdImages.slice(0, images.length);
         const createdMobile = createdImages.slice(
           images.length,
@@ -217,7 +212,7 @@ function optimizeImages(images) {
   const pngImages = images.filter(image => /png$/.test(image));
   const webPImages = images.filter(image => /webp$/.test(image));
 
-  const destination = "../content_ready/images";
+  const destination = "../website/assets/images";
 
   const promises = [
     imagemin(svgImages, { destination, plugins: [imageminSvgo({})] }),
