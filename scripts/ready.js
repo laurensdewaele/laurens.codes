@@ -9,6 +9,7 @@ const prettier = require("prettier");
 const prompts = require("prompts");
 const sharp = require("sharp");
 const showdown = require("showdown");
+const injectBlogIntoGenerticHtml = require("./inject_blog_into_generic_html");
 
 ready();
 
@@ -18,6 +19,8 @@ async function ready() {
   const blogpost = {
     filename: "",
     file: "",
+    keywords: "",
+    description: "",
     markdown: "",
     html: "",
     title: "",
@@ -28,7 +31,9 @@ async function ready() {
       alt: "",
       description: "",
       extension: "",
-      relativePathFromInsideScriptsFolder: ""
+      relativePathFromInsideScriptsFolder: "",
+      optimizedPath: "",
+      strippedOptimizedPath: ""
     },
     images: [
       {
@@ -56,6 +61,8 @@ async function ready() {
   const { file, filename } = await getFile();
   blogpost.file = file;
   blogpost.filename = filename;
+  blogpost.keywords = await getKeywords();
+  blogpost.description = await getDescription();
   blogpost.createdDate = extractCreatedDate(blogpost.file);
   blogpost.markdown = fs.readFileSync(blogpost.file, {
     encoding: "UTF-8"
@@ -69,8 +76,14 @@ async function ready() {
   const images = mapImages(foundImagesWithCapturingGroups);
   // The first referenced image will always be the blogpost logo svg
   blogpost.svg = images[0];
+  blogpost.svg.strippedOptimizedPath = stripPathForImages(
+    copySvg(blogpost.svg.relativePathFromInsideScriptsFolder)
+  );
   images.shift();
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
+  await optimizeImages(
+    extractAllImagePaths(blogpost.svg.relativePathFromInsideScriptsFolder)
+  );
   await optimizeImages(extractAllImagePaths(blogpost.images));
   blogpost.images = createResponsiveImageHtml(
     blogpost.images,
@@ -80,11 +93,15 @@ async function ready() {
   blogpost.html = runPrettierOnHtml(
     insertResponsiveImages(blogpost.html, blogpost.images)
   );
-  // console.log(__dirname);
-  console.log(blogpost.html);
-  // console.log(JSON.stringify(blogpost.images));
-  // console.log(blogpost.images[0].optimizedImages.mobile);
-  // console.log(blogpost.images[0].optimizedImages.desktop);
+  blogpost.html = injectBlogIntoGenerticHtml(
+    blogpost.html,
+    blogpost.description,
+    blogpost.keywords,
+    stripPathForImages(blogpost.svg.relativePathFromInsideScriptsFolder),
+    blogpost.title,
+    blogpost.createdDate
+  );
+  console.log(blogpost);
   // //Inline svg
 }
 
@@ -164,6 +181,28 @@ function getFile() {
     }
 
     resolve({ file, filename });
+  });
+}
+
+function getKeywords() {
+  return new Promise(async resolve => {
+    const { keywords } = await prompts({
+      type: "text",
+      name: "keywords",
+      message: `Enter some keywords with spaces. E.g.: angular, testing, frontend`
+    });
+    resolve(keywords);
+  });
+}
+
+function getDescription() {
+  return new Promise(async resolve => {
+    const { description } = await prompts({
+      type: "text",
+      name: "description",
+      message: `Enter the blog's description. E.g.: Blogpost about testing in Angular`
+    });
+    resolve(description);
   });
 }
 
