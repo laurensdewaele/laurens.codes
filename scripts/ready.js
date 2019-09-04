@@ -70,8 +70,7 @@ async function ready() {
   images.shift();
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
   console.log(blogpost.images);
-
-  optimizeImages(images);
+  await optimizeImages(extractAllImagePaths(blogpost.images.optimizedImages));
   // //TODO : Generate responsive image html
   // //Inline svg
 }
@@ -203,7 +202,7 @@ function resizeImages(images, desktopWidth, mobileWidth) {
   });
 }
 
-async function optimizeImages(images) {
+function optimizeImages(images) {
   const svgImages = images.filter(image => /svg$/.test(image));
   const jpegImages = images.filter(image => /jpe?g$/.test(image));
   const pngImages = images.filter(image => /png$/.test(image));
@@ -224,9 +223,17 @@ async function optimizeImages(images) {
     })
   ];
 
-  Promise.all(promises)
-    .then(f => console.log("successfully optimized all images"))
-    .catch(e => console.log(e));
+  return new Promise((resolve, reject) => {
+    Promise.all(promises)
+      .then(f => {
+        console.log("successfully optimized all images");
+        resolve();
+      })
+      .catch(e => {
+        console.log(e);
+        reject(e);
+      });
+  });
 }
 
 function convertMarkdownToHtml(markdown) {
@@ -239,20 +246,13 @@ function runPrettierOnHtml(file) {
   return prettier.format(file, { parser: "html" });
 }
 
-function generateHtmlForImage(image) {
-  // Image example
-  // {
-  //   example: [
-  //     {
-  //       mobile: {
-  //         original: "example_w_500.png",
-  //         webP: "example_w_500.webp"
-  //       },
-  //       desktop: {
-  //         original: "example_w_1200.png",
-  //         webP: "example_w_1200.webp"
-  //       }
-  //     }
-  //   ]
-  // }
+function extractAllImagePaths(images) {
+  const imagePaths = [];
+  images.forEach(image => {
+    imagePaths.push(image.optimizedImages.desktop.originalFormat);
+    imagePaths.push(image.optimizedImages.desktop.webP);
+    imagePaths.push(image.optimizedImages.mobile.originalFormat);
+    imagePaths.push(image.optimizedImages.mobile.webP);
+  });
+  return imagePaths;
 }
