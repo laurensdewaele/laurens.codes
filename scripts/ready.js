@@ -1,4 +1,3 @@
-const chalk = require("chalk");
 const fs = require("fs");
 const imagemin = require("imagemin");
 const imageminJpegtran = require("imagemin-jpegtran");
@@ -48,7 +47,8 @@ async function ready() {
           desktop: {
             originalFormat: "example_w_1200.png",
             webP: "example_w_1200.webp"
-          }
+          },
+          html: ""
         }
       }
     ]
@@ -72,12 +72,69 @@ async function ready() {
   images.shift();
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
   await optimizeImages(extractAllImagePaths(blogpost.images));
-  console.log(__dirname);
+  blogpost.images = createResponsiveImageHtml(
+    blogpost.images,
+    desktopWidth,
+    mobileWidth
+  );
+  blogpost.html = runPrettierOnHtml(
+    insertResponsiveImages(blogpost.html, blogpost.images)
+  );
+  // console.log(__dirname);
   console.log(blogpost.html);
-  console.log(blogpost.images);
-  console.log(blogpost.images[0].optimizedImages.mobile);
-  console.log(blogpost.images[0].optimizedImages.desktop);
+  // console.log(JSON.stringify(blogpost.images));
+  // console.log(blogpost.images[0].optimizedImages.mobile);
+  // console.log(blogpost.images[0].optimizedImages.desktop);
   // //Inline svg
+}
+
+function stripPathForImages(path) {
+  return path.replace("../website/", "./");
+}
+
+function createResponsiveImageHtml(images, desktopWidth, mobileWidth) {
+  return images.map(image => ({
+    ...image,
+    optimizedImages: {
+      ...image.optimizedImages,
+      html: `
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="
+                    ${stripPathForImages(
+                      image.optimizedImages.desktop.webP
+                    )}  ${desktopWidth}w,
+                    ${stripPathForImages(
+                      image.optimizedImages.mobile.webP
+                    )}  ${mobileWidth}w,
+                  "
+                />
+                <source
+                  srcset="
+                  ${stripPathForImages(
+                    image.optimizedImages.desktop.originalFormat
+                  )}  ${desktopWidth}w,
+                  ${stripPathForImages(
+                    image.optimizedImages.mobile.originalFormat
+                  )}  ${mobileWidth}w,
+                  "
+                />
+                <img src="${stripPathForImages(
+                  image.optimizedImages.desktop.originalFormat
+                )}" alt="${image.alt}" />
+              </picture>
+            `
+    }
+  }));
+}
+
+function insertResponsiveImages(html, images) {
+  let newHtml = html;
+  images.forEach(image => {
+    newHtml = newHtml.replace(image.originalHtml, image.optimizedImages.html);
+  });
+  return newHtml;
 }
 
 function mapImages(foundImagesWithRegex) {
