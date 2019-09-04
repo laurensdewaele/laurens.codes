@@ -68,9 +68,10 @@ async function ready() {
   // The first referenced image will always be the blogpost logo svg
   blogpost.svg = images[0];
   images.shift();
+  console.log(images);
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
   console.log(blogpost.images);
-  await optimizeImages(extractAllImagePaths(blogpost.images.optimizedImages));
+  await optimizeImages(extractAllImagePaths(blogpost.images));
   // //TODO : Generate responsive image html
   // //Inline svg
 }
@@ -156,6 +157,14 @@ function resizeImages(images, desktopWidth, mobileWidth) {
     const mobileWebPOutputPath = `../content_ready/images/${description}_w_${mobileWidth}.webp`;
     const inputPath = `../content_draft/${originalPath}`;
 
+    console.log(
+      inputPath,
+      desktopOutputPath,
+      desktopWebPOutputPath,
+      mobileOutputPath,
+      mobileWebPOutputPath
+    );
+
     desktopPromises.push(
       resizeAndCreateWebp(
         inputPath,
@@ -208,7 +217,7 @@ function optimizeImages(images) {
   const pngImages = images.filter(image => /png$/.test(image));
   const webPImages = images.filter(image => /webp$/.test(image));
 
-  const destination = "../content_ready/images_optimized";
+  const destination = "../content_ready/images";
 
   const promises = [
     imagemin(svgImages, { destination, plugins: [imageminSvgo({})] }),
