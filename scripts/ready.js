@@ -9,7 +9,7 @@ const prettier = require("prettier");
 const prompts = require("prompts");
 const sharp = require("sharp");
 const showdown = require("showdown");
-const injectBlogIntoGenerticHtml = require("./inject_blog_into_generic_html");
+const injectBlogIntoGenericHtml = require("./inject_blog_into_generic_html");
 
 ready();
 
@@ -43,7 +43,7 @@ async function ready() {
         relativePathFromInsideScriptsFolder: "",
         originalPath: "",
         originalHtml: "",
-        repsonsiveHtml: "",
+        responsiveHtml: "",
         alt: "",
         optimizedImages: {
           mobile: {
@@ -60,10 +60,10 @@ async function ready() {
     ]
   };
   const { file, filename } = await getFile();
-  blogpost.file = file;
-  blogpost.filename = filename;
   blogpost.keywords = await getKeywords();
   blogpost.description = await getDescription();
+  blogpost.file = file;
+  blogpost.filename = filename;
   blogpost.createdDate = extractCreatedDate(blogpost.file);
   blogpost.markdown = fs.readFileSync(blogpost.file, {
     encoding: "UTF-8"
@@ -77,27 +77,21 @@ async function ready() {
   const images = mapImages(foundImagesWithCapturingGroups);
   // The first referenced image will always be the blogpost logo svg
   blogpost.svg = images[0];
-
   blogpost.svg.optimizedPath = copySvg(
     blogpost.svg.relativePathFromInsideScriptsFolder,
     blogpost.svg.description
   );
-  blogpost.svg.strippedOptimizedPath = stripPathForImages(
+  blogpost.svg.strippedOptimizedPath = stripRelativePathForImages(
     blogpost.svg.optimizedPath
   );
 
   images.shift();
   blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
-  try {
-    await optimizeImages([
-      stripPathForImages(blogpost.svg.relativePathFromInsideScriptsFolder)
-    ]);
-    await optimizeImages(extractAllImagePaths(blogpost.images));
-  } catch (e) {
-    console.log(e);
-  }
 
-  blogpost.svg.asText = createAccesibleSvg(
+  await optimizeImages(extractAllImagePaths(blogpost.images));
+  await optimizeImages([blogpost.svg.optimizedPath]);
+
+  blogpost.svg.asText = createAccessibleSvg(
     blogpost.svg.optimizedPath,
     blogpost.svg.alt
   );
@@ -109,9 +103,9 @@ async function ready() {
   blogpost.html = runPrettierOnHtml(
     insertResponsiveImages(blogpost.html, blogpost.images)
   );
-  blogpost.html = removeHeaderAndSvg(blogpost.html);
+  blogpost.html = removeHeaderAndSvgFromHtml(blogpost.html);
   blogpost.html = runPrettierOnHtml(
-    injectBlogIntoGenerticHtml(
+    injectBlogIntoGenericHtml(
       blogpost.html,
       blogpost.description,
       blogpost.keywords,
@@ -123,7 +117,7 @@ async function ready() {
   fs.writeFileSync(`../website/${blogpost.filename}.html`, blogpost.html);
 }
 
-function createAccesibleSvg(path, alt) {
+function createAccessibleSvg(path, description) {
   let asText = runPrettierOnHtml(
     fs.readFileSync(path, {
       encoding: "UTF-8"
@@ -132,16 +126,19 @@ function createAccesibleSvg(path, alt) {
   asText = asText.replace("<svg ", `<svg aria-labelledby="svgDesc" `);
   const tag = asText.match(/(^<svg.*>)/g);
   asText = runPrettierOnHtml(
-    asText.replace(/^<svg.*>/g, `${tag} \n <desc id="svgDesc">${alt}</desc>`)
+    asText.replace(
+      /^<svg.*>/g,
+      `${tag} \n <desc id="svgDesc">${description}</desc>`
+    )
   );
   return asText;
 }
 
-function removeHeaderAndSvg(html) {
+function removeHeaderAndSvgFromHtml(html) {
   return html.replace(/^<h1>.*\n.*<\/p>/gm, "");
 }
 
-function stripPathForImages(path) {
+function stripRelativePathForImages(path) {
   return path.replace("../website/", "./");
 }
 
@@ -155,25 +152,25 @@ function createResponsiveImageHtml(images, desktopWidth, mobileWidth) {
                 <source
                   type="image/webp"
                   srcset="
-                    ${stripPathForImages(
+                    ${stripRelativePathForImages(
                       image.optimizedImages.desktop.webP
                     )}  ${desktopWidth}w,
-                    ${stripPathForImages(
+                    ${stripRelativePathForImages(
                       image.optimizedImages.mobile.webP
                     )}  ${mobileWidth}w,
                   "
                 />
                 <source
                   srcset="
-                  ${stripPathForImages(
+                  ${stripRelativePathForImages(
                     image.optimizedImages.desktop.originalFormat
                   )}  ${desktopWidth}w,
-                  ${stripPathForImages(
+                  ${stripRelativePathForImages(
                     image.optimizedImages.mobile.originalFormat
                   )}  ${mobileWidth}w,
                   "
                 />
-                <img src="${stripPathForImages(
+                <img src="${stripRelativePathForImages(
                   image.optimizedImages.desktop.originalFormat
                 )}" alt="${image.alt}" />
               </picture>
@@ -360,7 +357,7 @@ function optimizeImages(images) {
   return new Promise((resolve, reject) => {
     Promise.all(promises)
       .then(f => {
-        console.log("successfully optimized all images");
+        console.log("Optimization successful");
         resolve();
       })
       .catch(e => {
