@@ -14,13 +14,22 @@ const showdown = require("showdown");
 ready();
 
 async function ready() {
+  const desktopWidth = 1200;
+  const mobileWidth = 500;
   const blogpost = {
-    file: "",
+    readyFilePath: "",
     markdown: "",
     html: "",
     title: "",
     createdDate: null,
-    thumbnailSvgPath: "",
+    svg: {
+      originalHtml: "",
+      originalPath: "",
+      alt: "",
+      description: "",
+      extension: "",
+      relativePathFromInsideScriptsFolder: ""
+    },
     images: [
       {
         description: "",
@@ -30,70 +39,57 @@ async function ready() {
         originalHtml: "",
         repsonsiveHtml: "",
         alt: "",
-        files: {
+        optimizedImages: {
           mobile: {
-            original: "example_w_500.png",
+            originalFormat: "example_w_500.png",
             webP: "example_w_500.webp"
           },
           desktop: {
-            original: "example_w_1200.png",
+            originalFormat: "example_w_1200.png",
             webP: "example_w_1200.webp"
           }
         }
       }
     ]
   };
-  const desktopWidth = 1200;
-  const mobileWidth = 500;
 
-  blogpost.file = await getMarkdownFile();
-  blogpost.createdDate = extractCreatedDate(blogpost.file);
-  blogpost.markdown = fs.readFileSync(blogpost.file, { encoding: "UTF-8" });
+  blogpost.readyFilePath = await getRelativeMarkdownPath();
+  blogpost.createdDate = extractCreatedDate(blogpost.readyFilePath);
+  blogpost.markdown = fs.readFileSync(blogpost.readyFilePath, {
+    encoding: "UTF-8"
+  });
   blogpost.html = convertMarkdownToHtml(blogpost.markdown);
-  console.log(blogpost.html);
   blogpost.title = blogpost.html.match(/<h1>(.*)<\/h1>/)[1];
 
-  const allImagesRe = /<img src="(.*)" alt="(.*)" \/>/g;
   const foundImagesWithCapturingGroups = [
-    ...blogpost.html.matchAll(allImagesRe)
+    ...blogpost.html.matchAll(/<img src="(.*)" alt="(.*)" \/>/g)
   ];
-  blogpost.images = mapImages(foundImagesWithCapturingGroups);
+  const images = mapImages(foundImagesWithCapturingGroups);
+  // The first referenced image will always be the blogpost logo svg
+  blogpost.svg = images[0];
+  images.shift();
+  blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
   console.log(blogpost.images);
 
-  // // The first referenced image will always be an svg.
-  // blogpost.thumbnailSvgPath = copySvg(allImagePaths[0]);
-  // // Remove svg. We do not need to resize this.
-  // allImagePaths.shift();
-  // const images = await resizeImages(
-  //   addDescriptionAndFileExtension(allImagePaths),
-  //   desktopWidth,
-  //   mobileWidth
-  // );
-  // blogpost.images = images;
-  // console.log("created images", JSON.stringify(images));
-  // optimizeImages(images);
-
+  optimizeImages(images);
   // //TODO : Generate responsive image html
   // //Inline svg
 }
 
 function mapImages(foundImagesWithRegex) {
-  const images = foundImagesWithRegex.map(
-    ([originalHtml, originalPath, alt]) => {
-      return {
-        originalHtml,
-        originalPath,
-        alt,
-        description: originalPath.match(/(\w*)\.\w{3,4}$/)[1],
-        extension: /\w{3,4}$/.exec(originalPath)[0],
-        relativePathFromInsideScriptsFolder: `../content_draft/${originalPath}`
-      };
-    }
-  );
-  console.log(images);
+  return foundImagesWithRegex.map(([originalHtml, originalPath, alt]) => {
+    return {
+      originalHtml,
+      originalPath,
+      alt,
+      description: originalPath.match(/(\w*)\.\w{3,4}$/)[1],
+      extension: /\w{3,4}$/.exec(originalPath)[0],
+      relativePathFromInsideScriptsFolder: `../content_draft/${originalPath}`
+    };
+  });
 }
 
-function getMarkdownFile() {
+function getRelativeMarkdownPath() {
   return new Promise(async resolve => {
     const { filename } = await prompts({
       type: "text",
@@ -115,29 +111,9 @@ function extractCreatedDate(file) {
   return moment(birthTime).format("YYYY-MM-DD");
 }
 
-function resizeAndCreateWebp(description, extension, path, width) {
-  const outputPath = `../content_ready/images/${description}_w_${width}.${extension}`;
-  const webPOutputPath = `../content_ready/images/${description}_w_${width}.webp`;
-
-  // {
-  //   originalHtml: "",
-  //   repsonsiveHtml: "",
-  //   text: "",
-  //   alt: "",
-  //   files: {
-  //     mobile: {
-  //       original: "example_w_500.png",
-  //       webP: "example_w_500.webp"
-  //     },
-  //     desktop: {
-  //       original: "example_w_1200.png",
-  //       webP: "example_w_1200.webp"
-  //     }
-  //   }
-  // }
-
+function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
   return new Promise((resolve, reject) => {
-    sharp(path)
+    sharp(inputPath)
       .resize({ width, options: { withoutEnlargement: true } })
       .toFile(outputPath)
       .then(_ => {
@@ -145,15 +121,10 @@ function resizeAndCreateWebp(description, extension, path, width) {
           .webp({ lossless: true })
           .toFile(webPOutputPath)
           .then(_ => {
-            const image = {
-              [description]: {
-                mobile: {
-                  orginal: outputPath,
-                  webP: webPOutputPath
-                }
-              }
-            };
-            resolve(image);
+            resolve({
+              originalFormat: outputPath,
+              webP: webPOutputPath
+            });
           })
           .catch(err => {
             reject(err);
@@ -175,43 +146,59 @@ function copySvg(svgIconPathRelativeToDraft) {
 }
 
 function resizeImages(images, desktopWidth, mobileWidth) {
-  const createdImages = [];
-  const resizePromises = [];
+  const mobilePromises = [];
+  const desktopPromises = [];
 
   images.forEach(image => {
-    const {
-      relativePathFromInsideScriptsFolder,
-      description,
-      extension
-    } = image;
+    const { originalPath, description, extension } = image;
+    const desktopOutputPath = `../content_ready/images/${description}_w_${desktopWidth}.${extension}`;
+    const desktopWebPOutputPath = `../content_ready/images/${description}_w_${desktopWidth}.webp`;
+    const mobileOutputPath = `../content_ready/images/${description}_w_${mobileWidth}.${extension}`;
+    const mobileWebPOutputPath = `../content_ready/images/${description}_w_${mobileWidth}.webp`;
+    const inputPath = `../content_draft/${originalPath}`;
 
-    resizePromises.push(
+    desktopPromises.push(
       resizeAndCreateWebp(
-        description,
-        extension,
-        relativePathFromInsideScriptsFolder,
+        inputPath,
+        desktopOutputPath,
+        desktopWebPOutputPath,
         desktopWidth
       )
     );
-    resizePromises.push(
+    mobilePromises.push(
       resizeAndCreateWebp(
-        description,
-        extension,
-        relativePathFromInsideScriptsFolder,
+        inputPath,
+        mobileOutputPath,
+        mobileWebPOutputPath,
         mobileWidth
       )
     );
   });
 
   return new Promise((resolve, reject) => {
-    Promise.all(resizePromises)
-      .then(images => {
-        createdImages.push(...images.flat());
-        resolve(createdImages);
+    Promise.all([...desktopPromises, ...mobilePromises])
+      .then(createdImages => {
+        console.log(createdImages);
+        const createdDesktop = createdImages.slice(0, images.length);
+        const createdMobile = createdImages.slice(
+          images.length,
+          images.length * 2
+        );
+
+        const optimizedImages = images.map((image, imageIndex) => {
+          return {
+            ...image,
+            optimizedImages: {
+              desktop: createdDesktop[imageIndex],
+              mobile: createdMobile[imageIndex]
+            }
+          };
+        });
+        resolve(optimizedImages);
       })
       .catch(e => {
         console.log(e);
-        reject();
+        reject(e);
       });
   });
 }
