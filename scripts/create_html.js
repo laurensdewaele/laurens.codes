@@ -5,12 +5,14 @@ const imageminJpegtran = require("imagemin-jpegtran");
 const imageminPngquant = require("imagemin-pngquant");
 const imageminSvgo = require("imagemin-svgo");
 const imageminWebp = require("imagemin-webp");
+const minify = require("html-minifier").minify;
 const moment = require("moment");
 const prettier = require("prettier");
 const prompts = require("prompts");
 const sharp = require("sharp");
 
 const {
+  createArticle,
   createArticleHeader,
   injectBlogIntoGenericHtml
 } = require("./inject_blog_into_html");
@@ -23,10 +25,10 @@ async function createHtml() {
     const mobileWidth = 500;
 
     const { file, filename } = await getFile();
-    const keywords = await getKeywords();
-    const description = await getDescription();
+    keywords = await getKeywords();
+    description = await getDescription();
     const createdDate = extractCreatedDate(file);
-    const markdown = fs.readFileSync(file, {
+    markdown = fs.readFileSync(file, {
       encoding: "UTF-8"
     });
     const markdownConversionHtml = convertMarkdownToHtml(markdown);
@@ -40,7 +42,7 @@ async function createHtml() {
       desktopWidth,
       mobileWidth
     );
-    const html = createCompleteHtml(
+    const { blogHtml, articleHtml } = createBlogHtml(
       markdownConversionHtml,
       imagesWithHtml,
       description,
@@ -49,32 +51,50 @@ async function createHtml() {
       title,
       createdDate
     );
-    fs.writeFileSync(`../website/${filename}.html`, html);
+    fs.writeFileSync(`../website/${filename}.html`, blogHtml);
 
-    // Write to index.html
     const indexHtml = fs.readFileSync("../website/index.html", {
       encoding: "UTF-8"
     });
+    const articleHeaderHtml = createArticleHeader(svg, title, createdDate);
     const newIndexHtml = runPrettierOnHtml(
       indexHtml.replace(
         "<main>",
         `<main>
-          <article>
-            ${createArticleHeader(svg, title, createdDate)}
-          </article>`
+            <a href="./${filename}.html">
+            <article>
+              ${articleHeaderHtml}
+            </article>
+          </a>
+        `
       )
     );
     fs.writeFileSync("../website/index.html", newIndexHtml);
-    console.log(html);
+    console.log(articleHtml);
     console.log(newIndexHtml);
 
-    // Write JSON for eventual SPA feel
+    // Write JSON to enable SPA feel later on
+    const blogpost = {
+      keywords,
+      description,
+      filename,
+      articleHtml: minify(articleHtml),
+      articleHeaderHtml: minify(articleHeaderHtml)
+    };
+
+    const blogs = JSON.parse(
+      fs.readFileSync("../website/assets/blogposts.json", {
+        encoding: "UTF-8"
+      })
+    );
+    blogs.push(blogpost);
+    fs.writeFileSync("../website/assets/blogposts.json", JSON.stringify(blogs));
   } catch (e) {
     console.log(e);
   }
 }
 
-function createCompleteHtml(
+function createBlogHtml(
   markdownConversionHtml,
   imagesWithHtml,
   description,
@@ -89,7 +109,10 @@ function createCompleteHtml(
   const htmlWithoutHeaderAndSvg = removeHeaderAndSvgFromHtml(
     htmlWithResponsiveImages
   );
-  const html = runPrettierOnHtml(
+  const articleHtml = runPrettierOnHtml(
+    createArticle(htmlWithoutHeaderAndSvg, svg, title, createdDate)
+  );
+  const blogHtml = runPrettierOnHtml(
     injectBlogIntoGenericHtml(
       htmlWithoutHeaderAndSvg,
       description,
@@ -99,7 +122,7 @@ function createCompleteHtml(
       createdDate
     )
   );
-  return html;
+  return { articleHtml, blogHtml };
 }
 
 async function createImages(images, desktopWidth, mobileWidth) {

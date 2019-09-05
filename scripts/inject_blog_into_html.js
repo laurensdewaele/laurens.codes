@@ -15,6 +15,17 @@ function createArticleHeader(svg, title, createdDate) {
 `;
 }
 
+function createArticle(htmlWithoutHeaderAndSvg, svg, title, createdDate) {
+  return `
+  <article>
+    ${createArticleHeader(svg, title, createdDate)}
+    <section>
+      ${htmlWithoutHeaderAndSvg}
+    </section>
+  </article>
+  `;
+}
+
 function injectBlogIntoGenericHtml(
   htmlWithoutHeaderAndSvg,
   description,
@@ -57,12 +68,7 @@ function injectBlogIntoGenericHtml(
        <h1><a href="#">Laurens codes</a></h1>
      </header>
      <main>
-       <article>
-         ${createArticleHeader(svg, title, createdDate)}
-         <section>
-           ${htmlWithoutHeaderAndSvg}
-         </section>
-       </article>
+       ${createArticle(htmlWithoutHeaderAndSvg, svg, title, createdDate)}
      </main>
      <footer>
        <nav>
@@ -77,4 +83,8 @@ function injectBlogIntoGenericHtml(
     `;
 }
 
-module.exports = { injectBlogIntoGenericHtml, createArticleHeader };
+module.exports = {
+  createArticle,
+  createArticleHeader,
+  injectBlogIntoGenericHtml
+};

@@ -4,6 +4,7 @@
     "create": "node create_html.js"
   },
   "dependencies": {
+    "html-minifier": "^4.0.0",
     "imagemin": "^7.0.0",
     "imagemin-jpegtran": "^6.0.0",
     "imagemin-pngquant": "^8.0.0",
