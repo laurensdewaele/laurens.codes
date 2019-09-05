@@ -1,7 +1,6 @@
 /**
  * In order to rebuild the html files after the generic html has changed
  */
-
 const fs = require("fs");
 
 const {
@@ -12,14 +11,14 @@ const {
 } = require("./generic_html");
 const { runPrettierOnHtml } = require("./create_html");
 
+rebuildIndexHtml();
+rebuildBlogpostsHtml();
+
 const blogposts = JSON.parse(
   fs.readFileSync("../website/assets/blogposts.json", {
     encoding: "utf8"
   })
 );
-
-rebuildIndexHtml();
-rebuildBlogpostsHtml();
 
 function rebuildIndexHtml() {
   const indexContent = blogposts.map(blogpost => {
