@@ -1,6 +1,5 @@
 /**
  * This is an example of what an image object looks like. 
- * This would be the only reason to add typescript.
  */
 
 const image = {
