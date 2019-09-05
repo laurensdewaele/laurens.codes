@@ -1,3 +1,5 @@
+# Learning how to learn
+
 Make blog post about learning how to learn and the **pomodoro technique** and also how fucking distracted you can get.
 
 See it as a muscle that needs to be trained.
@@ -9,8 +11,7 @@ Be mindful of a false sense of knowledge.
 
 It's only rooted in your long term memory once you have done it yourself. This means, apply the new found logic and make some exercises.
 
-Do this: 
+Do this:
 
-  * Creative environment
-  * Persistence and staying the course
-
+- Creative environment
+- Persistence and staying the course

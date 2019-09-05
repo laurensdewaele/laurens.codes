@@ -67,8 +67,8 @@ Oh boy, this markdown stuff is great. Alright, let's do this.
 
 ## Code
 
-I did some stuff already in bash, but I've committed to a hard deadline, so I'm just doing it all in node atm. I know, not the right tool for the job. To quote a friend of mine:
+I did some stuff already in bash, but I've committed to a hard deadline, so I'm just doing it all in node atm. To quote a friend of mine:
 
-> A good developer is also developer who gets things done.
+> A good developer is a developer who gets things done.
 
 Done blogging now, check out the code on github.
