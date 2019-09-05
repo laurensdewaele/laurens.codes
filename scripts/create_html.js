@@ -12,9 +12,9 @@ const sharp = require("sharp");
 
 const injectBlogIntoGenericHtml = require("./inject_blog_into_generic_html");
 
-createHtmlFile();
+createHtml();
 
-async function createHtmlFile() {
+async function createHtml() {
   const desktopWidth = 1200;
   const mobileWidth = 500;
 
@@ -30,7 +30,7 @@ async function createHtmlFile() {
     const title = markdownConversionHtml.match(/<h1>(.*)<\/h1>/)[1];
 
     const allImages = mapImages(findAllImages(markdownConversionHtml));
-    // The first referenced image will always be the blogpost logo svg
+    // The first referenced image will always be the blogpost's svg
     const svg = await createSvg(allImages[0]);
     const images = allImages.slice(1, allImages.length);
 
