@@ -1,0 +1,409 @@
+<!--
+  __   __  ___     _______  __   __  _______  ______    _______  __
+ |  | |  ||   |   |       ||  | |  ||       ||    _ |  |       ||  |
+ |  |_|  ||   |   |_     _||  |_|  ||    ___||   | ||  |    ___||  |
+ |       ||   |     |   |  |       ||   |___ |   |_||_ |   |___ |  |
+ |       ||   |     |   |  |       ||    ___||    __  ||    ___||__|
+ |   _   ||   |     |   |  |   _   ||   |___ |   |  | ||   |___  __
+ |__| |__||___|     |___|  |__| |__||_______||___|  |_||_______||__|
+ 
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Laurens Dewaele" />
+    <meta name="description" content="" />
+    <meta
+      name="keywords"
+      content=", blog, personal, laurens dewaele, software engineering"
+    />
+    <!--    TODO: Set theme color-->
+    <meta name="theme-color" content="" />
+    <meta name="color-scheme" content="normal" />
+    <meta name="robots" content="index,follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Building the blog aka my own static site generator</title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="#">Laurens codes</a></h1>
+    </header>
+    <main>
+      <article>
+        <header>
+          <svg
+            aria-labelledby="svgDesc"
+            width="80"
+            height="80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <desc id="svgDesc">build icon</desc>
+            <path
+              fill="#2B2B2B"
+              stroke="#242424"
+              stroke-width="2"
+              d="M1 1h78v78H1z"
+            />
+            <path
+              d="M18.736 56.752l4.608 4.63c.757.824 1.957.824 2.777 0l18.18-18.265c4.609 1.776 10.037.76 13.825-3.044 3.977-3.996 4.987-10.02 2.588-14.84l-8.774 8.625-5.997-6.025 8.585-8.625c-4.798-2.22-10.795-1.395-14.771 2.6-3.851 3.869-4.798 9.26-3.03 13.889l-18.18 18.265c-.758.57-.758 1.966.189 2.79z"
+              fill="url(#paint0_linear)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear"
+                x1="70"
+                y1="40"
+                x2="49.5"
+                y2="62"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#61DAFB" />
+                <stop offset="1" stop-color="#FBFBFB" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <h2>Building the blog aka my own static site generator</h2>
+          <p>
+            <time datetime="2019-09-05">
+              05 Sep 2019
+            </time>
+          </p>
+        </header>
+
+        <section>
+          <h2>Tools</h2>
+          <p>
+            You can make perfectly fine blogs with WordPress or some other tool.
+            However, imo, if you're a <strong>frontend</strong> developer, you
+            have to make it yourself from scratch. And no, not with React or
+            Gatsby. Pick the right tool for the job. This is a blog. I mean,
+            come on 😅.
+          </p>
+          <p>
+            I wanted my blog to be as simple as possible, for me to write
+            content and deploy. I was wondering whether it would make sense to
+            write my blogs in markdown instead of html. I chose markdown,
+            however, looking back, I'm not entirely convinced.
+          </p>
+          <h3>Pros</h3>
+          <ul>
+            <li>
+              I, as a frontend developer, will not have to concern myself with
+              cumbersome html tags 😀.
+            </li>
+            <li>
+              Euh… Ah right, I can easily write stuff down on any device. Well,
+              not really.
+            </li>
+          </ul>
+          <h3>Cons</h3>
+          <ul>
+            <li>Have to write scripts to convert the .md files to .html.</li>
+            <li>
+              Conversion can do things that I did not intend to. I do not know
+              the inner workings of the program (showdown) that does it.
+            </li>
+            <li>
+              I had to learn a syntax I was not 100% familiar with. I opened the
+              <a
+                href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                >cheat sheet</a
+              >
+              constantly. How much traffic would this repo get? 🤔😃
+            </li>
+          </ul>
+          <p>
+            Looks like I made the wrong choice. Oh well, I have time, and
+            scripting is fun.
+          </p>
+          <h2>Design</h2>
+          <p>I love this stuff, but I'm a noob.</p>
+          <p>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_1_w_1200.webp 1200w,
+                  ./assets/images/design_1_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_1_w_1200.png 1200w,
+                  ./assets/images/design_1_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_1_w_1200.png" alt="design 1" />
+            </picture>
+          </p>
+          <p>LOL 😁</p>
+          <p>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_2_w_1200.webp 1200w,
+                  ./assets/images/design_2_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_2_w_1200.png 1200w,
+                  ./assets/images/design_2_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_2_w_1200.png" alt="design 1" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_3_w_1200.webp 1200w,
+                  ./assets/images/design_3_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_3_w_1200.png 1200w,
+                  ./assets/images/design_3_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_3_w_1200.png" alt="design 2" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_4_w_1200.webp 1200w,
+                  ./assets/images/design_4_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_4_w_1200.png 1200w,
+                  ./assets/images/design_4_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_4_w_1200.png" alt="design 3" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_5_w_1200.webp 1200w,
+                  ./assets/images/design_5_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_5_w_1200.png 1200w,
+                  ./assets/images/design_5_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_5_w_1200.png" alt="design 4" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_6_w_1200.webp 1200w,
+                  ./assets/images/design_6_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_6_w_1200.png 1200w,
+                  ./assets/images/design_6_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_6_w_1200.png" alt="design 5" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_7_w_1200.webp 1200w,
+                  ./assets/images/design_7_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_7_w_1200.png 1200w,
+                  ./assets/images/design_7_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_7_w_1200.png" alt="design 6" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_8_w_1200.webp 1200w,
+                  ./assets/images/design_8_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_8_w_1200.png 1200w,
+                  ./assets/images/design_8_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_8_w_1200.png" alt="design 7" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_9_w_1200.webp 1200w,
+                  ./assets/images/design_9_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_9_w_1200.png 1200w,
+                  ./assets/images/design_9_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_9_w_1200.png" alt="design 8" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_10_w_1200.webp 1200w,
+                  ./assets/images/design_10_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_10_w_1200.png 1200w,
+                  ./assets/images/design_10_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_10_w_1200.png" alt="design 9" />
+            </picture>
+          </p>
+          <p>
+            Asked for some pointers on discord for this last design. They
+            rightfully pointed out that I should not use a dark theme for large
+            chunks of text. Also I did not like the colors. Quick fix.
+          </p>
+          <p>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_11_w_1200.webp 1200w,
+                  ./assets/images/design_11_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_11_w_1200.png 1200w,
+                  ./assets/images/design_11_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_11_w_1200.png" alt="design 11" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_12_w_1200.webp 1200w,
+                  ./assets/images/design_12_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_12_w_1200.png 1200w,
+                  ./assets/images/design_12_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_12_w_1200.png" alt="design 12" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  ./assets/images/design_13_w_1200.webp 1200w,
+                  ./assets/images/design_13_w_500.webp   500w
+                "
+              />
+              <source
+                srcset="
+                  ./assets/images/design_13_w_1200.png 1200w,
+                  ./assets/images/design_13_w_500.png   500w
+                "
+              />
+              <img src="./assets/images/design_13_w_1200.png" alt="design 13" />
+            </picture>
+          </p>
+          <h2>Requirements</h2>
+          <h3>Must haves</h3>
+          <ul>
+            <li>Have a draft folder for unfinished blog posts.</li>
+            <li>Create a separate blogpost.html file.</li>
+            <li>
+              Inject the title, blog post svg and creation date into the
+              index.html.
+            </li>
+            <li>
+              All referenced images should be optimized. This means creating a
+              mobile and desktop version of the same image and then compressing
+              it.
+            </li>
+            <li>Svg should be inlined for speed (no extra network request).</li>
+          </ul>
+          <h3>Nice to haves</h3>
+          <ul>
+            <li>Making it so that it feels like an SPA with simple js.</li>
+          </ul>
+          <p>Oh boy, Alright, let's do this.</p>
+          <h2>Code</h2>
+          <p>
+            I started to code in bash, for learning, but this will take me way
+            too long. I'm doing it in node. To quote a friend of mine:
+          </p>
+          <blockquote>
+            <p>A good developer is a developer who gets things done.</p>
+          </blockquote>
+          <p>Done blogging now, check out the code on github.</p>
+          <h2>After the fact</h2>
+          <p>
+            I took longer than i thought. Why did i feel i had to code it myself
+            (instead of using something like eleventy)?
+          </p>
+          <ul>
+            <li>I'd rather code than learning new APIs</li>
+            <li>
+              This is a personal website that people, e.g. potential hires will
+              see. It must be decent.
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <nav>
+        <ul>
+          <li><a>About</a></li>
+          <li><a>Contact</a></li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
+</html>

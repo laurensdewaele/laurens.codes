@@ -1,16 +1,30 @@
 const moment = require("moment");
 
+function createArticleHeader(svg, title, createdDate) {
+  const formattedDate = moment(createdDate).format("DD MMM YYYY");
+  return `
+  <header>
+    ${svg}
+    <h2>${title}</h2>
+    <p>
+      <time datetime="${createdDate}">
+        ${formattedDate}
+      </time>
+    </p>
+  </header>
+`;
+}
+
 function injectBlogIntoGenericHtml(
   htmlWithoutHeaderAndSvg,
   description,
   keywords,
   svg,
   title,
-  date
+  createdDate
 ) {
   const fixedKeywords =
     ", blog, personal, laurens dewaele, software engineering";
-  const formattedDate = moment(date).format("DD MMM YYYY");
 
   return `
   <!--
@@ -44,15 +58,7 @@ function injectBlogIntoGenericHtml(
      </header>
      <main>
        <article>
-         <header>
-           ${svg}
-           <h2>${title}</h2>
-           <p>
-             <time datetime="${date}"
-               >${formattedDate}
-             </time>
-           </p>
-         </header>
+         ${createArticleHeader(svg, title, createdDate)}
          <section>
            ${htmlWithoutHeaderAndSvg}
          </section>
@@ -71,4 +77,4 @@ function injectBlogIntoGenericHtml(
     `;
 }
 
-module.exports = injectBlogIntoGenericHtml;
+module.exports = { injectBlogIntoGenericHtml, createArticleHeader };

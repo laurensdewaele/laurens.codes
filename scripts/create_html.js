@@ -10,7 +10,10 @@ const prettier = require("prettier");
 const prompts = require("prompts");
 const sharp = require("sharp");
 
-const injectBlogIntoGenericHtml = require("./inject_blog_into_generic_html");
+const {
+  createArticleHeader,
+  injectBlogIntoGenericHtml
+} = require("./inject_blog_into_html");
 
 createHtml();
 
@@ -47,6 +50,24 @@ async function createHtml() {
       createdDate
     );
     fs.writeFileSync(`../website/${filename}.html`, html);
+
+    // Write to index.html
+    const indexHtml = fs.readFileSync("../website/index.html", {
+      encoding: "UTF-8"
+    });
+    const newIndexHtml = runPrettierOnHtml(
+      indexHtml.replace(
+        "<main>",
+        `<main>
+          <article>
+            ${createArticleHeader(svg, title, createdDate)}
+          </article>`
+      )
+    );
+    console.log(html);
+    console.log(newIndexHtml);
+
+    // Write JSON for eventual SPA feel
   } catch (e) {
     console.log(e);
   }
