@@ -15,10 +15,10 @@ const injectBlogIntoGenericHtml = require("./inject_blog_into_generic_html");
 createHtml();
 
 async function createHtml() {
-  const desktopWidth = 1200;
-  const mobileWidth = 500;
-
   try {
+    const desktopWidth = 1200;
+    const mobileWidth = 500;
+
     const { file, filename } = await getFile();
     const keywords = await getKeywords();
     const description = await getDescription();
@@ -28,18 +28,15 @@ async function createHtml() {
     });
     const markdownConversionHtml = convertMarkdownToHtml(markdown);
     const title = markdownConversionHtml.match(/<h1>(.*)<\/h1>/)[1];
-
     const allImages = mapImages(findAllImages(markdownConversionHtml));
     // The first referenced image will always be the blogpost's svg
     const svg = await createSvg(allImages[0]);
     const images = allImages.slice(1, allImages.length);
-
     const imagesWithHtml = await createImages(
       images,
       desktopWidth,
       mobileWidth
     );
-
     const html = createCompleteHtml(
       markdownConversionHtml,
       imagesWithHtml,
@@ -49,7 +46,6 @@ async function createHtml() {
       title,
       createdDate
     );
-
     fs.writeFileSync(`../website/${filename}.html`, html);
   } catch (e) {
     console.log(e);
