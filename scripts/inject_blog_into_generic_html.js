@@ -1,7 +1,5 @@
 const moment = require("moment");
 
-const fixedKeywords = ", blog, personal, laurens dewaele, software engineering";
-
 function injectBlogIntoGenericHtml(
   htmlWithoutHeaderAndSvg,
   description,
@@ -10,6 +8,8 @@ function injectBlogIntoGenericHtml(
   title,
   date
 ) {
+  const fixedKeywords =
+    ", blog, personal, laurens dewaele, software engineering";
   const formattedDate = moment(date).format("DD MMM YYYY");
 
   return `
