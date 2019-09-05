@@ -55,7 +55,7 @@ Asked for some pointers on discord for this last design. They rightfully pointed
 - Have a draft folder for unfinished blog posts.
 - Create a separate blogpost.html file.
 - Inject the title, blog post svg and creation date into the index.html.
-- All referenced images should be optimized. This means creating a mobile and desktop version of the same image and then compressing it.
+- All referenced images should be optimized. This means creating a mobile, desktop and webP version of the same image and then compressing it.
 - Svg should be inlined for speed (no extra network request).
 
 ### Nice to haves

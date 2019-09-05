@@ -64,6 +64,7 @@ async function createHtml() {
           </article>`
       )
     );
+    fs.writeFileSync("../website/index.html", newIndexHtml);
     console.log(html);
     console.log(newIndexHtml);
 
