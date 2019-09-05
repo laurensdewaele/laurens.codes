@@ -1,28 +1,28 @@
-# Building the blog
+# Building the blog aka my own static site generator
 
 ![build icon](./images/build.svg)
 
-## How
+## Tools
 
-Of course you can do it easily via wordpress or pre-built themes and stuff like that.
-In my opinion, if you're a **frontend** developer, you have to make it yourself from scratch. And no, you can't use gatsby or any other frontend framework for this. Pick the right tools for the job. This is a blog. I mean, come on 😅.
+You can make perfectly fine blogs with WordPress or some other tool.
+However, imo, if you're a **frontend** developer, you have to make it yourself from scratch. And no, not with React or Gatsby. Pick the right tool for the job. This is a blog. I mean, come on 😅.
 
-Sooo, I wanted my blog to as simple as possible, for me to write the content and deploy.
-I like to keep things simple, and I was wondering whether it would make sense to write my blogs in markdown instead of html. I chose markdown, however, looking back, I'm not entirely convinced.
+I wanted my blog to be as simple as possible, for me to write content and deploy.
+I was wondering whether it would make sense to write my blogs in markdown instead of html. I chose markdown, however, looking back, I'm not entirely convinced.
 
-Pros:
+### Pros
 
 - I, as a frontend developer, will not have to concern myself with cumbersome html tags 😀.
-- Euh... Ah right, I can just write stuff down on any device. Well, not really.
+- Euh... Ah right, I can easily write stuff down on any device. Well, not really.
 
-Cons:
+### Cons
 
 - Have to write scripts to convert the .md files to .html.
-- Conversion can do things that I did not intend to. I do not know the inner workings of the program that does it.
+- Conversion can do things that I did not intend to. I do not know the inner workings of the program (showdown) that does it.
 - I had to learn a syntax I was not 100% familiar with. I opened the [cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) constantly. How much traffic would this repo get? 🤔😃
 
 Looks like I made the wrong choice.
-Oh well, I have some time, and scripting is fun.
+Oh well, I have time, and scripting is fun.
 
 ## Design
 
@@ -50,25 +50,33 @@ Asked for some pointers on discord for this last design. They rightfully pointed
 
 ## Requirements
 
-**Must haves:**
+### Must haves
 
-- Able to jot down stuff in markdown in a `draft` folder.
-- Once it's ready, move the markdown file and any image references it has to a `ready` folder. Also extract the date when the file was created, and place it beneath the h1 or #.
-- Convert everything from the ready folder from .md to .html
-- Extract the h1, image, date and filename from the blogpost html files, so it can be injected in the index.html file. If I'm doing this, my index.html can't be to too big. So I'll just make sure every post image is an svg that's inlined (so you don't make multiple network requests to fetch all the images).
-- Also wrap the loose html files into a properly arranged html document, with title, article tags, etc...
+- Have a draft folder for unfinished blog posts.
+- Create a separate blogpost.html file.
+- Inject the title, blog post svg and creation date into the index.html.
+- All referenced images should be optimized. This means creating a mobile and desktop version of the same image and then compressing it.
+- Svg should be inlined for speed (no extra network request).
 
-**Nice to haves**
+### Nice to haves
 
-- Optimize all images. I know, this should not be a nice to have. **FIXED**
-- Making it so that it feels like an SPA. When clicking on a blogpost from the homepage, delete all articles with simple js, fetch the required blogpost.html, parse the content so you only have the content, not the other unwanted html tags and inject it. Fetching will be asynchronous so there will be a delay. You could prefetch the top 5 posts or something. Orrrr I could probably just keep all the blog posts, as strings in one big js file (probably won't even be that big) and lazy load that (if not on mobile). Great, much simpler.
+- Making it so that it feels like an SPA with simple js.
 
-Oh boy, this markdown stuff is great. Alright, let's do this.
+Oh boy, Alright, let's do this.
 
 ## Code
 
-I did some stuff already in bash, but I've committed to a hard deadline, so I'm just doing it all in node atm. To quote a friend of mine:
+I started to code in bash, for learning, but this will take me way too long. I'm doing it in node.
+To quote a friend of mine:
 
 > A good developer is a developer who gets things done.
 
 Done blogging now, check out the code on github.
+
+## After the fact
+
+I took longer than i thought.
+Why did i feel i had to code it myself (instead of using something like eleventy)?
+
+- I'd rather code than learning new APIs
+- This is a personal website that people, e.g. potential hires will see. It must be decent.
