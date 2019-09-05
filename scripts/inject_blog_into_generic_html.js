@@ -3,10 +3,10 @@ const moment = require("moment");
 const fixedKeywords = ", blog, personal, laurens dewaele, software engineering";
 
 function injectBlogIntoGenericHtml(
-  blogHtml,
+  htmlWithoutHeaderAndSvg,
   description,
   keywords,
-  svgAsText,
+  svg,
   title,
   date
 ) {
@@ -45,7 +45,7 @@ function injectBlogIntoGenericHtml(
      <main>
        <article>
          <header>
-           ${svgAsText}
+           ${svg}
            <h2>${title}</h2>
            <p>
              <time datetime="${date}"
@@ -54,7 +54,7 @@ function injectBlogIntoGenericHtml(
            </p>
          </header>
          <section>
-           ${blogHtml}
+           ${htmlWithoutHeaderAndSvg}
          </section>
        </article>
      </main>

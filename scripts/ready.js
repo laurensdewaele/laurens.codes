@@ -11,44 +11,12 @@ const sharp = require("sharp");
 const showdown = require("showdown");
 const injectBlogIntoGenericHtml = require("./inject_blog_into_generic_html");
 
-createHtmlFilesFromMarkdown();
+createHtmlFile();
 
-async function createHtmlFilesFromMarkdown() {
+async function createHtmlFile() {
   const desktopWidth = 1200;
   const mobileWidth = 500;
-  // const blogpost = {
-  //   filename: "",
-  //   file: "",
-  //   keywords: "",
-  //   description: "",
-  //   markdown: "",
-  //   html: "",
-  //   title: "",
-  //   createdDate: null,
-  //   svg: "",
-  //   images: [
-  //     {
-  //       description: "",
-  //       extension: "",
-  //       relativePath: "",
-  //       originalPath: "",
-  //       originalHtml: "",
-  //       responsiveHtml: "",
-  //       alt: "",
-  //       optimizedImages: {
-  //         mobile: {
-  //           originalFormat: "example_w_500.png",
-  //           webP: "example_w_500.webp"
-  //         },
-  //         desktop: {
-  //           originalFormat: "example_w_1200.png",
-  //           webP: "example_w_1200.webp"
-  //         },
-  //         html: ""
-  //       }
-  //     }
-  //   ]
-  // };
+
   try {
     const { file, filename } = await getFile();
     const keywords = await getKeywords();
@@ -57,7 +25,7 @@ async function createHtmlFilesFromMarkdown() {
     const markdown = fs.readFileSync(file, {
       encoding: "UTF-8"
     });
-    let html = convertMarkdownToHtml(markdown);
+    const markdownConversionHtml = convertMarkdownToHtml(markdown);
     const title = html.match(/<h1>(.*)<\/h1>/)[1];
 
     const images = mapImages(findAllImages(html));
@@ -71,22 +39,48 @@ async function createHtmlFilesFromMarkdown() {
       mobileWidth
     );
 
-    html = runPrettierOnHtml(insertResponsiveImages(html, imagesWithHtml));
-    html = removeHeaderAndSvgFromHtml(html);
-    html = runPrettierOnHtml(
-      injectBlogIntoGenericHtml(
-        html,
-        description,
-        keywords,
-        svg.asText,
-        title,
-        createdDate
-      )
+    const html = createCompleteHtml(
+      markdownConversionHtml,
+      imagesWithHtml,
+      description,
+      keywords,
+      svg,
+      title,
+      createdDate
     );
+
     fs.writeFileSync(`../website/${filename}.html`, html);
   } catch (e) {
     console.log(e);
   }
+}
+
+function createCompleteHtml(
+  markdownConversionHtml,
+  imagesWithHtml,
+  description,
+  keywords,
+  svg,
+  title,
+  createdDate
+) {
+  const htmlWithResponsiveImages = runPrettierOnHtml(
+    insertResponsiveImages(markdownConversionHtml, imagesWithHtml)
+  );
+  const htmlWithoutHeaderAndSvg = removeHeaderAndSvgFromHtml(
+    htmlWithResponsiveImages
+  );
+  const html = runPrettierOnHtml(
+    injectBlogIntoGenericHtml(
+      htmlWithoutHeaderAndSvg,
+      description,
+      keywords,
+      svg,
+      title,
+      createdDate
+    )
+  );
+  return html;
 }
 
 async function createImages(images, desktopWidth, mobileWidth) {
