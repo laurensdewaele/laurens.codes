@@ -15,9 +15,7 @@ const {
   createArticle,
   createArticleHeader,
   injectBlogIntoGenericHtml
-} = require("./inject_blog_into_html");
-
-createHtml();
+} = require("./inject_into_html");
 
 async function createHtml() {
   try {
@@ -62,19 +60,16 @@ async function createHtml() {
         "<main>",
         `<main>
             <a href="./${filename}.html">
-            <article>
-              ${articleHeaderHtml}
-            </article>
+            ${articleHeaderHtml}
           </a>
         `
       )
     );
     fs.writeFileSync("../website/index.html", newIndexHtml);
-    console.log(articleHtml);
-    console.log(newIndexHtml);
 
     // Write JSON to enable SPA feel later on
     const blogpost = {
+      title,
       keywords,
       description,
       filename,
@@ -110,7 +105,7 @@ function createBlogHtml(
     htmlWithResponsiveImages
   );
   const articleHtml = runPrettierOnHtml(
-    createArticle(htmlWithoutHeaderAndSvg, svg, title, createdDate)
+    createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg)
   );
   const blogHtml = runPrettierOnHtml(
     injectBlogIntoGenericHtml(
@@ -453,3 +448,5 @@ function extractAllImagePaths(images) {
   });
   return imagePaths;
 }
+
+module.exports = { runPrettierOnHtml, createHtml };

@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "start": "npm run create",
-    "create": "node create_html.js"
+    "start": "node index.js",
+    "create": "npm run start",
+    "rebuild": "node rebuild_html.js"
   },
   "dependencies": {
     "html-minifier": "^4.0.0",
