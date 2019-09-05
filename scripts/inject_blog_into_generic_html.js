@@ -11,6 +11,7 @@ function injectBlogIntoGenericHtml(
   date
 ) {
   const formattedDate = moment(date).format("DD MMM YYYY");
+
   return `
   <!--
   __   __  ___     _______  __   __  _______  ______    _______  __
@@ -67,7 +68,6 @@ function injectBlogIntoGenericHtml(
      </footer>
    </body>
  </html>
- 
     `;
 }
 

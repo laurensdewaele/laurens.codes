@@ -16,108 +16,121 @@ createHtmlFilesFromMarkdown();
 async function createHtmlFilesFromMarkdown() {
   const desktopWidth = 1200;
   const mobileWidth = 500;
-  const blogpost = {
-    filename: "",
-    file: "",
-    keywords: "",
-    description: "",
-    markdown: "",
-    html: "",
-    title: "",
-    createdDate: null,
-    svg: {
-      asText: "",
-      originalHtml: "",
-      originalPath: "",
-      alt: "",
-      description: "",
-      extension: "",
-      relativePath: "",
-      optimizedPath: "",
-      strippedOptimizedPath: ""
-    },
-    images: [
-      {
-        description: "",
-        extension: "",
-        relativePath: "",
-        originalPath: "",
-        originalHtml: "",
-        responsiveHtml: "",
-        alt: "",
-        optimizedImages: {
-          mobile: {
-            originalFormat: "example_w_500.png",
-            webP: "example_w_500.webp"
-          },
-          desktop: {
-            originalFormat: "example_w_1200.png",
-            webP: "example_w_1200.webp"
-          },
-          html: ""
-        }
-      }
-    ]
-  };
+  // const blogpost = {
+  //   filename: "",
+  //   file: "",
+  //   keywords: "",
+  //   description: "",
+  //   markdown: "",
+  //   html: "",
+  //   title: "",
+  //   createdDate: null,
+  //   svg: "",
+  //   images: [
+  //     {
+  //       description: "",
+  //       extension: "",
+  //       relativePath: "",
+  //       originalPath: "",
+  //       originalHtml: "",
+  //       responsiveHtml: "",
+  //       alt: "",
+  //       optimizedImages: {
+  //         mobile: {
+  //           originalFormat: "example_w_500.png",
+  //           webP: "example_w_500.webp"
+  //         },
+  //         desktop: {
+  //           originalFormat: "example_w_1200.png",
+  //           webP: "example_w_1200.webp"
+  //         },
+  //         html: ""
+  //       }
+  //     }
+  //   ]
+  // };
   try {
     const { file, filename } = await getFile();
-    blogpost.keywords = await getKeywords();
-    blogpost.description = await getDescription();
-    blogpost.file = file;
-    blogpost.filename = filename;
-    blogpost.createdDate = extractCreatedDate(blogpost.file);
-    blogpost.markdown = fs.readFileSync(blogpost.file, {
+    const keywords = await getKeywords();
+    const description = await getDescription();
+    const createdDate = extractCreatedDate(file);
+    const markdown = fs.readFileSync(file, {
       encoding: "UTF-8"
     });
-    blogpost.html = convertMarkdownToHtml(blogpost.markdown);
-    blogpost.title = blogpost.html.match(/<h1>(.*)<\/h1>/)[1];
+    let html = convertMarkdownToHtml(markdown);
+    const title = html.match(/<h1>(.*)<\/h1>/)[1];
 
-    const foundImagesWithCapturingGroups = [
-      ...blogpost.html.matchAll(/<img src="(.*)" alt="(.*)" \/>/g)
-    ];
-    const images = mapImages(foundImagesWithCapturingGroups);
+    const images = mapImages(findAllImages(html));
     // The first referenced image will always be the blogpost logo svg
-    blogpost.svg = images[0];
-    blogpost.svg.optimizedPath = copySvg(
-      blogpost.svg.relativePath,
-      blogpost.svg.description
-    );
-    blogpost.svg.strippedOptimizedPath = stripRelativePathForImages(
-      blogpost.svg.optimizedPath
-    );
-    blogpost.svg.asText = createAccessibleSvg(
-      blogpost.svg.optimizedPath,
-      blogpost.svg.alt
-    );
-    await optimizeImages([blogpost.svg.optimizedPath]);
-
+    const svg = await createSvg(images[0]);
     images.shift();
-    blogpost.images = await resizeImages(images, desktopWidth, mobileWidth);
-    await optimizeImages(extractAllImagePaths(blogpost.images));
-    blogpost.images = createResponsiveImageHtml(
-      blogpost.images,
+
+    const imagesWithHtml = await createImages(
+      images,
       desktopWidth,
       mobileWidth
     );
 
-    blogpost.html = runPrettierOnHtml(
-      insertResponsiveImages(blogpost.html, blogpost.images)
-    );
-    blogpost.html = removeHeaderAndSvgFromHtml(blogpost.html);
-    blogpost.html = runPrettierOnHtml(
+    html = runPrettierOnHtml(insertResponsiveImages(html, imagesWithHtml));
+    html = removeHeaderAndSvgFromHtml(html);
+    html = runPrettierOnHtml(
       injectBlogIntoGenericHtml(
-        blogpost.html,
-        blogpost.description,
-        blogpost.keywords,
-        blogpost.svg.asText,
-        blogpost.title,
-        blogpost.createdDate
+        html,
+        description,
+        keywords,
+        svg.asText,
+        title,
+        createdDate
       )
     );
-    fs.writeFileSync(`../website/${blogpost.filename}.html`, blogpost.html);
+    fs.writeFileSync(`../website/${filename}.html`, html);
   } catch (e) {
     console.log(e);
   }
+}
+
+async function createImages(images, desktopWidth, mobileWidth) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const createdResizedImages = await resizeImages(
+        images,
+        desktopWidth,
+        mobileWidth
+      );
+      await optimizeImages(extractAllImagePaths(createdResizedImages));
+      const imagesWithHtml = createResponsiveImageHtml(
+        createdResizedImages,
+        desktopWidth,
+        mobileWidth
+      );
+      resolve(imagesWithHtml);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+async function createSvg(image) {
+  return new Promise(async (resolve, reject) => {
+    const { relativePath, description, alt } = image;
+    const optimizedPath = copySvg(relativePath, description);
+
+    try {
+      await optimizeImages([optimizedPath]);
+    } catch (e) {
+      reject(e);
+    }
+
+    const accessibleSvg = createAccessibleSvg(optimizedPath, alt);
+    resolve(accessibleSvg);
+  });
+}
+
+function findAllImages(html) {
+  const foundImagesWithCapturingGroups = [
+    ...html.matchAll(/<img src="(.*)" alt="(.*)" \/>/g)
+  ];
+  return foundImagesWithCapturingGroups;
 }
 
 function createAccessibleSvg(path, description) {
