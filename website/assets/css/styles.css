@@ -1,0 +1,62 @@
+@font-face {
+  font-family: "Lekton";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/typography/lekton-v10-latin-regular.eot");
+  src: local("Lekton"), local("Lekton-Regular"),
+    url("./assets/typography/lekton-v10-latin-regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("./assets/typography/lekton-v10-latin-regular.woff2") format("woff2"),
+    url("./assets/typography/lekton-v10-latin-regular.woff") format("woff"),
+    url("./assets/typography/lekton-v10-latin-regular.ttf") format("truetype"),
+    url("./assets/typography/lekton-v10-latin-regular.svg#Lekton") format("svg");
+}
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/typography/source-sans-pro-v13-latin-regular.eot");
+  src: local("Source Sans Pro Regular"), local("SourceSansPro-Regular"),
+    url("./assets/typography/source-sans-pro-v13-latin-regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("./assets/typography/source-sans-pro-v13-latin-regular.woff2")
+      format("woff2"),
+    url("./assets/typography/source-sans-pro-v13-latin-regular.woff")
+      format("woff"),
+    url("./assets/typography/source-sans-pro-v13-latin-regular.ttf")
+      format("truetype"),
+    url("./assets/typography/source-sans-pro-v13-latin-regular.svg#SourceSansPro")
+      format("svg");
+}
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 700;
+  src: url("./assets/typography/source-sans-pro-v13-latin-700.eot");
+  src: local("Source Sans Pro Bold"), local("SourceSansPro-Bold"),
+    url("./assets/typography/source-sans-pro-v13-latin-700.eot?#iefix")
+      format("embedded-opentype"),
+    url("./assets/typography/source-sans-pro-v13-latin-700.woff2")
+      format("woff2"),
+    url("./assets/typography/source-sans-pro-v13-latin-700.woff") format("woff"),
+    url("./assets/typography/source-sans-pro-v13-latin-700.ttf")
+      format("truetype"),
+    url("./assets/typography/source-sans-pro-v13-latin-700.svg#SourceSansPro")
+      format("svg");
+}
+
+:root {
+  --primary: rgba(97, 218, 251, 100);
+  --primary-underline: rgba(97, 218, 251, 75);
+  --background: rgba(43, 43, 43, 100);
+  --header-background: rgba(54, 54, 54, 100);
+  --border: rgba(0, 0, 0, 30);
+  --white-h2: rgba(255, 255, 255, 100);
+  --gray-h1: rgba(255, 255, 255, 75);
+  --gray-date: rgba(255, 255, 255, 60);
+  --black-text: rgba(0, 0, 0, 75);
+}
+
+body {
+  background-color: var(--background);
+}

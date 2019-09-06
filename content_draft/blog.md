@@ -80,3 +80,7 @@ Why did i feel i had to code it myself (instead of using something like eleventy
 
 - I'd rather code than learning new APIs
 - This is a personal website that people, e.g. potential hires will see. It must be decent.
+
+Typography: OMG Menlo 450kb
+OMG google-webfonts-helper.herokuapp.com
+Obtaining fonts via github

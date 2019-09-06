@@ -28,6 +28,7 @@ function getGenericHtml(description, keywords, title, content) {
         <meta name="color-scheme" content="normal" />
         <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./assets/css/styles.css" rel="stylesheet">
         <title>${title}</title>
     </head>
     <body>

@@ -180,27 +180,18 @@ function createResponsiveImageHtml(images, desktopWidth, mobileWidth) {
       ...image.optimizedImages,
       html: `
               <picture>
-                <source
-                  type="image/webp"
-                  srcset="
-                    ${stripRelativePathForImages(
-                      image.optimizedImages.desktop.webP
-                    )}  ${desktopWidth}w,
-                    ${stripRelativePathForImages(
-                      image.optimizedImages.mobile.webP
-                    )}  ${mobileWidth}w,
-                  "
-                />
-                <source
-                  srcset="
-                  ${stripRelativePathForImages(
-                    image.optimizedImages.desktop.originalFormat
-                  )}  ${desktopWidth}w,
-                  ${stripRelativePathForImages(
-                    image.optimizedImages.mobile.originalFormat
-                  )}  ${mobileWidth}w,
-                  "
-                />
+                <source type="image/webp" srcset="${stripRelativePathForImages(
+                  image.optimizedImages.desktop.webP
+                )}" media="(min-width: ${mobileWidth}px)">
+                <source type="image/webp" srcset="${stripRelativePathForImages(
+                  image.optimizedImages.mobile.webP
+                )}" media="(max-width: ${mobileWidth}px)">
+                <source srcset="${stripRelativePathForImages(
+                  image.optimizedImages.desktop.originalFormat
+                )}" media="(min-width: ${mobileWidth}px)">
+                <source srcset="${stripRelativePathForImages(
+                  image.optimizedImages.mobile.originalFormat
+                )}" media="(max-width: ${mobileWidth}px)">
                 <img src="${stripRelativePathForImages(
                   image.optimizedImages.desktop.originalFormat
                 )}" alt="${image.alt}" />

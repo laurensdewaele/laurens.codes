@@ -11,14 +11,14 @@ const {
 } = require("./generic_html");
 const { runPrettierOnHtml } = require("./create_html");
 
-rebuildIndexHtml();
-rebuildBlogpostsHtml();
-
 const blogposts = JSON.parse(
   fs.readFileSync("../website/assets/blogposts.json", {
     encoding: "utf8"
   })
 );
+
+rebuildBlogpostsHtml();
+rebuildIndexHtml();
 
 function rebuildIndexHtml() {
   const indexContent = blogposts.map(blogpost => {
