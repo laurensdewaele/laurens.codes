@@ -402,6 +402,7 @@ function copySvg(draftPath, description) {
 }
 
 function findAllImages(html) {
+  console.log(html);
   const foundImagesWithCapturingGroups = [
     ...html.matchAll(/<img src="(.*)" alt="(.*)" \/>/g)
   ];
