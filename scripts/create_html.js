@@ -208,10 +208,12 @@ function resizeImages(images, desktopWidth, mobileWidth) {
 
   images.forEach(image => {
     const { originalPath, description, extension, originalWidth } = image;
-    const desktopOutputPath = `../website/assets/images/${description}_w_${desktopWidth}.${extension}`;
-    const desktopWebPOutputPath = `../website/assets/images/${description}_w_${desktopWidth}.webp`;
-    const mobileOutputPath = `../website/assets/images/${description}_w_${mobileWidth}.${extension}`;
-    const mobileWebPOutputPath = `../website/assets/images/${description}_w_${mobileWidth}.webp`;
+    const resizeDesktopWidth = originalWidth < desktopWidth ? originalWidth : desktopWidth;
+    const resizeMobileWidth = originalWidth < mobileWidth ? originalWidth : mobileWidth;
+    const desktopOutputPath = `../website/assets/images/${description}_w_${resizeDesktopWidth}.${extension}`;
+    const desktopWebPOutputPath = `../website/assets/images/${description}_w_${resizeDesktopWidth}.webp`;
+    const mobileOutputPath = `../website/assets/images/${description}_w_${resizeMobileWidth}.${extension}`;
+    const mobileWebPOutputPath = `../website/assets/images/${description}_w_${resizeMobileWidth}.webp`;
     const inputPath = `../content_draft/${originalPath}`;
 
     desktopPromises.push(
@@ -219,8 +221,7 @@ function resizeImages(images, desktopWidth, mobileWidth) {
         inputPath,
         desktopOutputPath,
         desktopWebPOutputPath,
-        desktopWidth,
-        originalWidth
+        resizeDesktopWidth,
       )
     );
     mobilePromises.push(
@@ -228,8 +229,7 @@ function resizeImages(images, desktopWidth, mobileWidth) {
         inputPath,
         mobileOutputPath,
         mobileWebPOutputPath,
-        mobileWidth,
-        originalWidth
+        resizeMobileWidth,
       )
     );
   });
@@ -289,11 +289,11 @@ function mapImages(foundImagesWithRegex) {
   });
 }
 
-function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width, originalWidth) {
-  const newWidth = originalWidth < width ? originalWidth : width;
+function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
+  
   return new Promise((resolve, reject) => {
     sharp(inputPath)
-      .resize({ newWidth, options: { withoutEnlargement: true } })
+      .resize({ width})
       .toFile(outputPath)
       .then(_ => {
         sharp(outputPath)
