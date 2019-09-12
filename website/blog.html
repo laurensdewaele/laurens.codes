@@ -17,61 +17,65 @@
     <meta name="description" content="" />
     <meta
       name="keywords"
-      content=", blog, software, software engineering, frontend development, development, laurens dewaele"
+      content="blog, test, blog, software, software engineering, frontend development, development, laurens dewaele"
     />
     <!--    TODO: Set theme color-->
     <meta name="theme-color" content="" />
     <meta name="color-scheme" content="normal" />
     <meta name="robots" content="index,follow" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./assets/css/styles.css" rel="stylesheet" />
     <title>Building the blog aka my own static site generator</title>
   </head>
   <body>
     <header>
-      <h1><a href="./index.html">Laurens codes</a></h1>
+      <a href="./index.html"><h1>laurens.codes</h1></a>
     </header>
     <main>
-      <article>
+      <article class="isBlogPostPage">
         <header>
-          <svg
-            aria-labelledby="svgDesc"
-            width="80"
-            height="80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <desc id="svgDesc">build icon</desc>
-            <path
-              fill="#2B2B2B"
-              stroke="#242424"
-              stroke-width="2"
-              d="M1 1h78v78H1z"
-            />
-            <path
-              d="M18.736 56.752l4.608 4.63c.757.824 1.957.824 2.777 0l18.18-18.265c4.609 1.776 10.037.76 13.825-3.044 3.977-3.996 4.987-10.02 2.588-14.84l-8.774 8.625-5.997-6.025 8.585-8.625c-4.798-2.22-10.795-1.395-14.771 2.6-3.851 3.869-4.798 9.26-3.03 13.889l-18.18 18.265c-.758.57-.758 1.966.189 2.79z"
-              fill="url(#paint0_linear)"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear"
-                x1="70"
-                y1="40"
-                x2="49.5"
-                y2="62"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#61DAFB" />
-                <stop offset="1" stop-color="#FBFBFB" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          <h2>Building the blog aka my own static site generator</h2>
-          <p>
-            <time datetime="2019-09-06">
-              06 Sep 2019
-            </time>
-          </p>
+          <div>
+            <h2>Building the blog aka my own static site generator</h2>
+            <p>
+              <time datetime="2019-09-12">
+                12 Sep 2019
+              </time>
+            </p>
+          </div>
+          <div>
+            <svg
+              aria-labelledby="svgDesc"
+              width="80"
+              height="80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <desc id="svgDesc">build icon</desc>
+              <path
+                fill="#2B2B2B"
+                stroke="#242424"
+                stroke-width="2"
+                d="M1 1h78v78H1z"
+              />
+              <path
+                d="M18.736 56.752l4.608 4.63c.757.824 1.957.824 2.777 0l18.18-18.265c4.609 1.776 10.037.76 13.825-3.044 3.977-3.996 4.987-10.02 2.588-14.84l-8.774 8.625-5.997-6.025 8.585-8.625c-4.798-2.22-10.795-1.395-14.771 2.6-3.851 3.869-4.798 9.26-3.03 13.889l-18.18 18.265c-.758.57-.758 1.966.189 2.79z"
+                fill="url(#paint0_linear)"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear"
+                  x1="70"
+                  y1="40"
+                  x2="49.5"
+                  y2="62"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#61DAFB" />
+                  <stop offset="1" stop-color="#FBFBFB" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
         </header>
         <section>
           <h2>Tools</h2>
@@ -126,7 +130,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_1_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -135,7 +139,7 @@
               />
               <source
                 srcset="./assets/images/design_1_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_1_w_500.png"
@@ -150,7 +154,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_2_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -159,7 +163,7 @@
               />
               <source
                 srcset="./assets/images/design_2_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_2_w_500.png"
@@ -172,7 +176,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_3_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -181,7 +185,7 @@
               />
               <source
                 srcset="./assets/images/design_3_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_3_w_500.png"
@@ -194,7 +198,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_4_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -203,7 +207,7 @@
               />
               <source
                 srcset="./assets/images/design_4_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_4_w_500.png"
@@ -216,7 +220,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_5_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -225,7 +229,7 @@
               />
               <source
                 srcset="./assets/images/design_5_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_5_w_500.png"
@@ -238,7 +242,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_6_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -247,7 +251,7 @@
               />
               <source
                 srcset="./assets/images/design_6_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_6_w_500.png"
@@ -260,7 +264,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_7_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -269,7 +273,7 @@
               />
               <source
                 srcset="./assets/images/design_7_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_7_w_500.png"
@@ -282,7 +286,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_8_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -291,7 +295,7 @@
               />
               <source
                 srcset="./assets/images/design_8_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_8_w_500.png"
@@ -304,7 +308,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_9_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -313,7 +317,7 @@
               />
               <source
                 srcset="./assets/images/design_9_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_9_w_500.png"
@@ -326,7 +330,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_10_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -335,7 +339,7 @@
               />
               <source
                 srcset="./assets/images/design_10_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_10_w_500.png"
@@ -354,7 +358,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_11_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -363,7 +367,7 @@
               />
               <source
                 srcset="./assets/images/design_11_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_11_w_500.png"
@@ -376,7 +380,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_12_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -385,7 +389,7 @@
               />
               <source
                 srcset="./assets/images/design_12_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_12_w_500.png"
@@ -398,7 +402,7 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_13_w_1200.webp"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 type="image/webp"
@@ -407,7 +411,7 @@
               />
               <source
                 srcset="./assets/images/design_13_w_1200.png"
-                media="(min-width: 1200px)"
+                media="(min-width: 500px)"
               />
               <source
                 srcset="./assets/images/design_13_w_500.png"
@@ -458,16 +462,15 @@
               see. It must be decent.
             </li>
           </ul>
+          <p>
+            Typography: OMG Menlo 450kb OMG google-webfonts-helper.herokuapp.com
+            Obtaining fonts via github
+          </p>
         </section>
       </article>
     </main>
     <footer>
-      <nav>
-        <ul>
-          <li><a>About</a></li>
-          <li><a>Contact</a></li>
-        </ul>
-      </nav>
+      <p>a blog <a href="./about.html">about</a> software development</p>
     </footer>
   </body>
 </html>

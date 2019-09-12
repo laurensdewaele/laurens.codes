@@ -30,7 +30,7 @@ async function createHtml() {
       encoding: "UTF-8"
     });
     const markdownConversionHtml = convertMarkdownToHtml(markdown);
-    const title = markdownConversionHtml.match(/<h1>(.*)<\/h1>/)[1];
+    const title = markdownConversionHtml.match(/<h1>\n?(.*)\n?<\/h1>/)[1];
     const allImages = mapImages(findAllImages(markdownConversionHtml));
     // The first referenced image will always be the blogpost's svg
     const svg = await createSvg(allImages[0]);
@@ -402,7 +402,6 @@ function copySvg(draftPath, description) {
 }
 
 function findAllImages(html) {
-  console.log(html);
   const foundImagesWithCapturingGroups = [
     ...html.matchAll(/<img src="(.*)" alt="(.*)" \/>/g)
   ];

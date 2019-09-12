@@ -4,18 +4,23 @@ const { getGenericHtml, standardKeywords } = require("./generic_html");
 
 function createArticleHeader(svg, title, createdDate, content) {
   const formattedDate = moment(createdDate).format("DD MMM YYYY");
+  const isForIndexPage = !!!content;
   return `
-  <article>
+  <article class="${isForIndexPage ? "isIndexPage" : "isBlogPostPage"}">
     <header>
-      ${svg}
-      <h2>${title}</h2>
-      <p>
-        <time datetime="${createdDate}">
-          ${formattedDate}
-        </time>
-      </p>
+      <div>
+        <h2>${title}</h2>
+        <p>
+          <time datetime="${createdDate}">
+            ${formattedDate}
+          </time>
+        </p>
+      </div>
+      <div>
+        ${svg}
+      </div>
     </header>
-    ${content ? content : ""}
+    ${isForIndexPage ? "" : content}
   </article>
 `;
 }

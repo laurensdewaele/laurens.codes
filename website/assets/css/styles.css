@@ -53,6 +53,10 @@
   --black-text: rgba(0, 0, 0, 0.75);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -68,12 +72,13 @@ a {
   text-decoration: none;
 }
 
-body header {
+body > header {
   display: flex;
   justify-content: center;
+  margin-bottom: 2.5rem;
 }
 
-header h1 {
+header > a > h1 {
   display: inline-block;
   font-family: "Lekton";
   font-weight: 400;
@@ -83,11 +88,60 @@ header h1 {
   border-bottom: 3px solid var(--blue);
 }
 
-footer {
+main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main > a {
+  width: 100%;
+  max-width: 50rem;
+  height: 10rem;
+  background: var(--black-header-background);
+  border: 3px solid var(--black-border);
+}
+
+main > a:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.isIndexPage {
+  height: 100%;
+  padding: 2.5rem;
+}
+
+.isIndexPage > header {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.isIndexPage > header > div > h2 {
+  font-family: "Lekton";
+  font-size: 1.5rem;
+  color: var(--white-h2);
+}
+
+.isIndexPage > header > div > p {
+  font-family: "Lekton";
+  font-size: 1.125rem;
+  color: var(--gray-date);
+}
+
+.isIndexPage > header > svg {
+
+}
+
+body > footer {
   display: flex;
   align-items: center;
   justify-content: center;
   border-top: 3px solid var(--black-border);
+  margin-top: 2.5rem;
 
   font-family: "Lekton";
   font-weight: 400;
