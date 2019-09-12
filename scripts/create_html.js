@@ -266,10 +266,6 @@ function convertMarkdownToHtml(markdown) {
   return runPrettierOnHtml(html);
 }
 
-/**
- * Below are functions that do not reference any self created ones. Only third party ones.
- */
-
 function runPrettierOnHtml(file) {
   return prettier.format(file, { parser: "html" });
 }

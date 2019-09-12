@@ -8,7 +8,7 @@ function getGenericHtml(description, keywords, title, content) {
     <!--
     
     check out the code at:
-    www.github.com/turfie/blog
+    https://github.com/laurensdewaele/blog
 
     -->
     
