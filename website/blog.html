@@ -1,12 +1,8 @@
 <!--
-    __   __  ___     _______  __   __  _______  ______    _______  __
-    |  | |  ||   |   |       ||  | |  ||       ||    _ |  |       ||  |
-    |  |_|  ||   |   |_     _||  |_|  ||    ___||   | ||  |    ___||  |
-    |       ||   |     |   |  |       ||   |___ |   |_||_ |   |___ |  |
-    |       ||   |     |   |  |       ||    ___||    __  ||    ___||__|
-    |   _   ||   |     |   |  |   _   ||   |___ |   |  | ||   |___  __
-    |__| |__||___|     |___|  |__| |__||_______||___|  |_||_______||__|
     
+    check out the code at:
+    www.github.com/turfie/blog
+
     -->
 
 <!DOCTYPE html>
@@ -17,7 +13,7 @@
     <meta name="description" content="" />
     <meta
       name="keywords"
-      content="blog, test, blog, software, software engineering, frontend development, development, laurens dewaele"
+      content=", blog, software, software engineering, frontend development, development, laurens dewaele"
     />
     <!--    TODO: Set theme color-->
     <meta name="theme-color" content="" />
@@ -28,11 +24,11 @@
     <title>Building the blog aka my own static site generator</title>
   </head>
   <body>
-    <header>
+    <nav>
       <a href="./index.html"><h1>laurens.codes</h1></a>
-    </header>
+    </nav>
     <main>
-      <article class="isBlogPostPage">
+      <article class="article-blogpost-page">
         <header>
           <div>
             <h2>Building the blog aka my own static site generator</h2>
@@ -42,7 +38,7 @@
               </time>
             </p>
           </div>
-          <div>
+          <div class="svg-container">
             <svg
               aria-labelledby="svgDesc"
               width="80"
@@ -78,7 +74,7 @@
           </div>
         </header>
         <section>
-          <h2>Tools</h2>
+          <h3>Tools</h3>
           <p>
             You can make perfectly fine blogs with WordPress or some other tool.
             However, imo, if you're a <strong>frontend</strong> developer, you
@@ -92,7 +88,7 @@
             write my blogs in markdown instead of html. I chose markdown,
             however, looking back, I'm not entirely convinced.
           </p>
-          <h3>Pros</h3>
+          <h4>Pros</h4>
           <ul>
             <li>
               I, as a frontend developer, will not have to concern myself with
@@ -103,7 +99,7 @@
               not really.
             </li>
           </ul>
-          <h3>Cons</h3>
+          <h4>Cons</h4>
           <ul>
             <li>Have to write scripts to convert the .md files to .html.</li>
             <li>
@@ -123,7 +119,7 @@
             Looks like I made the wrong choice. Oh well, I have time, and
             scripting is fun.
           </p>
-          <h2>Design</h2>
+          <h3>Design</h3>
           <p>I love this stuff, but I'm a noob.</p>
           <p>
             <picture>
@@ -420,8 +416,8 @@
               <img src="./assets/images/design_13_w_1200.png" alt="design 13" />
             </picture>
           </p>
-          <h2>Requirements</h2>
-          <h3>Must haves</h3>
+          <h3>Requirements</h3>
+          <h4>Must haves</h4>
           <ul>
             <li>Have a draft folder for unfinished blog posts.</li>
             <li>Create a separate blogpost.html file.</li>
@@ -436,12 +432,12 @@
             </li>
             <li>Svg should be inlined for speed (no extra network request).</li>
           </ul>
-          <h3>Nice to haves</h3>
+          <h4>Nice to haves</h4>
           <ul>
             <li>Making it so that it feels like an SPA with simple js.</li>
           </ul>
           <p>Oh boy, Alright, let's do this.</p>
-          <h2>Code</h2>
+          <h3>Code</h3>
           <p>
             I started to code in bash, for learning, but this will take me way
             too long. I'm doing it in node. To quote a friend of mine:
@@ -450,7 +446,7 @@
             <p>A good developer is a developer who gets things done.</p>
           </blockquote>
           <p>Done blogging now, check out the code on github.</p>
-          <h2>After the fact</h2>
+          <h3>After the fact</h3>
           <p>
             I took longer than i thought. Why did i feel i had to code it myself
             (instead of using something like eleventy)?

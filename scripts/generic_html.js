@@ -6,14 +6,10 @@ const standardTitle = "laurens.codes";
 function getGenericHtml(description, keywords, title, content) {
   return `
     <!--
-    __   __  ___     _______  __   __  _______  ______    _______  __
-    |  | |  ||   |   |       ||  | |  ||       ||    _ |  |       ||  |
-    |  |_|  ||   |   |_     _||  |_|  ||    ___||   | ||  |    ___||  |
-    |       ||   |     |   |  |       ||   |___ |   |_||_ |   |___ |  |
-    |       ||   |     |   |  |       ||    ___||    __  ||    ___||__|
-    |   _   ||   |     |   |  |   _   ||   |___ |   |  | ||   |___  __
-    |__| |__||___|     |___|  |__| |__||_______||___|  |_||_______||__|
     
+    check out the code at:
+    www.github.com/turfie/blog
+
     -->
     
     <!DOCTYPE html>
@@ -32,11 +28,9 @@ function getGenericHtml(description, keywords, title, content) {
         <title>${title}</title>
     </head>
     <body>
-        <header>
-        
+        <nav>
             <a href="./index.html"><h1>laurens.codes</h1></a>
-        
-        </header>
+        </nav>
         <main>
             ${content}
         </main>

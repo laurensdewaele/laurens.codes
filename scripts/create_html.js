@@ -10,6 +10,7 @@ const moment = require("moment");
 const prettier = require("prettier");
 const prompts = require("prompts");
 const sharp = require("sharp");
+const sizeOf = require('image-size');
 
 const {
   createArticle,
@@ -30,7 +31,7 @@ async function createHtml() {
       encoding: "UTF-8"
     });
     const markdownConversionHtml = convertMarkdownToHtml(markdown);
-    const title = markdownConversionHtml.match(/<h1>\n?(.*)\n?<\/h1>/)[1];
+    const title = markdownConversionHtml.match(/<h2>\n?(.*)\n?<\/h2>/)[1];
     const allImages = mapImages(findAllImages(markdownConversionHtml));
     // The first referenced image will always be the blogpost's svg
     const svg = await createSvg(allImages[0]);
@@ -206,7 +207,7 @@ function resizeImages(images, desktopWidth, mobileWidth) {
   const desktopPromises = [];
 
   images.forEach(image => {
-    const { originalPath, description, extension } = image;
+    const { originalPath, description, extension, originalWidth } = image;
     const desktopOutputPath = `../website/assets/images/${description}_w_${desktopWidth}.${extension}`;
     const desktopWebPOutputPath = `../website/assets/images/${description}_w_${desktopWidth}.webp`;
     const mobileOutputPath = `../website/assets/images/${description}_w_${mobileWidth}.${extension}`;
@@ -218,7 +219,8 @@ function resizeImages(images, desktopWidth, mobileWidth) {
         inputPath,
         desktopOutputPath,
         desktopWebPOutputPath,
-        desktopWidth
+        desktopWidth,
+        originalWidth
       )
     );
     mobilePromises.push(
@@ -226,7 +228,8 @@ function resizeImages(images, desktopWidth, mobileWidth) {
         inputPath,
         mobileOutputPath,
         mobileWebPOutputPath,
-        mobileWidth
+        mobileWidth,
+        originalWidth
       )
     );
   });
@@ -258,7 +261,7 @@ function resizeImages(images, desktopWidth, mobileWidth) {
 }
 
 function convertMarkdownToHtml(markdown) {
-  const converter = new showdown.Converter({ noHeaderId: true });
+  const converter = new showdown.Converter({ noHeaderId: true, headerLevelStart: 2 });
   const html = converter.makeHtml(markdown);
   return runPrettierOnHtml(html);
 }
@@ -273,21 +276,24 @@ function runPrettierOnHtml(file) {
 
 function mapImages(foundImagesWithRegex) {
   return foundImagesWithRegex.map(([originalHtml, originalPath, alt]) => {
+    const relativePath = `../content_draft/${originalPath}`
     return {
       originalHtml,
       originalPath,
       alt,
       description: originalPath.match(/(\w*)\.\w{3,4}$/)[1],
       extension: /\w{3,4}$/.exec(originalPath)[0],
-      relativePath: `../content_draft/${originalPath}`
+      relativePath,
+      originalWidth: sizeOf(relativePath).width,
     };
   });
 }
 
-function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
+function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width, originalWidth) {
+  const newWidth = originalWidth < width ? originalWidth : width;
   return new Promise((resolve, reject) => {
     sharp(inputPath)
-      .resize({ width, options: { withoutEnlargement: true } })
+      .resize({ newWidth, options: { withoutEnlargement: true } })
       .toFile(outputPath)
       .then(_ => {
         sharp(outputPath)
@@ -409,7 +415,7 @@ function findAllImages(html) {
 }
 
 function removeHeaderAndSvgFromHtml(html) {
-  return html.replace(/^<h1>.*\n.*<\/p>/gm, "");
+  return html.replace(/^<h2>.*\n.*<\/p>/gm, "");
 }
 
 function stripRelativePathForImages(path) {

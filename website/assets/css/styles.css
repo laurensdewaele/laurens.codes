@@ -47,14 +47,21 @@
   --black-background: rgba(43, 43, 43, 1);
   --black-header-background: rgba(54, 54, 54, 1);
   --black-border: rgba(0, 0, 0, 0.3);
-  --white-h2: rgba(255, 255, 255, 1);
+  --white-h2: rgba(255, 255, 255, 0.85);
+  --white-section: rgba(255, 255, 255, 0.95);
   --gray-h1: rgba(255, 255, 255, 0.75);
   --gray-date: rgba(255, 255, 255, 0.6);
   --black-text: rgba(0, 0, 0, 0.75);
 }
 
-* {
+html {
   box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
@@ -72,20 +79,20 @@ a {
   text-decoration: none;
 }
 
-body > header {
+nav {
   display: flex;
   justify-content: center;
   margin-bottom: 2.5rem;
 }
 
-header > a > h1 {
+nav > a > h1 {
   display: inline-block;
   font-family: "Lekton";
   font-weight: 400;
   font-style: normal;
   font-size: 2.75rem;
   color: var(--gray-h1);
-  border-bottom: 3px solid var(--blue);
+  border-bottom: 3px solid var(--blue-underline);
 }
 
 main {
@@ -103,16 +110,20 @@ main > a {
   border: 3px solid var(--black-border);
 }
 
+main > a:hover {
+  border: 3px solid var(--blue-underline);
+}
+
 main > a:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
-.isIndexPage {
+.article-index-page {
   height: 100%;
-  padding: 2.5rem;
+  padding: 0 2rem 0 2rem;
 }
 
-.isIndexPage > header {
+.article-index-page header {
   height: 100%;
   width: 100%;
   display: flex;
@@ -120,20 +131,79 @@ main > a:not(:last-child) {
   align-items: center;
 }
 
-.isIndexPage > header > div > h2 {
+h2 {
   font-family: "Lekton";
   font-size: 1.5rem;
   color: var(--white-h2);
 }
 
-.isIndexPage > header > div > p {
+time {
   font-family: "Lekton";
   font-size: 1.125rem;
   color: var(--gray-date);
+  margin-bottom: 0;
 }
 
-.isIndexPage > header > svg {
+.svg-container {
+  display: flex;
+}
 
+.article-blogpost-page {
+  max-width: 60rem;
+  width: 100%;
+}
+
+.article-blogpost-page header {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 9.5rem 4rem 9.5rem;
+  border: 3px solid var(--black-border);
+  background: var(--black-header-background);
+}
+
+.article-blogpost-page div:first-child {
+  order: 2;
+}
+
+.article-blogpost-page header h2 {
+  display: inline-block;
+  border-bottom: 2px solid var(--blue-underline);
+}
+
+.article-blogpost-page .svg-container {
+  order: 1;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.6rem;
+}
+
+section {
+  border-right: 3px solid var(--black-border);
+  border-bottom: 3px solid var(--black-border);
+  border-left: 3px solid var(--black-border);
+  background: var(--white-section);
+  padding: 4rem 9.5rem 4rem 9.5rem;
+
+  font-family: "Source Sans Pro";
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 2.125rem;
+  color: var(--black-tÍext);
+}
+
+h3:first-child {
+  margin-top: 0;
+}
+h3 {
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 2, 1875rem;
+  display: inline-block;
+  border-bottom: 2px solid var(--blue-underline);
+}
+
+img {
+  width: 100%;
 }
 
 body > footer {
@@ -155,5 +225,5 @@ body > footer {
 
 footer a {
   color: var(--gray-h1);
-  border-bottom: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue-underline);
 }

@@ -6,7 +6,7 @@ function createArticleHeader(svg, title, createdDate, content) {
   const formattedDate = moment(createdDate).format("DD MMM YYYY");
   const isForIndexPage = !!!content;
   return `
-  <article class="${isForIndexPage ? "isIndexPage" : "isBlogPostPage"}">
+  <article class="${isForIndexPage ? "article-index-page" : "article-blogpost-page"}">
     <header>
       <div>
         <h2>${title}</h2>
@@ -16,7 +16,7 @@ function createArticleHeader(svg, title, createdDate, content) {
           </time>
         </p>
       </div>
-      <div>
+      <div class="svg-container">
         ${svg}
       </div>
     </header>
