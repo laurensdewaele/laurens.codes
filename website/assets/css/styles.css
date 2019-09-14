@@ -191,6 +191,7 @@ section {
   font-size: 1.35rem;
   line-height: 2.125rem;
   color: var(--black-tÍext);
+  text-align: justify;
 }
 
 section a {
@@ -205,8 +206,6 @@ h3 {
   font-weight: 700;
   font-size: 1.75rem;
   line-height: 2, 1875rem;
-  text-decoration: underline;
-  text-decoration-color: var(--blue);
 }
 
 img {
