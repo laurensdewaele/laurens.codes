@@ -136,6 +136,7 @@ h2 {
   font-family: "Lekton";
   font-size: 1.5rem;
   color: var(--white-h2);
+  line-height: 1.7rem;
 }
 
 time {
@@ -216,6 +217,10 @@ blockquote {
   position: relative;
 }
 
+ul {
+  padding-inline-start: 1.5rem;
+}
+
 pre {
   background-color: var(--black-header-background);
   padding: 1rem;
@@ -242,6 +247,7 @@ footer {
   align-items: center;
   justify-content: center;
   text-align: center;
+  line-height: 1.7rem;
   border-top: 3px solid var(--black-border);
   margin-top: 7rem;
 
@@ -277,6 +283,7 @@ footer a {
 
   section {
     font-size: 1.3rem;
+    line-height: 1.9rem;
   }
 
   h3 {
@@ -306,12 +313,17 @@ footer a {
 
   main,
   footer {
-    padding: 0 1rem 0 1rem;
+    padding: 0;
+  }
+
+  .article-blogpost-page {
+    border: 0;
   }
 
   footer {
     height: 4.5rem;
     margin-top: 5rem;
+    font-size: 1.2rem;
   }
 
   main > a {
@@ -347,6 +359,7 @@ footer a {
 
   section {
     font-size: 1.1rem;
+    line-height: 1.7rem;
   }
 
   h3 {
