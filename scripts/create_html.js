@@ -10,7 +10,7 @@ const moment = require("moment");
 const prettier = require("prettier");
 const prompts = require("prompts");
 const sharp = require("sharp");
-const sizeOf = require('image-size');
+const sizeOf = require("image-size");
 
 const {
   createArticle,
@@ -25,12 +25,18 @@ async function createHtml() {
 
     const { file, filename } = await getFile();
 
-    if (wasBlogpostBuiltBefore()) {
-      console.log('Blogpost has already been built once, will delete from JSON');
-      removeBlogPostFromJSON();
-      console.log('Rebuild the HTML after this script finishes so it does not appear twice in the index.html');
+    const existingBlogs = getBlogs();
+    if (wasBlogpostBuiltBefore(existingBlogs, filename)) {
+      console.log(
+        "Blogpost has already been built once, will delete from JSON"
+      );
+      const blogs = removeBlogPostFromJSON(existingBlogs, filename);
+      writeBlogsToJSON(blogs);
+      console.log(
+        "Run 'npm run rebuild' after this script finishes so it does not appear twice in the index.html"
+      );
     }
-    
+
     keywords = await getKeywords();
     description = await getDescription();
     const createdDate = extractCreatedDate(file);
@@ -91,18 +97,6 @@ async function createHtml() {
   } catch (e) {
     console.log(e);
   }
-}
-
-function wasBlogpostBuiltBefore(filename) {
-  const blogs = getBlogs();
-  const exists = blogs.find(blog => blog.filename === filename);
-  return exists ? true : false
-}
-
-function removeBlogPostFromJSON(filename) {
-  const blogs = getBlogs();
-  const newBlogs = blogs.filter(blog => blog.filename !== filename);
-  writeBlogsToJSON(newBlogs);
 }
 
 function createBlogHtml(
@@ -223,8 +217,10 @@ function resizeImages(images, desktopWidth, mobileWidth) {
 
   images.forEach(image => {
     const { originalPath, description, extension, originalWidth } = image;
-    const resizeDesktopWidth = originalWidth < desktopWidth ? originalWidth : desktopWidth;
-    const resizeMobileWidth = originalWidth < mobileWidth ? originalWidth : mobileWidth;
+    const resizeDesktopWidth =
+      originalWidth < desktopWidth ? originalWidth : desktopWidth;
+    const resizeMobileWidth =
+      originalWidth < mobileWidth ? originalWidth : mobileWidth;
     const desktopOutputPath = `../website/assets/images/${description}_w_${resizeDesktopWidth}.${extension}`;
     const desktopWebPOutputPath = `../website/assets/images/${description}_w_${resizeDesktopWidth}.webp`;
     const mobileOutputPath = `../website/assets/images/${description}_w_${resizeMobileWidth}.${extension}`;
@@ -236,7 +232,7 @@ function resizeImages(images, desktopWidth, mobileWidth) {
         inputPath,
         desktopOutputPath,
         desktopWebPOutputPath,
-        resizeDesktopWidth,
+        resizeDesktopWidth
       )
     );
     mobilePromises.push(
@@ -244,7 +240,7 @@ function resizeImages(images, desktopWidth, mobileWidth) {
         inputPath,
         mobileOutputPath,
         mobileWebPOutputPath,
-        resizeMobileWidth,
+        resizeMobileWidth
       )
     );
   });
@@ -276,7 +272,10 @@ function resizeImages(images, desktopWidth, mobileWidth) {
 }
 
 function convertMarkdownToHtml(markdown) {
-  const converter = new showdown.Converter({ noHeaderId: true, headerLevelStart: 2 });
+  const converter = new showdown.Converter({
+    noHeaderId: true,
+    headerLevelStart: 2
+  });
   const html = converter.makeHtml(markdown);
   return runPrettierOnHtml(html);
 }
@@ -287,7 +286,7 @@ function runPrettierOnHtml(file) {
 
 function mapImages(foundImagesWithRegex) {
   return foundImagesWithRegex.map(([originalHtml, originalPath, alt]) => {
-    const relativePath = `../content_draft/${originalPath}`
+    const relativePath = `../content_draft/${originalPath}`;
     return {
       originalHtml,
       originalPath,
@@ -295,16 +294,15 @@ function mapImages(foundImagesWithRegex) {
       description: originalPath.match(/(\w*)\.\w{3,4}$/)[1],
       extension: /\w{3,4}$/.exec(originalPath)[0],
       relativePath,
-      originalWidth: sizeOf(relativePath).width,
+      originalWidth: sizeOf(relativePath).width
     };
   });
 }
 
 function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
-  
   return new Promise((resolve, reject) => {
     sharp(inputPath)
-      .resize({ width})
+      .resize({ width })
       .toFile(outputPath)
       .then(_ => {
         sharp(outputPath)
@@ -426,7 +424,7 @@ function findAllImages(html) {
 }
 
 function removeHeaderAndSvgFromHtml(html) {
-  return html.replace(/^<h2>.*\n.*<\/p>/gm, "");
+  return html.replace(/^<h2>.*?<\/p>/sg, "");
 }
 
 function stripRelativePathForImages(path) {
@@ -458,11 +456,20 @@ function extractAllImagePaths(images) {
 }
 
 function getBlogs() {
-  JSON.parse(
+  return JSON.parse(
     fs.readFileSync("../website/assets/blogposts.json", {
       encoding: "UTF-8"
     })
   );
+}
+
+function wasBlogpostBuiltBefore(blogs, filename) {
+  const exists = blogs.find(blog => blog.filename.trim() === filename.trim());
+  return !!exists;
+}
+
+function removeBlogPostFromJSON(blogs, filename) {
+  return blogs.filter(blog => blog.filename.trim() !== filename.trim());
 }
 
 function writeBlogsToJSON(blogs) {
