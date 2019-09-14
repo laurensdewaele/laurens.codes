@@ -24,6 +24,13 @@ async function createHtml() {
     const mobileWidth = 500;
 
     const { file, filename } = await getFile();
+
+    if (wasBlogpostBuiltBefore()) {
+      console.log('Blogpost has already been built once, will delete from JSON');
+      removeBlogPostFromJSON();
+      console.log('Rebuild the HTML after this script finishes so it does not appear twice in the index.html');
+    }
+    
     keywords = await getKeywords();
     description = await getDescription();
     const createdDate = extractCreatedDate(file);
@@ -78,16 +85,24 @@ async function createHtml() {
       articleHeaderHtml: minify(articleHeaderHtml)
     };
 
-    const blogs = JSON.parse(
-      fs.readFileSync("../website/assets/blogposts.json", {
-        encoding: "UTF-8"
-      })
-    );
+    const blogs = getBlogs();
     blogs.push(blogpost);
-    fs.writeFileSync("../website/assets/blogposts.json", JSON.stringify(blogs));
+    writeBlogsToJSON(blogs);
   } catch (e) {
     console.log(e);
   }
+}
+
+function wasBlogpostBuiltBefore(filename) {
+  const blogs = getBlogs();
+  const exists = blogs.find(blog => blog.filename === filename);
+  return exists ? true : false
+}
+
+function removeBlogPostFromJSON(filename) {
+  const blogs = getBlogs();
+  const newBlogs = blogs.filter(blog => blog.filename !== filename);
+  writeBlogsToJSON(newBlogs);
 }
 
 function createBlogHtml(
@@ -440,6 +455,18 @@ function extractAllImagePaths(images) {
     imagePaths.push(image.optimizedImages.mobile.webP);
   });
   return imagePaths;
+}
+
+function getBlogs() {
+  JSON.parse(
+    fs.readFileSync("../website/assets/blogposts.json", {
+      encoding: "UTF-8"
+    })
+  );
+}
+
+function writeBlogsToJSON(blogs) {
+  fs.writeFileSync("../website/assets/blogposts.json", JSON.stringify(blogs));
 }
 
 module.exports = { runPrettierOnHtml, createHtml };

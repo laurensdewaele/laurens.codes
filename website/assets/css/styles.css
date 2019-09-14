@@ -43,7 +43,6 @@
 
 :root {
   --blue: rgba(97, 218, 251, 1);
-  --blue-underline: rgba(97, 218, 251, 0.75);
   --blue-anchor: rgba(45, 148, 243, 1);
   --black-background: rgba(43, 43, 43, 1);
   --black-header-background: rgba(54, 54, 54, 1);
@@ -94,7 +93,7 @@ h1 {
   font-style: normal;
   font-size: 2.75rem;
   color: var(--gray-h1);
-  border-bottom: 3px solid var(--blue-underline);
+  border-bottom: 3px solid var(--blue);
 }
 
 main {
@@ -115,7 +114,7 @@ main > a {
 }
 
 main > a:hover {
-  border: 3px solid var(--blue-underline);
+  border: 3px solid var(--blue);
 }
 
 main > a:not(:last-child) {
@@ -258,7 +257,7 @@ footer {
 
 footer a {
   color: var(--gray-h1);
-  border-bottom: 2px solid var(--blue-underline);
+  border-bottom: 2px solid var(--blue);
 }
 
 @media (max-width: 62rem) {
