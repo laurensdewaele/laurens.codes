@@ -41,11 +41,10 @@
       format("svg");
 }
 
-
-
 :root {
   --blue: rgba(97, 218, 251, 1);
   --blue-underline: rgba(97, 218, 251, 0.75);
+  --blue-anchor: rgba(45, 148, 243, 1);
   --black-background: rgba(43, 43, 43, 1);
   --black-header-background: rgba(54, 54, 54, 1);
   --black-border: rgba(0, 0, 0, 0.3);
@@ -171,7 +170,8 @@ time {
 
 .article-blogpost-page header h2 {
   display: inline-block;
-  border-bottom: 2px solid var(--blue-underline);
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
 }
 
 .article-blogpost-page .svg-container {
@@ -188,24 +188,55 @@ section {
 
   font-family: "Source Sans Pro";
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   line-height: 2.125rem;
   color: var(--black-tÍext);
+}
+
+section a {
+  color: var(--blue-anchor);
 }
 
 h3:first-child {
   margin-top: 0;
 }
+
 h3 {
   font-weight: 700;
   font-size: 1.75rem;
   line-height: 2, 1875rem;
-  display: inline-block;
-  border-bottom: 2px solid var(--blue-underline);
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
 }
 
 img {
   max-width: 100%;
+}
+
+blockquote {
+  font-style: italic;
+  position: relative;
+}
+
+pre {
+  background-color: var(--black-header-background);
+  padding: 1rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+code {
+  font-family: "Lekton";
+  color: var(--white-section);
+  background-color: var(--black-header-background);
+}
+
+blockquote::before {
+  font-family: Arial;
+  content: ">";
+  position: absolute;
+  left: -2rem;
 }
 
 footer {
@@ -231,7 +262,31 @@ footer a {
   border-bottom: 2px solid var(--blue-underline);
 }
 
-@media (max-width: 52rem) { 
+@media (max-width: 62rem) {
+  .article-blogpost-page {
+    max-width: 50rem;
+  }
+  .article-blogpost-page header,
+  section {
+    padding: 3rem;
+  }
+  .article-blogpost-page .svg-container {
+    margin-bottom: 0;
+  }
+  .svg-container {
+    transform: scale(0.8);
+  }
+
+  section {
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 52rem) {
   nav {
     margin-bottom: 5rem;
   }
@@ -241,17 +296,18 @@ footer a {
   }
 
   h2 {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     margin-bottom: 1rem;
     font-size: 1.3rem;
   }
 
-  time, p {
+  time {
     margin: 0;
     font-size: 1rem;
   }
 
-  main, footer {
+  main,
+  footer {
     padding: 0 1rem 0 1rem;
   }
 
@@ -274,13 +330,28 @@ footer a {
     flex-direction: column;
   }
 
-  .article-index-page .svg-container {
+  .svg-container {
     order: 1;
-    transform: scale(.7);
+    transform: scale(0.7);
   }
 
   .article-index-page div:first-child {
     order: 2;
     text-align: center;
   }
- }
+}
+
+@media (max-width: 40rem) {
+  .article-blogpost-page header,
+  section {
+    padding: 1.5rem;
+  }
+
+  section {
+    font-size: 1.1rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+}
