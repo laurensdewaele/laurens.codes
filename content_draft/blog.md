@@ -25,7 +25,7 @@ It's quick and easy (if you're proficient in those frameworks).
 But, it comes with a bunch of client side Javascript that is totally unnecessary.
 
 Then there's Hugo, Jekyll, and the one that fits my needs the most, [eleventy](https://www.11ty.io/docs/).
-The thing is, I feel like I'm constantly having to learn new APIs instead of actually coding. I'm tired of digging into documentation, stackoverflow, and github issues to make the thing do what I want it to do.
+The thing is, I feel like I'm constantly having to learn new APIs instead of actually coding. I'm tired of digging into documentation to make the thing do what I want it to do.
 
 For **simple enough stuff** like a blog, I'd much rather do it all myself.
 
