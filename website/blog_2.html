@@ -1,0 +1,455 @@
+<!--
+    
+    check out the code at:
+    https://github.com/laurensdewaele/blog
+
+    -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Laurens Dewaele" />
+    <meta name="description" content="" />
+    <meta
+      name="keywords"
+      content=", blog, software, software engineering, frontend development, development, laurens dewaele"
+    />
+    <!--    TODO: Set theme color-->
+    <meta name="theme-color" content="" />
+    <meta name="color-scheme" content="normal" />
+    <meta name="robots" content="index,follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./assets/css/styles.css" rel="stylesheet" />
+    <title>
+      The creation of my blog website, aka my own static site generator
+    </title>
+  </head>
+  <body>
+    <nav>
+      <a href="./index.html"><h1>laurens.codes</h1></a>
+    </nav>
+    <main>
+      <article class="article-blogpost-page">
+        <header>
+          <div>
+            <h2>
+              The creation of my blog website, aka my own static site generator
+            </h2>
+            <p>
+              <time datetime="2019-09-14">
+                14 Sep 2019
+              </time>
+            </p>
+          </div>
+          <div class="svg-container">
+            <svg
+              aria-labelledby="svgDesc"
+              width="80"
+              height="80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <desc id="svgDesc">build icon</desc>
+              <path
+                fill="#2B2B2B"
+                stroke="#242424"
+                stroke-width="2"
+                d="M1 1h78v78H1z"
+              />
+              <path
+                d="M18.736 56.752l4.608 4.63c.757.824 1.957.824 2.777 0l18.18-18.265c4.609 1.776 10.037.76 13.825-3.044 3.977-3.996 4.987-10.02 2.588-14.84l-8.774 8.625-5.997-6.025 8.585-8.625c-4.798-2.22-10.795-1.395-14.771 2.6-3.851 3.869-4.798 9.26-3.03 13.889l-18.18 18.265c-.758.57-.758 1.966.189 2.79z"
+                fill="url(#paint0_linear)"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear"
+                  x1="70"
+                  y1="40"
+                  x2="49.5"
+                  y2="62"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#61DAFB" />
+                  <stop offset="1" stop-color="#FBFBFB" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </header>
+        <section>
+          <h3>What</h3>
+          <p>
+            I wanted a blog site where I could post my code learnings. It needed
+            to be as simple as possible, but also perform reasonably well. My
+            <strong>requirements</strong>:
+          </p>
+          <ul>
+            <li>
+              I only want to write content, thus automating everything else.
+            </li>
+            <li>Images need to be responsive.</li>
+            <li>Svg's need to be inlined.</li>
+            <li>Make it an SPA. This is a nice to have.</li>
+          </ul>
+          <h3>How</h3>
+          <h4>Tooling</h4>
+          <p>
+            There's tons of tools available to make blog websites. However, if
+            you're a developer, especially a frontend developer, I'm of the
+            opinion that you have to build it yourself. That leaves out
+            WordPress and the likes.
+          </p>
+          <p>
+            Then there's great stuff available for building blogs with modern js
+            frameworks, such as <a href="https://www.gatsbyjs.org/">Gatsby</a>.
+            It's quick and easy (if you're proficient in those frameworks). But,
+            it comes with a bunch of client side Javascript that is totally
+            unnecessary.
+          </p>
+          <p>
+            Then there's Hugo, Jekyll, and the one that fits my needs the most,
+            <a href="https://www.11ty.io/docs/">eleventy</a>. The thing is, I
+            feel like I'm constantly having to learn new APIs instead of
+            actually coding. I'm tired of digging into documentation,
+            stackoverflow, and github issues to make the thing do what I want it
+            to do.
+          </p>
+          <p>
+            For <strong>simple enough stuff</strong> like a blog, I'd much
+            rather do it all myself.
+          </p>
+          <h3>Design</h3>
+          <p>Let's not forget design. I'm a noob but love to tinker with it.</p>
+          <p>
+            LOL 😁
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_1_w_1200.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_1_w_500.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_1_w_1200.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_1_w_500.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_1_w_1200.png" alt="design 1" />
+            </picture>
+          </p>
+          <p>
+            I envisioned those brackets to slide open and go to the sides when
+            first visiting the page. Almost went with this one but it didn't
+            feel simple enough (without the ugly AF brackets though).
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_2_w_1200.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_2_w_500.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_2_w_1200.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_2_w_500.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_2_w_1200.png" alt="design 2" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_3_w_1200.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_3_w_500.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_3_w_1200.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_3_w_500.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_3_w_1200.png" alt="design 3" />
+            </picture>
+          </p>
+          <p>
+            In an attempt to make it simple and clean, I made these. They're
+            suuuuper boring though.
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_5_w_360.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_5_w_360.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_5_w_360.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_5_w_360.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_5_w_360.png" alt="design 4" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_6_w_360.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_6_w_360.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_6_w_360.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_6_w_360.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_6_w_360.png" alt="design 5" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_7_w_1200.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_7_w_500.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_7_w_1200.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_7_w_500.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_7_w_1200.png" alt="design 6" />
+            </picture>
+          </p>
+          <p>
+            Ah, these feel semi alright.
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_8_w_1200.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_8_w_500.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_8_w_1200.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_8_w_500.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_8_w_1200.png" alt="design 7" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_9_w_1200.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_9_w_500.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_9_w_1200.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_9_w_500.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_9_w_1200.png" alt="design 8" />
+            </picture>
+
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_10_w_360.webp"
+                media="(min-width: 500px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/design_10_w_360.webp"
+                media="(max-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_10_w_360.png"
+                media="(min-width: 500px)"
+              />
+              <source
+                srcset="./assets/images/design_10_w_360.png"
+                media="(max-width: 500px)"
+              />
+              <img src="./assets/images/design_10_w_360.png" alt="design 9" />
+            </picture>
+          </p>
+          <p>
+            I felt the colors were off a bit, and something else didn't feel
+            quite right. So I went over to a discord UI channel to ask for
+            feedback. They rightfully pointed out that I should not use a dark
+            theme for large chunks of text. So I changed it to the current
+            design you're now viewing 🙂.
+          </p>
+          <h3>Code</h3>
+          <p>
+            Initially, I started out in bash because I wanted to learn a new
+            language. It quickly turned out to be too time consuming. Perl and
+            Python are much better candidates for the job. I decided to skip my
+            own advice of picking the right tool for the job, and going with
+            what I know already, Javascript.
+          </p>
+          <p>To quote my friend:</p>
+          <blockquote>
+            <p>A good developer is a developer who gets things done.</p>
+          </blockquote>
+          <h4>Implementing the requirements</h4>
+          <h5>I should only worry about writing content</h5>
+          <p>
+            Everyone and everything is using Markdown to write their content at
+            the moment, so I went with it. This means writing my content in
+            <code>.md</code> files and then converting them to HTML.
+          </p>
+          <p>However, looking back on my decision, I'm not quite convinced.</p>
+          <p>Pros of writing markdown:</p>
+          <ul>
+            <li>
+              I, as a frontend developer, do not have to concern myself with
+              cumbersome HTML tags 😄.
+            </li>
+            <li>Euh…</li>
+          </ul>
+          <p>Cons:</p>
+          <ul>
+            <li>
+              I have to write scripts to convert the .md files to .html.
+              Conversion can do unwanted things. I do not know how the package
+              (<a href="https://github.com/showdownjs/showdown">showdown</a>)
+              works.
+            </li>
+            <li>
+              I had to learn a syntax I wasn't completely familiar with. I
+              referenced this
+              <a
+                href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                >markdown cheat sheet</a
+              >
+              constantly (How much traffic would this repo get? 🤔😃).
+            </li>
+          </ul>
+          <h5>Images need to be responsive</h5>
+          <p>
+            This means creating 4 versions of each image. Mobile, mobile webP,
+            desktop, desktop webP. After creation, optimize the images.
+          </p>
+          <h5>Svg's need to be inlined</h5>
+          <p>
+            This means you have no extra network request fetching the image.
+            It's not the right technique if you use the same svg frequently.
+          </p>
+          <h5>Make it a single page app</h5>
+          <p>
+            This means, when you're on the index page, and you click on a
+            blogpost, you don't want to load another external recourse
+            (blogpost.html), thus refreshing the page. Or the other way around
+            (blogpost -&gt; index).
+          </p>
+          <p>How I would do it:</p>
+          <ul>
+            <li>Replace all the anchor tags with functions</li>
+            <li>
+              Create a blogposts.json that contains all the needed information
+              to construct the heading and content of a blogpost
+            </li>
+            <li>Lazy load that file on the initial load.</li>
+            <li>
+              When you click on a blogpost on the index.html page, delete all
+              other blogposts with js, read the needed content from the
+              blogposts.json file and inject it into the html.
+            </li>
+          </ul>
+          <h4>After the fact</h4>
+          <p>A walkthrough of the code:</p>
+          <ul>
+            <li>
+              Ask the user the filename of the markdown file to convert, the
+              keywords of the blogpost, and a description.
+            </li>
+            <li>Convert the markdown file.</li>
+            <li>
+              Extract the created date, title and images from the html file.
+            </li>
+            <li>Create 4 versions of the same image for responsiveness.</li>
+            <li>Optimize those images</li>
+            <li>Create a blogpost.html file</li>
+            <li>
+              Create the blogpost article html for injecting into the index.html
+            </li>
+            <li>
+              Save blogpost into a blogposts.json file. This for eventually
+              adding a SPA feel to the website and for rebuilding the html if
+              you want to change the generic html.
+            </li>
+          </ul>
+          <p>
+            I feel this blogpost is already quite lengthy, check out the code if
+            you want to at
+            <a href="https://github.com/laurensdewaele/blog">github</a>.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <p>a blog <a href="./about.html">about</a> software development</p>
+    </footer>
+  </body>
+</html>
