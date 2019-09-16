@@ -21,6 +21,10 @@
     <meta name="robots" content="index,follow" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="./assets/css/styles.css" rel="stylesheet" />
+    <link
+      href="https://myCDN.com/prism@v1.x/themes/prism.css"
+      rel="stylesheet"
+    />
     <title>The creation of my blog, aka my own static site generator</title>
   </head>
   <body>
@@ -33,8 +37,8 @@
           <div>
             <h2>The creation of my blog, aka my own static site generator</h2>
             <p>
-              <time datetime="2019-09-14">
-                14 Sep 2019
+              <time datetime="2019-09-16">
+                16 Sep 2019
               </time>
             </p>
           </div>
@@ -126,7 +130,6 @@
             <li>Make it an SPA. This is a nice to have.</li>
           </ul>
           <h3>How</h3>
-          <h4>Tooling</h4>
           <p>
             There's tons of tools available to make blog websites. However, if
             you're a developer, especially a frontend developer, I'm of the
@@ -144,9 +147,8 @@
             Then there's Hugo, Jekyll, and the one that fits my needs the most,
             <a href="https://www.11ty.io/docs/">eleventy</a>. The thing is, I
             feel like I'm constantly having to learn new APIs instead of
-            actually coding. I'm tired of digging into documentation,
-            stackoverflow, and github issues to make the thing do what I want it
-            to do.
+            actually coding. I'm tired of digging into documentation to make the
+            thing do what I want it to do.
           </p>
           <p>
             For <strong>simple enough stuff</strong> like a blog, I'd much
@@ -180,8 +182,8 @@
           </p>
           <p>
             I envisioned these brackets to slide open and go to the sides when
-            first visiting the page. Almost went with this one but it didn't
-            feel simple enough (without the ugly AF brackets though).
+            first visiting the page. Almost went with these next ones (without
+            the ugly AF brackets though), but it didn't feel simple enough.
           </p>
           <p>
             <picture>
@@ -350,12 +352,12 @@
             quite right. So I went over to a discord UI channel to ask for
             feedback. They rightfully pointed out that I should not use a dark
             theme for large chunks of text. So I changed it to the current
-            design you're now viewing 🙂.
+            design you're viewing now 🙂.
           </p>
           <h3>Code</h3>
           <p>
             Initially, I started out in bash because I wanted to learn a new
-            language. It quickly turned out to be too time consuming. Perl and
+            language. It quickly turned out to be too time consuming. Perl or
             Python are much better candidates for the job. I decided to skip my
             own advice of picking the right tool for the job, and going with
             what I know already, Javascript.
@@ -365,57 +367,79 @@
             <p>A good developer is a developer who gets things done.</p>
           </blockquote>
           <h4>Implementing the requirements</h4>
-          <h5>I should only worry about writing content</h5>
-          <p>
-            Everyone and everything is using Markdown to write their content at
-            the moment, so I went with it. This means writing my content in
-            <code>.md</code> files and then converting them to HTML.
-          </p>
-          <p>However, looking back on my decision, I'm not quite convinced.</p>
-          <p>Pros of writing markdown:</p>
+          <ol>
+            <li>
+              <p>I should only worry about writing content</p>
+              <p>
+                Everyone and everything is using Markdown to write their content
+                at the moment, so I went with it. This means writing my content
+                in
+                <code>.md</code> files and then converting them to HTML.
+              </p>
+              <p>
+                However, looking back on my decision, I'm not quite convinced.
+              </p>
+              <p>Pros of writing markdown:</p>
+            </li>
+          </ol>
           <ul>
             <li>
-              I, as a frontend developer, do not have to concern myself with
-              cumbersome HTML tags 😄.
-            </li>
-            <li>Euh…</li>
-          </ul>
-          <p>Cons:</p>
-          <ul>
-            <li>
-              I have to write scripts to convert the .md files to .html.
-              Conversion can do unwanted things. I do not know how the package
-              (<a href="https://github.com/showdownjs/showdown">showdown</a>)
-              works.
+              <p>
+                I, as a frontend developer, do not have to concern myself with
+                cumbersome HTML tags 😄.
+              </p>
             </li>
             <li>
-              I had to learn a syntax I wasn't completely familiar with. I
-              referenced this
-              <a
-                href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-                >markdown cheat sheet</a
-              >
-              constantly (How much traffic would this repo get? 🤔😃).
+              <p>Euh…</p>
+              <p>Cons:</p>
+            </li>
+            <li>
+              <p>
+                I have to write scripts to convert the .md files to .html.
+                Conversion can do unwanted things. I do not know how the package
+                (<a href="https://github.com/showdownjs/showdown">showdown</a>)
+                works.
+              </p>
+            </li>
+            <li>
+              <p>
+                I had to learn a syntax I wasn't completely familiar with. I
+                referenced this
+                <a
+                  href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                  >markdown cheat sheet</a
+                >
+                constantly (How much traffic would this repo get? 🤔😃).
+              </p>
             </li>
           </ul>
-          <h5>Images need to be responsive</h5>
-          <p>
-            This means creating 4 versions of each image. Mobile, mobile webP,
-            desktop, desktop webP. After creation, optimize the images.
-          </p>
-          <h5>Svg's need to be inlined</h5>
-          <p>
-            This means you have no extra network request fetching the image.
-            It's not the right technique if you use the same svg frequently.
-          </p>
-          <h5>Make it a single page app</h5>
-          <p>
-            This means, when you're on the index page, and you click on a
-            blogpost, you don't want to load another external recourse
-            (blogpost.html), thus refreshing the page. Or the other way around
-            (blogpost -&gt; index).
-          </p>
-          <p>How I would do it:</p>
+          <ol>
+            <li>
+              <p>Images need to be responsive</p>
+              <p>
+                This means creating 4 versions of each image. Mobile, mobile
+                webP, desktop, desktop webP. After creation, optimize the
+                images.
+              </p>
+            </li>
+            <li>
+              <p>Svg's need to be inlined</p>
+              <p>
+                This means you have no extra network request fetching the image.
+                It's not the right technique if you use the same svg frequently.
+              </p>
+            </li>
+            <li>
+              <p>Make it a single page app</p>
+              <p>
+                This means, when you're on the index page, and you click on a
+                blogpost, you don't want to load another external recourse
+                (blogpost.html), thus refreshing the page. Or the other way
+                around (blogpost -&gt; index).
+              </p>
+              <p>How I would do it:</p>
+            </li>
+          </ol>
           <ul>
             <li>Replace all the anchor tags with functions</li>
             <li>
@@ -436,25 +460,270 @@
               Ask the user the filename of the markdown file to convert, the
               keywords of the blogpost, and a description.
             </li>
+          </ul>
+          <pre><code class="javascript language-javascript">function getFile() {
+  return new Promise(async (resolve, reject) =&gt; {
+    try {
+      const { filename } = await prompts({
+        type: "text",
+        name: "filename",
+        message: `Enter the draft blogpost filename that's ready (without extension)`
+      });
+
+      const file = `../content_draft/${filename}.md`;
+      if (!fs.existsSync(file)) {
+        throw new Error(`${filename}.md not present in ./content_draft`);
+      }
+
+      resolve({ file, filename });
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+</code></pre>
+          <ul>
             <li>Convert the markdown file.</li>
+          </ul>
+          <pre><code class="javascript language-javascript">function convertMarkdownToHtml(markdown) {
+  const converter = new showdown.Converter({
+    noHeaderId: true,
+    headerLevelStart: 2
+  });
+  const html = converter.makeHtml(markdown);
+  return runPrettierOnHtml(html);
+}
+</code></pre>
+          <ul>
             <li>
               Extract the created date, title and images from the html file.
             </li>
+          </ul>
+          <pre><code class="javascript language-javascript">function extractCreatedDate(file) {
+  const { birthTime } = fs.statSync(file);
+  return moment(birthTime).format("YYYY-MM-DD");
+}
+
+const title = markdownConversionHtml.match(/&lt;h2&gt;\n?(.*)\n?&lt;\/h2&gt;/)[1];
+
+function findAllImages(html) {
+  const foundImagesWithCapturingGroups = [
+    ...html.matchAll(/&lt;img src="(.*)" alt="(.*)" \/&gt;/g)
+  ];
+  return foundImagesWithCapturingGroups;
+}
+</code></pre>
+          <ul>
             <li>Create 4 versions of the same image for responsiveness.</li>
+          </ul>
+          <pre><code class="javascript language-javascript">function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
+  return new Promise((resolve, reject) =&gt; {
+    sharp(inputPath)
+      .resize({ width })
+      .toFile(outputPath)
+      .then(_ =&gt; {
+        sharp(outputPath)
+          .webp({ lossless: true })
+          .toFile(webPOutputPath)
+          .then(_ =&gt; {
+            resolve({
+              originalFormat: outputPath,
+              webP: webPOutputPath
+            });
+          })
+          .catch(e =&gt; {
+            reject(e);
+          });
+      })
+      .catch(e =&gt; {
+        reject(e);
+      });
+  });
+}
+</code></pre>
+          <ul>
             <li>Optimize those images</li>
-            <li>Create a blogpost.html file</li>
+          </ul>
+          <pre><code class="javascript language-javascript">function optimizeImages(images) {
+  const svgImages = images.filter(image =&gt; /svg$/.test(image));
+  const jpegImages = images.filter(image =&gt; /jpe?g$/.test(image));
+  const pngImages = images.filter(image =&gt; /png$/.test(image));
+  const webPImages = images.filter(image =&gt; /webp$/.test(image));
+
+  const destination = "../website/assets/images";
+
+  const promises = [
+    imagemin(svgImages, { destination, plugins: [imageminSvgo({})] }),
+    imagemin(jpegImages, { destination, plugins: [imageminJpegtran()] }),
+    imagemin(pngImages, {
+      destination,
+      plugins: [imageminPngquant({ strip: true })]
+    }),
+    imagemin(webPImages, {
+      destination,
+      plugins: [imageminWebp({ quality: 80 })]
+    })
+  ];
+
+  return new Promise((resolve, reject) =&gt; {
+    Promise.all(promises)
+      .then(f =&gt; {
+        console.log("Optimization successful");
+        resolve();
+      })
+      .catch(e =&gt; {
+        reject(e);
+      });
+  });
+}
+</code></pre>
+          <ul>
             <li>
-              Create the blogpost article html for injecting into the index.html
+              Create a blogpost.html file and the blogpost article html for
+              injecting into the index.html
             </li>
+          </ul>
+          <pre><code class="javascript language-javascript">function createBlogHtml(
+  markdownConversionHtml,
+  imagesWithHtml,
+  description,
+  keywords,
+  svg,
+  title,
+  createdDate
+) {
+  const htmlWithResponsiveImages = runPrettierOnHtml(
+    insertResponsiveImages(markdownConversionHtml, imagesWithHtml)
+  );
+  const htmlWithoutHeaderAndSvg = removeHeaderAndSvgFromHtml(
+    htmlWithResponsiveImages
+  );
+  const articleHtml = runPrettierOnHtml(
+    createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg)
+  );
+  const blogHtml = runPrettierOnHtml(
+    injectBlogIntoGenericHtml(
+      htmlWithoutHeaderAndSvg,
+      description,
+      keywords,
+      svg,
+      title,
+      createdDate
+    )
+  );
+  return { articleHtml, blogHtml };
+}
+
+function injectBlogIntoGenericHtml(
+  htmlWithoutHeaderAndSvg,
+  description,
+  newKeywords,
+  svg,
+  title,
+  createdDate
+) {
+  const keywords = `${newKeywords}, ${standardKeywords}`;
+  const content = createArticle(
+    svg,
+    title,
+    createdDate,
+    htmlWithoutHeaderAndSvg
+  );
+  return getGenericHtml(description, keywords, title, content);
+}
+
+function createArticleHeader(svg, title, createdDate, content) {
+  const formattedDate = moment(createdDate).format("DD MMM YYYY");
+  const isForIndexPage = !!!content;
+  return `
+  &lt;article class="${
+    isForIndexPage ? "article-index-page" : "article-blogpost-page"
+  }"&gt;
+    &lt;header&gt;
+      &lt;div&gt;
+        &lt;h2&gt;${title}&lt;/h2&gt;
+        &lt;p&gt;
+          &lt;time datetime="${createdDate}"&gt;
+            ${formattedDate}
+          &lt;/time&gt;
+        &lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="svg-container"&gt;
+        ${svg}
+      &lt;/div&gt;
+    &lt;/header&gt;
+    ${isForIndexPage ? "" : content}
+  &lt;/article&gt;
+`;
+}
+
+function createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg) {
+  const content = `&lt;section&gt;${htmlWithoutHeaderAndSvg}&lt;/section&gt;`;
+  return createArticleHeader(svg, title, createdDate, content);
+}
+
+function getGenericHtml(description, keywords, title, content) {
+  return `
+    &lt;!--
+
+    check out the code at:
+    https://github.com/laurensdewaele/blog
+    --&gt;
+
+    &lt;!DOCTYPE html&gt;
+    &lt;html lang="en"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8" /&gt;
+        &lt;meta name="author" content="Laurens Dewaele" /&gt;
+        &lt;meta name="description" content="${description}" /&gt;
+        &lt;meta name="keywords" content="${keywords}" /&gt;
+        &lt;!--    TODO: Set theme color--&gt;
+        &lt;meta name="theme-color" content="" /&gt;
+        &lt;meta name="color-scheme" content="normal" /&gt;
+        &lt;meta name="robots" content="index,follow" /&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;
+        &lt;link href="./assets/css/styles.css" rel="stylesheet"&gt;
+        &lt;title&gt;${title}&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;nav&gt;
+            &lt;a href="./index.html"&gt;&lt;h1&gt;laurens.codes&lt;/h1&gt;&lt;/a&gt;
+        &lt;/nav&gt;
+        &lt;main&gt;
+            ${content}
+        &lt;/main&gt;
+        &lt;footer&gt;
+            &lt;p&gt;
+                a blog &lt;a href="./about.html"&gt;about&lt;/a&gt; software development
+            &lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `;
+}
+</code></pre>
+          <ul>
             <li>
               Save blogpost into a blogposts.json file. This for eventually
               adding a SPA feel to the website and for rebuilding the html if
               you want to change the generic html.
             </li>
           </ul>
+          <pre><code class="javascript language-javascript">const blogpost = {
+  title,
+  keywords,
+  description,
+  filename,
+  articleHtml: minify(articleHtml),
+  articleHeaderHtml: minify(articleHeaderHtml)
+};
+
+const blogs = getBlogs();
+blogs.push(blogpost);
+writeBlogsToJSON(blogs);
+</code></pre>
           <p>
-            I feel this blogpost is already quite lengthy, check out the code if
-            you want to at
+            Full code is available @
             <a href="https://github.com/laurensdewaele/blog">github</a>.
           </p>
         </section>
@@ -463,5 +732,7 @@
     <footer>
       <p>a blog <a href="./about.html">about</a> software development</p>
     </footer>
+    <script src="https://myCDN.com/prism@v1.x/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"></script>
   </body>
 </html>
