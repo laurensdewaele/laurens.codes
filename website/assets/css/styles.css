@@ -52,10 +52,9 @@
   --gray-h1: rgba(255, 255, 255, 0.75);
   --gray-date: rgba(255, 255, 255, 0.6);
   --black-text: rgba(0, 0, 0, 0.75);
-  --h3: #ff7675;
-  --h4: #55efc4;
-  --h5: #fdcb6e;
-  --h6: #6c5ce7;
+  --h3: #fd5b5b;
+  --h4: #fd8b5b;
+  --h5: #fdf65b;
 }
 
 html {
@@ -225,12 +224,6 @@ h5 {
   text-decoration-color: var(--h5);
 }
 
-h6 {
-  font-size: 1.4rem;
-  text-decoration: underline;
-  text-decoration-color: var(--h6);
-}
-
 img {
   max-width: 100%;
 }
@@ -320,10 +313,6 @@ footer a {
   h5 {
     font-size: 1.4rem;
   }
-
-  h6 {
-    font-size: 1.3rem;
-  }
 }
 
 @media (max-width: 52rem) {
@@ -407,9 +396,5 @@ footer a {
 
   h5 {
     font-size: 1.25rem;
-  }
-
-  h6 {
-    font-size: 1.2rem;
   }
 }

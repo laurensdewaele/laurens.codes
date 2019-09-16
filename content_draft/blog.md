@@ -15,8 +15,6 @@ My **requirements**:
 
 ## How
 
-### Tooling
-
 There's tons of tools available to make blog websites.
 However, if you're a developer, especially a frontend developer, I'm of the opinion that you have to build it yourself. That leaves out WordPress and the likes.
 
@@ -58,7 +56,7 @@ I felt the colors were off a bit, and something else didn't feel quite right. So
 
 ## Code
 
-Initially, I started out in bash because I wanted to learn a new language. It quickly turned out to be too time consuming. Perl and Python are much better candidates for the job. I decided to skip my own advice of picking the right tool for the job, and going with what I know already, Javascript.
+Initially, I started out in bash because I wanted to learn a new language. It quickly turned out to be too time consuming. Perl or Python are much better candidates for the job. I decided to skip my own advice of picking the right tool for the job, and going with what I know already, Javascript.
 
 To quote my friend:
 
@@ -66,53 +64,306 @@ To quote my friend:
 
 ### Implementing the requirements
 
-#### I should only worry about writing content
+1. I should only worry about writing content
 
-Everyone and everything is using Markdown to write their content at the moment, so I went with it. This means writing my content in `.md` files and then converting them to HTML.
+   Everyone and everything is using Markdown to write their content at the moment, so I went with it. This means writing my content in `.md` files and then converting them to HTML.
 
-However, looking back on my decision, I'm not quite convinced.
+   However, looking back on my decision, I'm not quite convinced.
 
-Pros of writing markdown:
+   Pros of writing markdown:
 
-- I, as a frontend developer, do not have to concern myself with cumbersome HTML tags 😄.
-- Euh...
+   - I, as a frontend developer, do not have to concern myself with cumbersome HTML tags 😄.
+   - Euh...
 
-Cons:
+   Cons:
 
-- I have to write scripts to convert the .md files to .html. Conversion can do unwanted things. I do not know how the package ([showdown](https://github.com/showdownjs/showdown)) works.
-- I had to learn a syntax I wasn't completely familiar with. I referenced this [markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) constantly (How much traffic would this repo get? 🤔😃).
+   - I have to write scripts to convert the .md files to .html. Conversion can do unwanted things. I do not know how the package ([showdown](https://github.com/showdownjs/showdown)) works.
+   - I had to learn a syntax I wasn't completely familiar with. I referenced this [markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) constantly (How much traffic would this repo get? 🤔😃).
 
-#### Images need to be responsive
+2. Images need to be responsive
 
-This means creating 4 versions of each image. Mobile, mobile webP, desktop, desktop webP.
-After creation, optimize the images.
+   This means creating 4 versions of each image. Mobile, mobile webP, desktop, desktop webP.
+   After creation, optimize the images.
 
-#### Svg's need to be inlined
+3. Svg's need to be inlined
 
-This means you have no extra network request fetching the image. It's not the right technique if you use the same svg frequently.
+   This means you have no extra network request fetching the image. It's not the right technique if you use the same svg frequently.
 
-#### Make it a single page app
+4. Make it a single page app
 
-This means, when you're on the index page, and you click on a blogpost, you don't want to load another external recourse (blogpost.html), thus refreshing the page. Or the other way around (blogpost -> index).
+   This means, when you're on the index page, and you click on a blogpost, you don't want to load another external recourse (blogpost.html), thus refreshing the page. Or the other way around (blogpost -> index).
 
-How I would do it:
+   How I would do it:
 
-- Replace all the anchor tags with functions
-- Create a blogposts.json that contains all the needed information to construct the heading and content of a blogpost
-- Lazy load that file on the initial load.
-- When you click on a blogpost on the index.html page, delete all other blogposts with js, read the needed content from the blogposts.json file and inject it into the html.
+   - Replace all the anchor tags with functions
+   - Create a blogposts.json that contains all the needed information to construct the heading and content of a blogpost
+   - Lazy load that file on the initial load.
+   - When you click on a blogpost on the index.html page, delete all other blogposts with js, read the needed content from the blogposts.json file and inject it into the html.
 
 ### After the fact
 
 A walkthrough of the code:
 
 - Ask the user the filename of the markdown file to convert, the keywords of the blogpost, and a description.
+
+```javascript
+function getFile() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { filename } = await prompts({
+        type: "text",
+        name: "filename",
+        message: `Enter the draft blogpost filename that's ready (without extension)`
+      });
+
+      const file = `../content_draft/${filename}.md`;
+      if (!fs.existsSync(file)) {
+        throw new Error(`${filename}.md not present in ./content_draft`);
+      }
+
+      resolve({ file, filename });
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+```
+
 - Convert the markdown file.
+
+```javascript
+function convertMarkdownToHtml(markdown) {
+  const converter = new showdown.Converter({
+    noHeaderId: true,
+    headerLevelStart: 2
+  });
+  const html = converter.makeHtml(markdown);
+  return runPrettierOnHtml(html);
+}
+```
+
 - Extract the created date, title and images from the html file.
+
+```javascript
+function extractCreatedDate(file) {
+  const { birthTime } = fs.statSync(file);
+  return moment(birthTime).format("YYYY-MM-DD");
+}
+
+const title = markdownConversionHtml.match(/<h2>\n?(.*)\n?<\/h2>/)[1];
+
+function findAllImages(html) {
+  const foundImagesWithCapturingGroups = [
+    ...html.matchAll(/<img src="(.*)" alt="(.*)" \/>/g)
+  ];
+  return foundImagesWithCapturingGroups;
+}
+```
+
 - Create 4 versions of the same image for responsiveness.
+
+```javascript
+function resizeAndCreateWebp(inputPath, outputPath, webPOutputPath, width) {
+  return new Promise((resolve, reject) => {
+    sharp(inputPath)
+      .resize({ width })
+      .toFile(outputPath)
+      .then(_ => {
+        sharp(outputPath)
+          .webp({ lossless: true })
+          .toFile(webPOutputPath)
+          .then(_ => {
+            resolve({
+              originalFormat: outputPath,
+              webP: webPOutputPath
+            });
+          })
+          .catch(e => {
+            reject(e);
+          });
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+```
+
 - Optimize those images
-- Create a blogpost.html file
-- Create the blogpost article html for injecting into the index.html
+
+```javascript
+function optimizeImages(images) {
+  const svgImages = images.filter(image => /svg$/.test(image));
+  const jpegImages = images.filter(image => /jpe?g$/.test(image));
+  const pngImages = images.filter(image => /png$/.test(image));
+  const webPImages = images.filter(image => /webp$/.test(image));
+
+  const destination = "../website/assets/images";
+
+  const promises = [
+    imagemin(svgImages, { destination, plugins: [imageminSvgo({})] }),
+    imagemin(jpegImages, { destination, plugins: [imageminJpegtran()] }),
+    imagemin(pngImages, {
+      destination,
+      plugins: [imageminPngquant({ strip: true })]
+    }),
+    imagemin(webPImages, {
+      destination,
+      plugins: [imageminWebp({ quality: 80 })]
+    })
+  ];
+
+  return new Promise((resolve, reject) => {
+    Promise.all(promises)
+      .then(f => {
+        console.log("Optimization successful");
+        resolve();
+      })
+      .catch(e => {
+        reject(e);
+      });
+  });
+}
+```
+
+- Create a blogpost.html file and the blogpost article html for injecting into the index.html
+
+```javascript
+function createBlogHtml(
+  markdownConversionHtml,
+  imagesWithHtml,
+  description,
+  keywords,
+  svg,
+  title,
+  createdDate
+) {
+  const htmlWithResponsiveImages = runPrettierOnHtml(
+    insertResponsiveImages(markdownConversionHtml, imagesWithHtml)
+  );
+  const htmlWithoutHeaderAndSvg = removeHeaderAndSvgFromHtml(
+    htmlWithResponsiveImages
+  );
+  const articleHtml = runPrettierOnHtml(
+    createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg)
+  );
+  const blogHtml = runPrettierOnHtml(
+    injectBlogIntoGenericHtml(
+      htmlWithoutHeaderAndSvg,
+      description,
+      keywords,
+      svg,
+      title,
+      createdDate
+    )
+  );
+  return { articleHtml, blogHtml };
+}
+
+function injectBlogIntoGenericHtml(
+  htmlWithoutHeaderAndSvg,
+  description,
+  newKeywords,
+  svg,
+  title,
+  createdDate
+) {
+  const keywords = `${newKeywords}, ${standardKeywords}`;
+  const content = createArticle(
+    svg,
+    title,
+    createdDate,
+    htmlWithoutHeaderAndSvg
+  );
+  return getGenericHtml(description, keywords, title, content);
+}
+
+function createArticleHeader(svg, title, createdDate, content) {
+  const formattedDate = moment(createdDate).format("DD MMM YYYY");
+  const isForIndexPage = !!!content;
+  return `
+  <article class="${
+    isForIndexPage ? "article-index-page" : "article-blogpost-page"
+  }">
+    <header>
+      <div>
+        <h2>${title}</h2>
+        <p>
+          <time datetime="${createdDate}">
+            ${formattedDate}
+          </time>
+        </p>
+      </div>
+      <div class="svg-container">
+        ${svg}
+      </div>
+    </header>
+    ${isForIndexPage ? "" : content}
+  </article>
+`;
+}
+
+function createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg) {
+  const content = `<section>${htmlWithoutHeaderAndSvg}</section>`;
+  return createArticleHeader(svg, title, createdDate, content);
+}
+
+function getGenericHtml(description, keywords, title, content) {
+  return `
+    <!--
+    
+    check out the code at:
+    https://github.com/laurensdewaele/blog
+    -->
+    
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="author" content="Laurens Dewaele" />
+        <meta name="description" content="${description}" />
+        <meta name="keywords" content="${keywords}" />
+        <!--    TODO: Set theme color-->
+        <meta name="theme-color" content="" />
+        <meta name="color-scheme" content="normal" />
+        <meta name="robots" content="index,follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./assets/css/styles.css" rel="stylesheet">
+        <title>${title}</title>
+    </head>
+    <body>
+        <nav>
+            <a href="./index.html"><h1>laurens.codes</h1></a>
+        </nav>
+        <main>
+            ${content}
+        </main>
+        <footer>
+            <p>
+                a blog <a href="./about.html">about</a> software development
+            </p>
+        </footer>
+    </body>
+    </html>
+    `;
+}
+```
+
 - Save blogpost into a blogposts.json file. This for eventually adding a SPA feel to the website and for rebuilding the html if you want to change the generic html.
 
-I feel this blogpost is already quite lengthy, check out the code if you want to at [github](https://github.com/laurensdewaele/blog).
+```javascript
+const blogpost = {
+  title,
+  keywords,
+  description,
+  filename,
+  articleHtml: minify(articleHtml),
+  articleHeaderHtml: minify(articleHeaderHtml)
+};
+
+const blogs = getBlogs();
+blogs.push(blogpost);
+writeBlogsToJSON(blogs);
+```
+
+Full code is available @ [github](https://github.com/laurensdewaele/blog).
