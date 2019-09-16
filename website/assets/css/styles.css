@@ -52,6 +52,10 @@
   --gray-h1: rgba(255, 255, 255, 0.75);
   --gray-date: rgba(255, 255, 255, 0.6);
   --black-text: rgba(0, 0, 0, 0.75);
+  --h3: #ff7675;
+  --h4: #55efc4;
+  --h5: #fdcb6e;
+  --h6: #6c5ce7;
 }
 
 html {
@@ -203,8 +207,28 @@ h3:first-child {
 
 h3 {
   font-weight: 700;
-  font-size: 1.75rem;
+  font-size: 1.7rem;
   line-height: 2, 1875rem;
+  text-decoration: underline;
+  text-decoration-color: var(--h3);
+}
+
+h4 {
+  font-size: 1.6rem;
+  text-decoration: underline;
+  text-decoration-color: var(--h4);
+}
+
+h5 {
+  font-size: 1.5rem;
+  text-decoration: underline;
+  text-decoration-color: var(--h5);
+}
+
+h6 {
+  font-size: 1.4rem;
+  text-decoration: underline;
+  text-decoration-color: var(--h6);
 }
 
 img {
@@ -286,7 +310,19 @@ footer a {
   }
 
   h3 {
+    font-size: 1.6rem;
+  }
+
+  h4 {
     font-size: 1.5rem;
+  }
+
+  h5 {
+    font-size: 1.4rem;
+  }
+
+  h6 {
+    font-size: 1.3rem;
   }
 }
 
@@ -362,6 +398,18 @@ footer a {
   }
 
   h3 {
+    font-size: 1.35rem;
+  }
+
+  h4 {
     font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+  }
+
+  h6 {
+    font-size: 1.2rem;
   }
 }

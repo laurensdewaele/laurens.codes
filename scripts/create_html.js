@@ -424,7 +424,7 @@ function findAllImages(html) {
 }
 
 function removeHeaderAndSvgFromHtml(html) {
-  return html.replace(/^<h2>.*?<\/p>/sg, "");
+  return html.replace(/^<h2>.*?<\/p>/gs, "");
 }
 
 function stripRelativePathForImages(path) {
