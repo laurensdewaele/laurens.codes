@@ -39,3 +39,41 @@ single threaded, isolates
 They have great comparison explanations on the website. Flutter for web developers, Flutter for React Native developers, etc...
 
 Device-independent pixel
+
+
+![Row and column axis alignemnt in flutter](./images/row_column_alignment)
+
+
+Expanded widget: Auto fix size to fit in row or column, or any other layout widget;
+Flex can also be used:
+```dart
+children: [
+    Expanded(
+      child: Image.asset('images/pic1.jpg'),
+    ),
+    Expanded(
+      flex: 2,
+      child: Image.asset('images/pic2.jpg'),
+    ),
+    Expanded(
+      child: Image.asset('images/pic3.jpg'),
+    ),
+  ],
+```
+
+everything is an object in dart
+
+
+flutter docs: 
+State parent vs widget itself:
+Parent: user data
+Widget itself: aesthetics, e.g. animation
+
+Aggressive composability:
+E.g. Padding vs being a property
+
+
+constructor initializer
+
+
+C INTEROP HAHAHAHA OMG
