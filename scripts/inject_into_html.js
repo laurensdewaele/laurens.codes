@@ -1,6 +1,10 @@
 const moment = require("moment");
 
-const { getGenericHtml, standardKeywords } = require("./generic_html");
+const {
+  getGenericHtml,
+  standardKeywords,
+  utteranceScript
+} = require("./generic_html");
 
 function createArticleHeader(svg, title, createdDate, content) {
   const formattedDate = moment(createdDate).format("DD MMM YYYY");
@@ -22,14 +26,24 @@ function createArticleHeader(svg, title, createdDate, content) {
         ${svg}
       </div>
     </header>
-    ${isForIndexPage ? "" : content}
+    ${
+      isForIndexPage
+        ? ""
+        : `
+      <section>
+        ${content}
+      </section>
+      <section>
+        ${utteranceScript}
+      </section>
+      `
+    }
   </article>
 `;
 }
 
 function createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg) {
-  const content = `<section>${htmlWithoutHeaderAndSvg}</section>`;
-  return createArticleHeader(svg, title, createdDate, content);
+  return createArticleHeader(svg, title, createdDate, htmlWithoutHeaderAndSvg);
 }
 
 function injectBlogIntoGenericHtml(

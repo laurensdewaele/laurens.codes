@@ -2,6 +2,15 @@ const standardDescription = "A blog about software engineering.";
 const standardKeywords =
   "blog, software, software engineering, frontend development, development, laurens dewaele";
 const standardTitle = "laurens.codes";
+const utteranceScript = `
+<script src="https://utteranc.es/client.js"
+    repo="laurensdewaele/blog"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async
+></script>
+`;
 
 function getGenericHtml(
   description,
@@ -69,5 +78,6 @@ module.exports = {
   getGenericHtml,
   standardKeywords,
   standardDescription,
-  standardTitle
+  standardTitle,
+  utteranceScript
 };
