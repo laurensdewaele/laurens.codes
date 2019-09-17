@@ -37,7 +37,7 @@ function getGenericHtml(description, keywords, title, content, isIndexPage) {
         <meta name="color-scheme" content="normal" />
         <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preload" href="./assets/css/styles.css" as="style">
+        <link href="./assets/css/styles.css" rel="stylesheet">
         ${isIndexPage ? "" : codeHighlightingCss}
         <title>${title}</title>
     </head>

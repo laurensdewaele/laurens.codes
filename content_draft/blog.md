@@ -44,7 +44,7 @@ Almost went with these next ones (without the ugly AF brackets though), but it d
 In an attempt to make it simple and clean, I made these. They're suuuuper boring though.
 
 ![design 4](./images/design_6.png)
-![design 5](./images/design_7.png)
+![design 5](./images/blog_design_boring.png)
 
 Ah, these feel semi alright.
 
@@ -232,31 +232,23 @@ function optimizeImages(images) {
 ```javascript
 function getGenericHtml(description, keywords, title, content, isIndexPage) {
   const codeHighlightingCss = `
-    <link
-    rel="prefetch"
-    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css"
-    as="style"
+    <link 
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css" 
+        rel="stylesheet" 
     />`;
 
   const codeHighlightingJs = `
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"
-    ></script>
-    <script
-    defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"
-    ></script>
+    <script 
+        async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js">
+    </script>
     `;
 
   return `
     <!--
-
     check out the code at:
     https://github.com/laurensdewaele/blog
-
     -->
-
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -269,7 +261,7 @@ function getGenericHtml(description, keywords, title, content, isIndexPage) {
         <meta name="color-scheme" content="normal" />
         <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preload" href="./assets/css/styles.css" as="style">
+        <link href="./assets/css/styles.css" rel="stylesheet">
         ${isIndexPage ? "" : codeHighlightingCss}
         <title>${title}</title>
     </head>
