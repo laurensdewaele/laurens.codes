@@ -20,8 +20,8 @@ const {
 
 async function createHtml() {
   try {
-    const desktopWidth = 1200;
-    const mobileWidth = 500;
+    const desktopWidth = 800;
+    const mobileWidth = 450;
 
     const { file, filename } = await getFile();
 

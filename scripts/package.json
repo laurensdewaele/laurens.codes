@@ -2,7 +2,8 @@
   "scripts": {
     "start": "node index.js",
     "create": "npm run start",
-    "rebuild": "node rebuild_html.js"
+    "rebuild:html": "node rebuild_html.js",
+    "generate:about": "node about.js"
   },
   "dependencies": {
     "html-minifier": "^4.0.0",

@@ -10,10 +10,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="author" content="Laurens Dewaele" />
-    <meta name="description" content="" />
+    <meta
+      name="description"
+      content="A blogpost on how I made my own static site generator"
+    />
     <meta
       name="keywords"
-      content=", blog, software, software engineering, frontend development, development, laurens dewaele"
+      content="blog, static site generator, nodejs, javascript, building your own static site generator, blog, software, software engineering, frontend development, development, laurens dewaele"
     />
     <!--    TODO: Set theme color-->
     <meta name="theme-color" content="" />
@@ -127,7 +130,7 @@
               I only want to write content, thus automating everything else.
             </li>
             <li>Images need to be responsive.</li>
-            <li>Svg's need to be inlined.</li>
+            <li>Inline the article svg.</li>
             <li>Make it an SPA. This is a nice to have.</li>
           </ul>
           <h3>How</h3>
@@ -146,14 +149,12 @@
           </p>
           <p>
             Then there's Hugo, Jekyll, and the one that fits my needs the most,
-            <a href="https://www.11ty.io/docs/">eleventy</a>. The thing is, I
-            feel like I'm constantly having to learn new APIs instead of
-            actually coding. I'm tired of digging into documentation to make the
-            thing do what I want it to do.
-          </p>
-          <p>
-            For <strong>simple enough stuff</strong> like a blog, I'd much
-            rather do it all myself.
+            <a href="https://www.11ty.io/docs/">eleventy</a>. The thing is,
+            sometimes I feel like I'm constantly having to learn new APIs
+            instead of actually coding. I'm tired of digging into documentation
+            to make the thing do what I want it to do. For
+            <strong>simple enough stuff</strong> like a blog, I'd much rather do
+            it all myself.
           </p>
           <h3>Design</h3>
           <p>Let's not forget design. I'm a noob but love to tinker with it.</p>
@@ -162,23 +163,23 @@
             <picture>
               <source
                 type="image/webp"
-                srcset="./assets/images/design_1_w_1200.webp"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_1_w_800.webp"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
-                srcset="./assets/images/design_1_w_500.webp"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_1_w_450.webp"
+                media="(max-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_1_w_1200.png"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_1_w_800.png"
+                media="(min-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_1_w_500.png"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_1_w_450.png"
+                media="(max-width: 450px)"
               />
-              <img src="./assets/images/design_1_w_1200.png" alt="design 1" />
+              <img src="./assets/images/design_1_w_800.png" alt="design 1" />
             </picture>
           </p>
           <p>
@@ -190,45 +191,45 @@
             <picture>
               <source
                 type="image/webp"
-                srcset="./assets/images/design_2_w_1200.webp"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_2_w_800.webp"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
-                srcset="./assets/images/design_2_w_500.webp"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_2_w_450.webp"
+                media="(max-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_2_w_1200.png"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_2_w_800.png"
+                media="(min-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_2_w_500.png"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_2_w_450.png"
+                media="(max-width: 450px)"
               />
-              <img src="./assets/images/design_2_w_1200.png" alt="design 2" />
+              <img src="./assets/images/design_2_w_800.png" alt="design 2" />
             </picture>
 
             <picture>
               <source
                 type="image/webp"
-                srcset="./assets/images/design_3_w_1200.webp"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_3_w_800.webp"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
-                srcset="./assets/images/design_3_w_500.webp"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_3_w_450.webp"
+                media="(max-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_3_w_1200.png"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_3_w_800.png"
+                media="(min-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_3_w_500.png"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_3_w_450.png"
+                media="(max-width: 450px)"
               />
-              <img src="./assets/images/design_3_w_1200.png" alt="design 3" />
+              <img src="./assets/images/design_3_w_800.png" alt="design 3" />
             </picture>
           </p>
           <p>
@@ -240,20 +241,20 @@
               <source
                 type="image/webp"
                 srcset="./assets/images/design_6_w_360.webp"
-                media="(min-width: 500px)"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
                 srcset="./assets/images/design_6_w_360.webp"
-                media="(max-width: 500px)"
+                media="(max-width: 450px)"
               />
               <source
                 srcset="./assets/images/design_6_w_360.png"
-                media="(min-width: 500px)"
+                media="(min-width: 450px)"
               />
               <source
                 srcset="./assets/images/design_6_w_360.png"
-                media="(max-width: 500px)"
+                media="(max-width: 450px)"
               />
               <img src="./assets/images/design_6_w_360.png" alt="design 4" />
             </picture>
@@ -261,23 +262,26 @@
             <picture>
               <source
                 type="image/webp"
-                srcset="./assets/images/design_7_w_1200.webp"
-                media="(min-width: 500px)"
+                srcset="./assets/images/blog_design_boring_w_800.webp"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
-                srcset="./assets/images/design_7_w_500.webp"
-                media="(max-width: 500px)"
+                srcset="./assets/images/blog_design_boring_w_450.webp"
+                media="(max-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_7_w_1200.png"
-                media="(min-width: 500px)"
+                srcset="./assets/images/blog_design_boring_w_800.png"
+                media="(min-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_7_w_500.png"
-                media="(max-width: 500px)"
+                srcset="./assets/images/blog_design_boring_w_450.png"
+                media="(max-width: 450px)"
               />
-              <img src="./assets/images/design_7_w_1200.png" alt="design 5" />
+              <img
+                src="./assets/images/blog_design_boring_w_800.png"
+                alt="design 5"
+              />
             </picture>
           </p>
           <p>Ah, these feel semi alright.</p>
@@ -285,65 +289,65 @@
             <picture>
               <source
                 type="image/webp"
-                srcset="./assets/images/design_8_w_1200.webp"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_8_w_800.webp"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
-                srcset="./assets/images/design_8_w_500.webp"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_8_w_450.webp"
+                media="(max-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_8_w_1200.png"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_8_w_800.png"
+                media="(min-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_8_w_500.png"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_8_w_450.png"
+                media="(max-width: 450px)"
               />
-              <img src="./assets/images/design_8_w_1200.png" alt="design 6" />
+              <img src="./assets/images/design_8_w_800.png" alt="design 6" />
             </picture>
 
             <picture>
               <source
                 type="image/webp"
-                srcset="./assets/images/design_9_w_1200.webp"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_9_w_800.webp"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
-                srcset="./assets/images/design_9_w_500.webp"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_9_w_450.webp"
+                media="(max-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_9_w_1200.png"
-                media="(min-width: 500px)"
+                srcset="./assets/images/design_9_w_800.png"
+                media="(min-width: 450px)"
               />
               <source
-                srcset="./assets/images/design_9_w_500.png"
-                media="(max-width: 500px)"
+                srcset="./assets/images/design_9_w_450.png"
+                media="(max-width: 450px)"
               />
-              <img src="./assets/images/design_9_w_1200.png" alt="design 7" />
+              <img src="./assets/images/design_9_w_800.png" alt="design 7" />
             </picture>
 
             <picture>
               <source
                 type="image/webp"
                 srcset="./assets/images/design_10_w_360.webp"
-                media="(min-width: 500px)"
+                media="(min-width: 450px)"
               />
               <source
                 type="image/webp"
                 srcset="./assets/images/design_10_w_360.webp"
-                media="(max-width: 500px)"
+                media="(max-width: 450px)"
               />
               <source
                 srcset="./assets/images/design_10_w_360.png"
-                media="(min-width: 500px)"
+                media="(min-width: 450px)"
               />
               <source
                 srcset="./assets/images/design_10_w_360.png"
-                media="(max-width: 500px)"
+                media="(max-width: 450px)"
               />
               <img src="./assets/images/design_10_w_360.png" alt="design 8" />
             </picture>
@@ -357,11 +361,10 @@
           </p>
           <h3>Code</h3>
           <p>
-            Initially, I started out in bash because I wanted to learn a new
-            language. It quickly turned out to be too time consuming. Perl or
-            Python are much better candidates for the job. I decided to skip my
-            own advice of picking the right tool for the job, and going with
-            what I know already, Javascript.
+            Initially, I started out in bash because I wanted to learn it. It
+            quickly turned out to be too time consuming. Perl or Python would be
+            much better candidates for the job. I decided to with what I already
+            know, Javascript.
           </p>
           <p>To quote my friend:</p>
           <blockquote>
@@ -388,7 +391,7 @@
             <li>
               I have to write scripts to convert the .md files to .html.
               Conversion can do unwanted things. I do not know how the package
-              (<a href="https://github.com/showdownjs/showdown">showdown</a>)
+              (<a href="https://github.com/showdownjs/showdown">showdownjs</a>)
               works.
             </li>
             <li>
@@ -406,7 +409,7 @@
             This means creating 4 versions of each image. Mobile, mobile webP,
             desktop, desktop webP. After creation, optimize the images.
           </p>
-          <h5>Svgs need to be inlined</h5>
+          <h5>Inline the main article svg</h5>
           <p>
             This means you have no extra network request fetching the image.
             It's not the right technique if you use the same svg frequently.
@@ -433,7 +436,7 @@
             </li>
           </ul>
           <h4>After the fact</h4>
-          <p>A walkthrough of the code:</p>
+          <p>A walkthrough and some code snippets:</p>
           <ul>
             <li>
               Ask the user the filename of the markdown file to convert, the
@@ -560,36 +563,29 @@ function findAllImages(html) {
             <li>
               Create a blogpost.html file and the blogpost article html for
               injecting into the index.html P.S.: Code shows only the
-              genericHTML, the code sample would be too big otherwise.
+              genericHTML (used for index and blogpost.html), the code sample
+              would be too big otherwise.
             </li>
           </ul>
           <pre><code class="javascript language-javascript">function getGenericHtml(description, keywords, title, content, isIndexPage) {
   const codeHighlightingCss = `
-    &lt;link
-    rel="prefetch"
-    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css"
-    as="style"
+    &lt;link 
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css" 
+        rel="stylesheet" 
     /&gt;`;
 
   const codeHighlightingJs = `
-    &lt;script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"
-    &gt;&lt;/script&gt;
-    &lt;script
-    defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"
-    &gt;&lt;/script&gt;
+    &lt;script 
+        async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"&gt;
+    &lt;/script&gt;
     `;
 
   return `
     &lt;!--
-
     check out the code at:
     https://github.com/laurensdewaele/blog
-
     --&gt;
-
     &lt;!DOCTYPE html&gt;
     &lt;html lang="en"&gt;
     &lt;head&gt;
@@ -602,7 +598,7 @@ function findAllImages(html) {
         &lt;meta name="color-scheme" content="normal" /&gt;
         &lt;meta name="robots" content="index,follow" /&gt;
         &lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;
-        &lt;link rel="preload" href="./assets/css/styles.css" as="style"&gt;
+        &lt;link href="./assets/css/styles.css" rel="stylesheet"&gt;
         ${isIndexPage ? "" : codeHighlightingCss}
         &lt;title&gt;${title}&lt;/title&gt;
     &lt;/head&gt;
@@ -627,8 +623,8 @@ function findAllImages(html) {
           <ul>
             <li>
               Save blogpost into a blogposts.json file. This for eventually
-              adding a SPA feel to the website and for rebuilding the html if
-              you want to change the generic html.
+              adding a SPA feel to the website and for rebuilding the html after
+              you change the generic html.
             </li>
           </ul>
           <pre><code class="javascript language-javascript">const blogpost = {

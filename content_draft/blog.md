@@ -10,7 +10,7 @@ My **requirements**:
 
 - I only want to write content, thus automating everything else.
 - Images need to be responsive.
-- Svg's need to be inlined.
+- Inline the article svg.
 - Make it an SPA. This is a nice to have.
 
 ## How
@@ -23,9 +23,7 @@ It's quick and easy (if you're proficient in those frameworks).
 But, it comes with a bunch of client side Javascript that is totally unnecessary.
 
 Then there's Hugo, Jekyll, and the one that fits my needs the most, [eleventy](https://www.11ty.io/docs/).
-The thing is, I feel like I'm constantly having to learn new APIs instead of actually coding. I'm tired of digging into documentation to make the thing do what I want it to do.
-
-For **simple enough stuff** like a blog, I'd much rather do it all myself.
+The thing is, sometimes I feel like I'm constantly having to learn new APIs instead of actually coding. I'm tired of digging into documentation to make the thing do what I want it to do. For **simple enough stuff** like a blog, I'd much rather do it all myself.
 
 ## Design
 
@@ -56,7 +54,7 @@ I felt the colors were off a bit, and something else didn't feel quite right. So
 
 ## Code
 
-Initially, I started out in bash because I wanted to learn a new language. It quickly turned out to be too time consuming. Perl or Python are much better candidates for the job. I decided to skip my own advice of picking the right tool for the job, and going with what I know already, Javascript.
+Initially, I started out in bash because I wanted to learn it. It quickly turned out to be too time consuming. Perl or Python would be much better candidates for the job. I decided to with what I already know, Javascript.
 
 To quote my friend:
 
@@ -77,7 +75,7 @@ Pros of writing markdown:
 
 Cons:
 
-- I have to write scripts to convert the .md files to .html. Conversion can do unwanted things. I do not know how the package ([showdown](https://github.com/showdownjs/showdown)) works.
+- I have to write scripts to convert the .md files to .html. Conversion can do unwanted things. I do not know how the package ([showdownjs](https://github.com/showdownjs/showdown)) works.
 - I had to learn a syntax I wasn't completely familiar with. I referenced this [markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) constantly (How much traffic would this repo get? 🤔😃).
 
 #### Images need to be responsive
@@ -85,7 +83,7 @@ Cons:
 This means creating 4 versions of each image. Mobile, mobile webP, desktop, desktop webP.
 After creation, optimize the images.
 
-#### Svgs need to be inlined
+#### Inline the main article svg
 
 This means you have no extra network request fetching the image. It's not the right technique if you use the same svg frequently.
 
@@ -102,7 +100,7 @@ How I would do it:
 
 ### After the fact
 
-A walkthrough of the code:
+A walkthrough and some code snippets:
 
 - Ask the user the filename of the markdown file to convert, the keywords of the blogpost, and a description.
 
@@ -227,7 +225,7 @@ function optimizeImages(images) {
 ```
 
 - Create a blogpost.html file and the blogpost article html for injecting into the index.html
-  P.S.: Code shows only the genericHTML, the code sample would be too big otherwise.
+  P.S.: Code shows only the genericHTML (used for index and blogpost.html), the code sample would be too big otherwise.
 
 ```javascript
 function getGenericHtml(description, keywords, title, content, isIndexPage) {
@@ -284,7 +282,7 @@ function getGenericHtml(description, keywords, title, content, isIndexPage) {
 }
 ```
 
-- Save blogpost into a blogposts.json file. This for eventually adding a SPA feel to the website and for rebuilding the html if you want to change the generic html.
+- Save blogpost into a blogposts.json file. This for eventually adding a SPA feel to the website and for rebuilding the html after you change the generic html.
 
 ```javascript
 const blogpost = {

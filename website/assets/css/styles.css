@@ -278,6 +278,12 @@ footer a {
   border-bottom: 2px solid var(--blue);
 }
 
+.about-content {
+  width: 100%;
+  max-width: 50rem;
+  padding: 1rem;
+}
+
 @media (max-width: 62rem) {
   .article-blogpost-page {
     max-width: 50rem;

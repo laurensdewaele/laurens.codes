@@ -47,7 +47,7 @@ function injectBlogIntoGenericHtml(
     createdDate,
     htmlWithoutHeaderAndSvg
   );
-  return getGenericHtml(description, keywords, title, content);
+  return getGenericHtml(description, keywords, title, content, true);
 }
 
 module.exports = {
