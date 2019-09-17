@@ -301,3 +301,5 @@ writeBlogsToJSON(blogs);
 ```
 
 Full code is available @ [github](https://github.com/laurensdewaele/blog).
+Oh yeah, and commenting is done by creating issues on Github. But all of this is handled by [utterance.es](utteranc.es), it's perfect!
+x

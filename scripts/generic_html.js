@@ -68,7 +68,18 @@ function getGenericHtml(
                 a blog <a href="./about.html">about</a> software development
             </p>
         </footer>
+
         ${needsCodeHighlighting ? codeHighlightingJs : ""}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97560888-5"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-97560888-5');
+        </script>
+        
     </body>
     </html>
     `;

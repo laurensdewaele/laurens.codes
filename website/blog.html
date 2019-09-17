@@ -12,11 +12,11 @@
     <meta name="author" content="Laurens Dewaele" />
     <meta
       name="description"
-      content="A blog post about building a custom static site generator"
+      content="A blog post about building a static site generator"
     />
     <meta
       name="keywords"
-      content="blog, building a custom static site generator, static site generator, javascript, frontend, html, nodejs, blog, software, software engineering, frontend development, development, laurens dewaele"
+      content="blog, static site generator, building a custom static site generator, nodejs, javascript, commenting, utteranc.es, github issues, blog, software, software engineering, frontend development, development, laurens dewaele"
     />
     <!--    TODO: Set theme color-->
     <meta name="theme-color" content="" />
@@ -645,7 +645,10 @@ writeBlogsToJSON(blogs);
 </code></pre>
           <p>
             Full code is available @
-            <a href="https://github.com/laurensdewaele/blog">github</a>.
+            <a href="https://github.com/laurensdewaele/blog">github</a>. Oh
+            yeah, and commenting is done by creating issues on Github. But all
+            of this is handled by <a href="utteranc.es">utterance.es</a>, it's
+            perfect!
           </p>
         </section>
         <section>
@@ -668,5 +671,20 @@ writeBlogsToJSON(blogs);
       async
       src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"
     ></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-97560888-5"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-97560888-5");
+    </script>
   </body>
 </html>
