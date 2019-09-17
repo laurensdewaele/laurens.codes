@@ -25,12 +25,14 @@ function rebuildIndexHtml() {
     const { filename, articleHeaderHtml } = blogpost;
     return `<a href="./${filename}.html">${articleHeaderHtml}</a>`;
   });
+  const isIndexPage = true;
   const indexHtml = runPrettierOnHtml(
     getGenericHtml(
       standardDescription,
       standardKeywords,
       standardTitle,
-      indexContent
+      indexContent,
+      isIndexPage
     )
   );
   fs.writeFileSync("../website/index.html", indexHtml);
@@ -39,12 +41,14 @@ function rebuildIndexHtml() {
 function rebuildBlogpostsHtml() {
   blogposts.forEach(blogpost => {
     const { description, keywords, title, articleHtml, filename } = blogpost;
+    const isIndexPage = false;
     const html = runPrettierOnHtml(
       getGenericHtml(
         description,
         `${keywords}, ${standardKeywords}`,
         title,
-        articleHtml
+        articleHtml,
+        isIndexPage
       )
     );
     fs.writeFileSync(`../website/${filename}.html`, html);

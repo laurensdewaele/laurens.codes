@@ -40,12 +40,11 @@ They have great comparison explanations on the website. Flutter for web develope
 
 Device-independent pixel
 
-
 ![Row and column axis alignemnt in flutter](./images/row_column_alignment)
-
 
 Expanded widget: Auto fix size to fit in row or column, or any other layout widget;
 Flex can also be used:
+
 ```dart
 children: [
     Expanded(
@@ -63,8 +62,7 @@ children: [
 
 everything is an object in dart
 
-
-flutter docs: 
+flutter docs:
 State parent vs widget itself:
 Parent: user data
 Widget itself: aesthetics, e.g. animation
@@ -72,8 +70,6 @@ Widget itself: aesthetics, e.g. animation
 Aggressive composability:
 E.g. Padding vs being a property
 
-
 constructor initializer
-
 
 C INTEROP HAHAHAHA OMG

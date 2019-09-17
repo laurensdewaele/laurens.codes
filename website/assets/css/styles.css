@@ -52,9 +52,8 @@
   --gray-h1: rgba(255, 255, 255, 0.75);
   --gray-date: rgba(255, 255, 255, 0.6);
   --black-text: rgba(0, 0, 0, 0.75);
-  --h3: #fd5b5b;
-  --h4: #fd8b5b;
-  --h5: #fdf65b;
+  --h3: #ff6a6a;
+  --h4: #fff96a;
 }
 
 html {
@@ -220,8 +219,6 @@ h4 {
 
 h5 {
   font-size: 1.5rem;
-  text-decoration: underline;
-  text-decoration-color: var(--h5);
 }
 
 img {
@@ -246,9 +243,8 @@ pre {
 }
 
 code {
-  font-family: "Lekton";
-  color: var(--white-section);
-  background-color: var(--black-header-background);
+  /* !important, otherwise prismjs (code highlighting) would override it */
+  font-family: "Lekton" !important;
 }
 
 blockquote::before {

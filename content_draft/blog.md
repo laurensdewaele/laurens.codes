@@ -64,41 +64,41 @@ To quote my friend:
 
 ### Implementing the requirements
 
-1. I should only worry about writing content
+#### I should only worry about writing content
 
-   Everyone and everything is using Markdown to write their content at the moment, so I went with it. This means writing my content in `.md` files and then converting them to HTML.
+Everyone and everything is using Markdown to write their content at the moment, so I went with it. This means writing my content in `.md` files and then converting them to HTML.
 
-   However, looking back on my decision, I'm not quite convinced.
+However, looking back on my decision, I'm not quite convinced.
 
-   Pros of writing markdown:
+Pros of writing markdown:
 
-   - I, as a frontend developer, do not have to concern myself with cumbersome HTML tags 😄.
-   - Euh...
+- I, as a frontend developer, do not have to concern myself with cumbersome HTML tags 😄.
+- Euh...
 
-   Cons:
+Cons:
 
-   - I have to write scripts to convert the .md files to .html. Conversion can do unwanted things. I do not know how the package ([showdown](https://github.com/showdownjs/showdown)) works.
-   - I had to learn a syntax I wasn't completely familiar with. I referenced this [markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) constantly (How much traffic would this repo get? 🤔😃).
+- I have to write scripts to convert the .md files to .html. Conversion can do unwanted things. I do not know how the package ([showdown](https://github.com/showdownjs/showdown)) works.
+- I had to learn a syntax I wasn't completely familiar with. I referenced this [markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) constantly (How much traffic would this repo get? 🤔😃).
 
-2. Images need to be responsive
+#### Images need to be responsive
 
-   This means creating 4 versions of each image. Mobile, mobile webP, desktop, desktop webP.
-   After creation, optimize the images.
+This means creating 4 versions of each image. Mobile, mobile webP, desktop, desktop webP.
+After creation, optimize the images.
 
-3. Svg's need to be inlined
+#### Svgs need to be inlined
 
-   This means you have no extra network request fetching the image. It's not the right technique if you use the same svg frequently.
+This means you have no extra network request fetching the image. It's not the right technique if you use the same svg frequently.
 
-4. Make it a single page app
+#### Make it a single page app
 
-   This means, when you're on the index page, and you click on a blogpost, you don't want to load another external recourse (blogpost.html), thus refreshing the page. Or the other way around (blogpost -> index).
+This means, when you're on the index page, and you click on a blogpost, you don't want to load another external recourse (blogpost.html), thus refreshing the page. Or the other way around (blogpost -> index).
 
-   How I would do it:
+How I would do it:
 
-   - Replace all the anchor tags with functions
-   - Create a blogposts.json that contains all the needed information to construct the heading and content of a blogpost
-   - Lazy load that file on the initial load.
-   - When you click on a blogpost on the index.html page, delete all other blogposts with js, read the needed content from the blogposts.json file and inject it into the html.
+- Replace all the anchor tags with functions with simple js.
+- Create a blogposts.json that contains all the needed information to construct the heading and content of a blogpost.
+- Lazy load that file on the initial load.
+- When you click on a blogpost on the index.html page, delete all other blogposts with js, read the needed content from the blogposts.json file and inject it into the html.
 
 ### After the fact
 
@@ -227,95 +227,36 @@ function optimizeImages(images) {
 ```
 
 - Create a blogpost.html file and the blogpost article html for injecting into the index.html
+  P.S.: Code shows only the genericHTML, the code sample would be too big otherwise.
 
 ```javascript
-function createBlogHtml(
-  markdownConversionHtml,
-  imagesWithHtml,
-  description,
-  keywords,
-  svg,
-  title,
-  createdDate
-) {
-  const htmlWithResponsiveImages = runPrettierOnHtml(
-    insertResponsiveImages(markdownConversionHtml, imagesWithHtml)
-  );
-  const htmlWithoutHeaderAndSvg = removeHeaderAndSvgFromHtml(
-    htmlWithResponsiveImages
-  );
-  const articleHtml = runPrettierOnHtml(
-    createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg)
-  );
-  const blogHtml = runPrettierOnHtml(
-    injectBlogIntoGenericHtml(
-      htmlWithoutHeaderAndSvg,
-      description,
-      keywords,
-      svg,
-      title,
-      createdDate
-    )
-  );
-  return { articleHtml, blogHtml };
-}
+function getGenericHtml(description, keywords, title, content, isIndexPage) {
+  const codeHighlightingCss = `
+    <link
+    rel="prefetch"
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css"
+    as="style"
+    />`;
 
-function injectBlogIntoGenericHtml(
-  htmlWithoutHeaderAndSvg,
-  description,
-  newKeywords,
-  svg,
-  title,
-  createdDate
-) {
-  const keywords = `${newKeywords}, ${standardKeywords}`;
-  const content = createArticle(
-    svg,
-    title,
-    createdDate,
-    htmlWithoutHeaderAndSvg
-  );
-  return getGenericHtml(description, keywords, title, content);
-}
+  const codeHighlightingJs = `
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"
+    ></script>
+    <script
+    defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"
+    ></script>
+    `;
 
-function createArticleHeader(svg, title, createdDate, content) {
-  const formattedDate = moment(createdDate).format("DD MMM YYYY");
-  const isForIndexPage = !!!content;
-  return `
-  <article class="${
-    isForIndexPage ? "article-index-page" : "article-blogpost-page"
-  }">
-    <header>
-      <div>
-        <h2>${title}</h2>
-        <p>
-          <time datetime="${createdDate}">
-            ${formattedDate}
-          </time>
-        </p>
-      </div>
-      <div class="svg-container">
-        ${svg}
-      </div>
-    </header>
-    ${isForIndexPage ? "" : content}
-  </article>
-`;
-}
-
-function createArticle(svg, title, createdDate, htmlWithoutHeaderAndSvg) {
-  const content = `<section>${htmlWithoutHeaderAndSvg}</section>`;
-  return createArticleHeader(svg, title, createdDate, content);
-}
-
-function getGenericHtml(description, keywords, title, content) {
   return `
     <!--
-    
+
     check out the code at:
     https://github.com/laurensdewaele/blog
+
     -->
-    
+
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -328,7 +269,8 @@ function getGenericHtml(description, keywords, title, content) {
         <meta name="color-scheme" content="normal" />
         <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="./assets/css/styles.css" rel="stylesheet">
+        <link rel="preload" href="./assets/css/styles.css" as="style">
+        ${isIndexPage ? "" : codeHighlightingCss}
         <title>${title}</title>
     </head>
     <body>
@@ -343,6 +285,7 @@ function getGenericHtml(description, keywords, title, content) {
                 a blog <a href="./about.html">about</a> software development
             </p>
         </footer>
+        ${isIndexPage ? "" : codeHighlightingJs}
     </body>
     </html>
     `;

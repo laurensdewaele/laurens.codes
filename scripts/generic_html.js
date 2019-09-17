@@ -3,7 +3,20 @@ const standardKeywords =
   "blog, software, software engineering, frontend development, development, laurens dewaele";
 const standardTitle = "laurens.codes";
 
-function getGenericHtml(description, keywords, title, content) {
+function getGenericHtml(description, keywords, title, content, isIndexPage) {
+  const codeHighlightingCss = `
+    <link 
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css" 
+        rel="stylesheet" 
+    />`;
+
+  const codeHighlightingJs = `
+    <script 
+        async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js">
+    </script>
+    `;
+
   return `
     <!--
     
@@ -24,7 +37,8 @@ function getGenericHtml(description, keywords, title, content) {
         <meta name="color-scheme" content="normal" />
         <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="./assets/css/styles.css" rel="stylesheet">
+        <link rel="preload" href="./assets/css/styles.css" as="style">
+        ${isIndexPage ? "" : codeHighlightingCss}
         <title>${title}</title>
     </head>
     <body>
@@ -39,6 +53,7 @@ function getGenericHtml(description, keywords, title, content) {
                 a blog <a href="./about.html">about</a> software development
             </p>
         </footer>
+        ${isIndexPage ? "" : codeHighlightingJs}
     </body>
     </html>
     `;
