@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "start": "node index.js",
-    "create": "npm run start",
-    "rebuild:html": "node rebuild_html.js",
-    "generate:about": "node about.js"
+    "create-json": "node index.js",
+    "create": "npm run create-json && npm run build-html",
+    "build-html": "node build_html.js",
+    "generate-about": "node about.js"
   },
   "dependencies": {
     "html-minifier": "^4.0.0",

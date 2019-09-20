@@ -32,9 +32,6 @@ async function createHtml() {
       );
       const blogs = removeBlogPostFromJSON(existingBlogs, filename);
       writeBlogsToJSON(blogs);
-      console.log(
-        "Run 'npm run rebuild' after this script finishes so it does not appear twice in the index.html"
-      );
     }
 
     keywords = await getKeywords();
@@ -69,20 +66,10 @@ async function createHtml() {
       encoding: "UTF-8"
     });
     const articleHeaderHtml = createArticleHeader(svg, title, createdDate);
-    const newIndexHtml = runPrettierOnHtml(
-      indexHtml.replace(
-        "<main>",
-        `<main>
-            <a href="./${filename}.html">
-            ${articleHeaderHtml}
-          </a>
-        `
-      )
-    );
-    fs.writeFileSync("../website/index.html", newIndexHtml);
 
     // Write JSON to enable SPA feel later on
     const blogpost = {
+      createdDate,
       title,
       keywords,
       description,

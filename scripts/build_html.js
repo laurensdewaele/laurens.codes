@@ -2,6 +2,7 @@
  * In order to rebuild the html files after the generic html has changed
  */
 const fs = require("fs");
+const moment = require("moment");
 
 const {
   getGenericHtml,
@@ -21,17 +22,25 @@ rebuildBlogpostsHtml();
 rebuildIndexHtml();
 
 function rebuildIndexHtml() {
-  const indexContent = blogposts.map(blogpost => {
-    const { filename, articleHeaderHtml } = blogpost;
-    return `<a href="./${filename}.html">${articleHeaderHtml}</a>`;
-  });
+  const sortedIndexContent = blogposts
+    .sort((a, b) => {
+      const valueA = moment(a.createdDate).valueOf();
+      const valueB = moment(b.createdDate).valueOf();
+      return valueB - valueA;
+    })
+    .map(blogpost => {
+      const { filename, articleHeaderHtml } = blogpost;
+      return `<a href="./${filename}.html">${articleHeaderHtml}</a>`;
+    })
+    .join("");
+
   const needsCodeHighlighting = false;
   const indexHtml = runPrettierOnHtml(
     getGenericHtml(
       standardDescription,
       standardKeywords,
       standardTitle,
-      indexContent,
+      sortedIndexContent,
       needsCodeHighlighting
     )
   );
