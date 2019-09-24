@@ -43,7 +43,9 @@
 
 :root {
   --blue: rgba(97, 218, 251, 1);
-  --blue-anchor: rgba(45, 148, 243, 1);
+  --blue-dark: #10a8c8;
+  --blue-light: #9affff;
+  --blue-anchor: var(--blue-dark);
   --black-background: rgba(43, 43, 43, 1);
   --black-header-background: rgba(54, 54, 54, 1);
   --black-border: rgba(0, 0, 0, 0.3);
@@ -52,8 +54,6 @@
   --gray-h1: rgba(255, 255, 255, 0.75);
   --gray-date: rgba(255, 255, 255, 0.6);
   --black-text: rgba(0, 0, 0, 0.75);
-  --h3: #fd971f;
-  --h4: #e6db74;
 }
 
 html {
@@ -222,18 +222,14 @@ h3 {
   font-weight: 700;
   font-size: 1.7rem;
   line-height: 2, 1875rem;
-  text-decoration: underline;
-  text-decoration-color: var(--h3);
 }
 
 h4 {
-  font-size: 1.6rem;
-  text-decoration: underline;
-  text-decoration-color: var(--h4);
+  font-size: 1.5rem;
 }
 
 h5 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 img {
@@ -324,11 +320,11 @@ footer a {
   }
 
   h4 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   h5 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -408,10 +404,10 @@ footer a {
   }
 
   h4 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
   }
 
   h5 {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 }
