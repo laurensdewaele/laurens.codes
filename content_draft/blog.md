@@ -1,6 +1,6 @@
 # The creation of my blog, aka my own static site generator
 
-![build icon](./images/build.svg)
+![build icon](./images/wrench.svg)
 
 ## What
 

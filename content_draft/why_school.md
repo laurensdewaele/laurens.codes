@@ -1,6 +1,6 @@
 # Justifying decisions
 
-![scratching head](./images/scratching_head.svg)
+![scratching head](./images/thinking_man.svg)
 
 I'm having a hard time lately justifying my decisions, or how I divide my time.
 As you may or may not know, I'm trying to launch an app myself.

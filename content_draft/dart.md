@@ -1,8 +1,16 @@
-Dart is a full-on object oriented language, with classes and mixin-based inheritance. Every objects is an instance of a class, and all classes descend from `Object`.
+Dart is a full-on object oriented language, with classes and mixin-based inheritance. Every object is an instance of a class, and all classes descend from `Object`.
 
-Dart is single threaded. Everything runs on what's called in isolate. An isolate has it's own memory.
-Multiple isolates can be spawned. State / memory from one isolate is inaccessible by the other.
-Communication between isolates is done by messages.
+Dart is single threaded. Everything runs in what's called an isolate. An isolate has it's own memory.
+Multiple isolates can be spawned. State / memory from one isolate is inaccessible by the other isolate.
+Communication between isolates is done via messaging.
+
+If you don't specify the type, Dart will infer it for you.
+This can give certain issues.
+Image you define a `Map`.
+
+`var map = {'person1', 'fourteen'};`
+
+You will get an error if you try to add a number to the map, instead of a string (that will have been inferred).
 
 ## Expressions and statements
 
@@ -118,7 +126,7 @@ cascade `..`
 ### Type test operators
 
 `as` typecast
-`is` true if the object has the specified type
+`is` true if the object has the specified typeacti
 `is!` false if the object has the specified type
 
 ### Assignment operators
@@ -308,7 +316,7 @@ class Point {
 
 ### Constant constructors
 
-If you class produces objects that never change, consider making these objects compile time constants.
+If your class produces objects that never change, consider making these objects compile time constants.
 To do this, define a const constructor and make sure that all instance variables are final.
 
 ```Dart
@@ -354,7 +362,7 @@ class EffectiveDoer extends Doer {
 
 ## Abstract classes
 
-It's a class that can't be instantiated. Abstract classes are useful for defining interfaces, ofter with some implementation. If you want you abstract class to appear instantiable, define a factory constructor.
+It's a class that can't be instantiated. Abstract classes are useful for defining interfaces, often with some implementation. If you want your abstract class to appear instantiable, define a factory constructor.
 
 ## Implicit interfaces
 
@@ -623,3 +631,8 @@ Currently, typedefs are restricted to function types. We expect this to change.
 ## Documentation comments
 
 `///` or `/**`
+
+### Foreach and for ( var x in y)
+
+Avoid using forEach. Many people is it in Javascript because the built in for-in doesn't do what you usually want.
+If you want to iterate, use for in. If you want to call a function on every member, use forEach

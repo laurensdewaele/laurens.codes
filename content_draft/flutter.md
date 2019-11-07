@@ -73,3 +73,10 @@ E.g. Padding vs being a property
 constructor initializer
 
 C INTEROP HAHAHAHA OMG
+
+## Performance (https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html#performance-considerations)
+
+- Push state to the leaves. This is preferable so that the children don't rebuild on state changes.
+- For stateful widgets, keep the nodes small. (Least amount of children)
+- Use const widgets where possible. (This is equivalent to caching a widget and re-using it.)
+- 

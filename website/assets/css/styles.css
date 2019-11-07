@@ -149,7 +149,18 @@ time {
 }
 
 .svg-container {
+  height: 86px;
+  width: 86px;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--black-border);
+  background: var(--black-background);
+}
+
+.svg-container svg {
+  height: 52px;
+  width: 52px;
 }
 
 .article-blogpost-page {

@@ -1,0 +1,317 @@
+<!--
+    
+    check out the code at:
+    https://github.com/laurensdewaele/blog
+
+    -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-97560888-5"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-97560888-5");
+    </script>
+    <meta charset="utf-8" />
+    <meta name="author" content="Laurens Dewaele" />
+    <meta name="description" content="Blogpost about nesting classes in Dart" />
+    <meta
+      name="keywords"
+      content="objects, javascript, classes, dart, nesting, blog, software, software engineering, frontend development, development, laurens dewaele"
+    />
+    <!--    TODO: Set theme color-->
+    <meta name="theme-color" content="" />
+    <meta name="color-scheme" content="normal" />
+    <meta name="robots" content="index,follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./assets/css/styles.css" rel="stylesheet" />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css"
+      rel="stylesheet"
+    />
+    <title>Nesting objects (classes) in Dart</title>
+  </head>
+  <body>
+    <nav>
+      <a href="./index.html"><h1>laurens.codes</h1></a>
+    </nav>
+    <main>
+      <article class="article-blogpost-page">
+        <header>
+          <div>
+            <h2>Nesting objects (classes) in Dart</h2>
+            <p>
+              <time datetime="2019-11-07">
+                07 Nov 2019
+              </time>
+            </p>
+          </div>
+          <div class="svg-container">
+            <svg
+              aria-labelledby="svgDesc"
+              width="50"
+              height="50"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <desc id="svgDesc">Dart logo</desc>
+              <path
+                d="M10.197 39.803l-8.554-8.554C.63 30.21 0 28.74 0 27.301c0-.665.375-1.705.658-2.301L8.554 8.554l1.643 31.249z"
+                fill="#01579B"
+              />
+              <path
+                d="M39.476 10.197l-8.554-8.554C30.176.893 28.62 0 27.305 0c-1.132 0-2.242.228-2.96.658L8.559 8.554l30.918 1.643zM20.394 50H41.12v-8.881l-15.461-4.937-14.145 4.937L20.394 50z"
+                fill="#40C4FF"
+              />
+              <path
+                d="M8.554 35.197c0 2.64.33 3.286 1.643 4.606l1.316 1.316h29.606L26.647 24.673 8.554 8.553v26.644z"
+                fill="#29B6F6"
+              />
+              <path
+                d="M34.87 8.55H8.554l32.565 32.565H50V20.721L39.472 10.193c-1.478-1.481-2.79-1.643-4.602-1.643z"
+                fill="#01579B"
+              />
+              <path
+                opacity=".2"
+                d="M10.528 40.13c-1.316-1.32-1.643-2.62-1.643-4.933V8.881l-.327-.327v26.643c-.004 2.312-.004 2.952 1.97 4.933l.985.985-.985-.985z"
+                fill="#fff"
+              />
+              <path
+                opacity=".2"
+                d="M49.673 20.394v20.394h-8.881l.327.33H50V20.722l-.327-.327z"
+                fill="#263238"
+              />
+              <path
+                opacity=".2"
+                d="M39.476 10.197c-1.632-1.632-2.967-1.643-4.933-1.643H8.558l.327.327h25.658c.981 0 3.459-.165 4.933 1.316z"
+                fill="#fff"
+              />
+              <path
+                opacity=".2"
+                d="M49.673 20.394L39.476 10.197l-8.554-8.554C30.176.893 28.62 0 27.305 0c-1.133 0-2.243.228-2.96.658L8.558 8.554.662 25c-.284.6-.658 1.64-.658 2.301 0 1.437.632 2.904 1.643 3.948l7.88 7.826c.188.232.409.467.67.728l.327.327.985.985 8.554 8.554.327.327h20.722v-8.88h8.88V20.72l-.32-.327z"
+                fill="url(#paint0_radial)"
+              />
+              <defs>
+                <radialGradient
+                  id="paint0_radial"
+                  cx="0"
+                  cy="0"
+                  r="1"
+                  gradientUnits="userSpaceOnUse"
+                  gradientTransform="translate(24.998 24.999) scale(24.9963)"
+                >
+                  <stop stop-color="#fff" stop-opacity=".1" />
+                  <stop offset="1" stop-color="#fff" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+            </svg>
+          </div>
+        </header>
+
+        <section>
+          <h3>Javascript</h3>
+          <p>In Javascript, the following is quite common:</p>
+          <pre><code class="Javascript language-Javascript">const styles = {
+    colors: {
+        red: x,
+    },
+    typography: {}
+}
+</code></pre>
+          <p>
+            So it basically nests objects or (as Miyoyo, the FlutterDev legend,
+            pointed out to me) maps.
+          </p>
+          <h4>Objects vs maps in Javascript</h4>
+          <p>From MDN:</p>
+          <blockquote>
+            <p>
+              Object is similar to Map in that both let you set keys to values,
+              retrieve those values, delete keys, and detect whether something
+              is stored at a key. Because of this (and because there were no
+              built-in alternatives), Objects have been used as Maps
+              historically
+            </p>
+          </blockquote>
+          <h3>Dart</h3>
+          <p>
+            I wanted to do the same thing in Dart. There's a
+            <code>styles.dart</code> file where I keep all my styling. Some
+            examples from what's in there:
+          </p>
+          <pre><code class="Dart language-Dart">class Colors {
+  Colors._();
+
+  static const Color primary = const Color.fromRGBO(220, 88, 88, 1);
+  static const Color white = const Color.fromRGBO(255, 255, 255, 1);
+}
+
+class Spacings {
+  Spacings._();
+
+  static const double xs = 10.0;
+  static const double s = 15.0;
+  static const double m = 20.0;
+}
+
+const BorderRadius kAppBorderRadius = BorderRadius.all(Radius.circular(5.0));
+</code></pre>
+          <h4>First interesting thing</h4>
+          <p>
+            I needed a class <code>Colors</code> because I don't want to have
+            all the variables loose or write them as <code>colorBlack</code> and
+            <code>colorBgGray</code>. <code>Colors.black</code> is much nicer
+            and provides a clear separation.
+          </p>
+          <p>
+            I don't want the class to be instantiable, so let's make it
+            <code>abstract</code> with <code>static const</code> fields.
+          </p>
+          <p>
+            Then somewhere in the Flutter source code I came across a private
+            constructor. I wondered what the difference was. From
+            <a
+              href="https://stackoverflow.com/questions/20593278/abstract-class-vs-private-constructor"
+              >stackoverflow</a
+            >:
+          </p>
+          <blockquote>
+            <p>
+              You should go with private constructor. If your class is abstract,
+              it can be extended and objects can be created.
+            </p>
+          </blockquote>
+          <h4>Second thing</h4>
+          <p>
+            class <code>Colors</code> already exists in Flutter and caused me
+            some annoyances. So you can either
+            <code>import 'package:flutter/material.dart'; hide Colors</code> or
+            rename your class to something else. I named it
+            <code>AppColors</code>. For consistency reasons I prefixed
+            <code>App</code> for every style constant/class (since everything in
+            Dart is a class).
+          </p>
+          <h4>Third</h4>
+          <p>
+            That quickly became tiring. Plus I did not want to have my classes
+            (AppColors, AppTypography, kAppBorderRadius, etc) loose in that
+            file. I wanted an encapsulation/separation/structure. I wanted
+            <code>styles.colors.black</code> or something.
+          </p>
+          <p>So…</p>
+          <p>I put a class inside of a class.</p>
+          <pre><code class="Dart language-Dart">class Styles {
+    Styles._();
+
+    static const AppColors colors = AppColors();
+}
+</code></pre>
+          <p>
+            =&gt; AppColors needed to be instantiated so I cannot let AppColors
+            have a private constructor. =&gt; I wanted
+            <code>const</code> values, so the constructor needed to be
+            <code>const</code> =&gt; therefor I cannot have
+            <code>static</code> fields.
+          </p>
+          <pre><code class="Dart language-Dart">class AppColors {
+    const AppColors();
+
+    final Color white = const Color.fromRGBO(...);
+}
+</code></pre>
+          <h4>Fourth</h4>
+          <p>
+            I was happy implementing it in my code
+            <code>Styles.colors.difficultyYellow</code>.
+          </p>
+          <p>It works!</p>
+          <p>
+            However, when the value needed to be a <code>const</code> (e.g.
+            <code>const Color = Styles.colors.difficultyYellow</code>), I got an
+            error.
+          </p>
+          <p><code>Error: Getter not found: 'colors'.</code></p>
+          <p>
+            That makes zero sense, so I searched around, and after a
+            <code>flutter clean</code> the error message changed to:
+          </p>
+          <p><code>Error: Not a constant expression</code></p>
+          <p>
+            How can it possibly not be a constant expression?
+            <code>colors</code> is a <code>static const</code>. AppColors was
+            instantiated via a <code>const</code> constructor. I applied
+            <code>const</code> before creating the color (<code
+              >const Color.fromRGBO</code
+            >). What's going on?
+          </p>
+          <p>
+            My guess is that Dart can't 'see' that deep. It cannot determine if
+            the value is actually a <code>const</code> because I nested a class
+            inside a class.
+          </p>
+          <p>
+            So Dart really isn't built that way and you shouldn't nest classes.
+          </p>
+          <p>Coming from Javascript this was super weird.</p>
+          <h4>Solution</h4>
+          <p>
+            I needed a namespace or something. From
+            <a
+              href="https://stackoverflow.com/questions/13876879/how-do-you-namespace-a-dart-class"
+              >stackoverflow</a
+            >:
+          </p>
+          <blockquote>
+            <p>
+              Dart doesn't have the concept of namespaces, but instead it has
+              libraries.
+            </p>
+          </blockquote>
+          <p>Ok so I just do this:</p>
+          <pre><code class="Dart language-Dart">import 'package:app/styles/styles.dart' as styles;
+</code></pre>
+          <p>
+            And then you can finally access it via
+            <code>styles.colors.black</code>;
+          </p>
+          <p>
+            This solution isn't perfect, as one can easily forget to import
+            <code>as styles</code> (nothing forces you) and just use the
+            expressions Colors, Typography, etc directly. Then we've lost
+            consistency and we're back to where we started.
+          </p>
+          <p>For me, it's the lesser evil.</p>
+          <p>Please tell me if you've found something better 😊.</p>
+        </section>
+        <section>
+          <script
+            src="https://utteranc.es/client.js"
+            repo="laurensdewaele/blog"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async
+          ></script>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <p>a blog <a href="./about.html">about</a> software development</p>
+    </footer>
+
+    <script
+      async
+      src="assets/js/prism.js"
+    ></script>
+  </body>
+</html>
