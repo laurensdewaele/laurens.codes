@@ -1,0 +1,371 @@
+<!--
+    
+    check out the code at:
+    https://github.com/laurensdewaele/blog
+
+    -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-97560888-5"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-97560888-5");
+    </script>
+    <meta charset="utf-8" />
+    <meta name="author" content="Laurens Dewaele" />
+    <meta
+      name="description"
+      content="Blogpost about a custom ExpansionTile implementation"
+    />
+    <meta
+      name="keywords"
+      content="Accordion, widget, animation, AnimatedBuilder, Flutter, ExpansionTile, custom, blog, software, software engineering, frontend development, development, laurens dewaele"
+    />
+    <!--    TODO: Set theme color-->
+    <meta name="theme-color" content="" />
+    <meta name="color-scheme" content="normal" />
+    <meta name="robots" content="index,follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./assets/css/styles.css" rel="stylesheet" />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css"
+      rel="stylesheet"
+    />
+    <title>Custom expansion tile / card / accordion in Flutter</title>
+  </head>
+  <body>
+    <nav>
+      <a href="./index.html"><h1>laurens.codes</h1></a>
+    </nav>
+    <main>
+      <article class="article-blogpost-page">
+        <header>
+          <div>
+            <h2>Custom expansion tile / card / accordion in Flutter</h2>
+            <p>
+              <time datetime="2019-11-13">
+                13 Nov 2019
+              </time>
+            </p>
+          </div>
+          <div class="svg-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 839 1039"
+            >
+              <defs>
+                <path
+                  id="a"
+                  d="M840.4 481.28l-279.6 279.7 279.6 279.7H520.9L401 920.78l-159.8-159.8 279.7-279.7h319.5zM520.9 1.98L1.6 521.28l159.8 159.8 679-679.1H520.9z"
+                />
+              </defs>
+              <clipPath id="b">
+                <use xlink:href="#a" overflow="visible" />
+              </clipPath>
+              <g clip-path="url(#b)">
+                <path
+                  fill="#39CEFD"
+                  d="M840.4 481.28H520.9l-279.6 279.7L401 920.78z"
+                />
+              </g>
+              <defs>
+                <path
+                  id="c"
+                  d="M840.4 481.28l-279.6 279.7 279.6 279.7H520.9L401 920.78l-159.8-159.8 279.7-279.7h319.5zM520.9 1.98L1.6 521.28l159.8 159.8 679-679.1H520.9z"
+                />
+              </defs>
+              <clipPath id="d">
+                <use xlink:href="#c" overflow="visible" />
+              </clipPath>
+              <path
+                clip-path="url(#d)"
+                fill="#39CEFD"
+                d="M161.4 681.08L1.6 521.28 520.9 1.98h319.5z"
+              />
+              <defs>
+                <path
+                  id="e"
+                  d="M840.4 481.28l-279.6 279.7 279.6 279.7H520.9L401 920.78l-159.8-159.8 279.7-279.7h319.5zM520.9 1.98L1.6 521.28l159.8 159.8 679-679.1H520.9z"
+                />
+              </defs>
+              <clipPath id="f">
+                <use xlink:href="#e" overflow="visible" />
+              </clipPath>
+              <path
+                clip-path="url(#f)"
+                fill="#03569B"
+                d="M401 920.78l119.9 119.8h319.5l-279.6-279.6z"
+              />
+              <defs>
+                <path
+                  id="g"
+                  d="M840.4 481.28l-279.6 279.7 279.6 279.7H520.9L401 920.78l-159.8-159.8 279.7-279.7h319.5zM520.9 1.98L1.6 521.28l159.8 159.8 679-679.1H520.9z"
+                />
+              </defs>
+              <clipPath id="h">
+                <use xlink:href="#g" overflow="visible" />
+              </clipPath>
+              <linearGradient
+                id="i"
+                gradientUnits="userSpaceOnUse"
+                x1="15272.493"
+                y1="9729.589"
+                x2="15748.553"
+                y2="9253.529"
+                gradientTransform="matrix(.25 0 0 .25 -3370.5 -1480.79)"
+              >
+                <stop offset="0" stop-color="#1a237e" stop-opacity=".4" />
+                <stop offset="1" stop-color="#1a237e" stop-opacity="0" />
+              </linearGradient>
+              <path
+                clip-path="url(#h)"
+                fill="url(#i)"
+                d="M401 920.78l237-82.1-77.2-77.7z"
+              />
+              <defs>
+                <path
+                  id="j"
+                  d="M840.4 481.28l-279.6 279.7 279.6 279.7H520.9L401 920.78l-159.8-159.8 279.7-279.7h319.5zM520.9 1.98L1.6 521.28l159.8 159.8 679-679.1H520.9z"
+                />
+              </defs>
+              <clipPath id="k">
+                <use xlink:href="#j" overflow="visible" />
+              </clipPath>
+              <g clip-path="url(#k)">
+                <path
+                  fill="#16B9FD"
+                  d="M241.28 760.924l159.804-159.805 159.805 159.805-159.805 159.804z"
+                />
+              </g>
+              <radialGradient
+                id="l"
+                cx="13582.658"
+                cy="6214.26"
+                r="5082.889"
+                gradientTransform="matrix(.25 0 0 .25 -3370.5 -1480.79)"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0" stop-color="#fff" stop-opacity=".1" />
+                <stop offset="1" stop-color="#fff" stop-opacity="0" />
+              </radialGradient>
+              <path
+                fill="url(#l)"
+                d="M840.4 481.28l-279.6 279.7 279.6 279.7H520.9L401 920.78l-159.8-159.8 279.7-279.7h319.5zM520.9 1.98L1.6 521.28l159.8 159.8 679-679.1H520.9z"
+              />
+            </svg>
+          </div>
+        </header>
+
+        <section>
+          <h3>What I wanted</h3>
+          <p>
+            When designing the app, I did not really take into account what kind
+            of card transition animations should occur.
+          </p>
+          <p>I had these two card states:</p>
+          <p>Collapsed:</p>
+          <p>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/workout_collapsed_w_328.webp"
+                media="(min-width: 450px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/workout_collapsed_w_328.webp"
+                media="(max-width: 450px)"
+              />
+              <source
+                srcset="./assets/images/workout_collapsed_w_328.png"
+                media="(min-width: 450px)"
+              />
+              <source
+                srcset="./assets/images/workout_collapsed_w_328.png"
+                media="(max-width: 450px)"
+              />
+              <img
+                src="./assets/images/workout_collapsed_w_328.png"
+                alt="workout card collapsed"
+              />
+            </picture>
+          </p>
+          <p>Expanded:</p>
+          <p>
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/images/workout_expanded_w_328.webp"
+                media="(min-width: 450px)"
+              />
+              <source
+                type="image/webp"
+                srcset="./assets/images/workout_expanded_w_328.webp"
+                media="(max-width: 450px)"
+              />
+              <source
+                srcset="./assets/images/workout_expanded_w_328.png"
+                media="(min-width: 450px)"
+              />
+              <source
+                srcset="./assets/images/workout_expanded_w_328.png"
+                media="(max-width: 450px)"
+              />
+              <img
+                src="./assets/images/workout_expanded_w_328.png"
+                alt="workout card expanded"
+              />
+            </picture>
+          </p>
+          <p>Going from one to the other means I have to:</p>
+          <ul>
+            <li>Center my title</li>
+            <li>Do something with the yellow '33'</li>
+            <li>
+              Increase the size of the card and display the content, just like
+              any other accordion.
+            </li>
+          </ul>
+          <h3>Solutions</h3>
+          <h4>Redesign</h4>
+          <p>
+            Animating all that seemed like a lot of work. So I designed
+            something else:
+          </p>
+          <p>Refactored expanded card:</p>
+          <p>
+            <img
+              src="./images/workout_expanded_refactor.png"
+              alt="refactored expanded card"
+            />
+          </p>
+          <p>
+            This way I don't have to animate my title and do something with that
+            yellow '33'.
+          </p>
+          <p>
+            However, I does not look pretty compared to my first design, so I
+            tossed the idea.
+          </p>
+          <p>
+            I'm glad I did not account for this when first designing, because
+            I'm of the principle that you should design with total creative
+            freedom, not by implementation constraints. Every design is possible
+            to be implemented by code. It's just a matter of time (thus money in
+            most cases). If it cannot be done within the time constraints, than
+            iterate on the design, but please let the first design be made
+            without all this in mind 🙂.
+          </p>
+          <h4>Code all the animations</h4>
+          <p>What I wanted:</p>
+          <img src="./assets/images/expand_collapse.gif" alt="expand and collapse card animation" />
+          <p>
+            In the first collapsed state, the title and the difficulty rating
+            are located at the start and end of the container. In the second
+            expanded state, the title is located in the center, and the
+            difficulty rating is gone.
+          </p>
+          <p>
+            I decided to animate both to the right, where the title would be in
+            the middle and the difficulty rating would be invisible, or, off
+            screen.
+          </p>
+          <p>
+            Initially, for the collapsed state, I used
+            <code>MainAxisAligment.spaceBetween</code> to separate the two
+            widgets. However, you cannot do anything with that if you need to
+            transition the title to the middle.
+          </p>
+          <p>So I needed to implement the Align widget.</p>
+          <pre><code class="Dart language-Dart">Row(children: [
+    Align(
+        alignment: Alignment(-1, 0),
+          child: Text('Beginner routine')
+      ),
+      Align(
+          alignment: Alignment(1,0),
+          child: Difficulty()
+          )
+])
+</code></pre>
+          <p>
+            Problem with this is that, when I center the title
+            <code>Alignment(0,0)</code>, the container will not take up the full
+            width because of the space that the difficulty box consumes.
+          </p>
+          <p>So… I needed a Stack widget.</p>
+          <p><strong>1st layer</strong> of the stack:</p>
+          <ul>
+            <li>title</li>
+            <li>
+              empty box that has the same dimensions as the difficulty widget
+              (because I don't want extra long text to paint behind it)
+            </li>
+          </ul>
+          <p><strong>2nd layer</strong>:</p>
+          <ul>
+            <li>the difficulty widget</li>
+          </ul>
+          <p>Okay! So all I need to do is:</p>
+          <ol>
+            <li>Change the alignment from the title from (-1,0) to (0,0).</li>
+            <li>
+              Animate the empty box from it's original size to 0. This in order
+              for the title container to take up full width.
+            </li>
+            <li>Move the difficulty widget off screen.</li>
+            <li>
+              Expanded the size of the card container and display the content
+            </li>
+          </ol>
+          <p>
+            I had some trouble to implement the last one. I couldn't figure out
+            what to use, or what height to set, because I didn't want to use
+            absolute values. There was no <code>height: auto</code> or anything.
+          </p>
+          <p>
+            Thank god I finally found out about the
+            <a
+              href="https://github.com/flutter/flutter/blob/1aedbb1835/packages/flutter/lib/src/material/expansion_tile.dart#L30"
+              >ExpansionTile widget</a
+            >
+            and with that as an example, the rest was easy.
+          </p>
+          <p>
+            <a
+              href="https://github.com/laurensdewaele/hangboard_app/blob/master/app/lib/widgets/workout_overview_card.dart"
+              >Finished code</a
+            >
+          </p>
+        </section>
+        <section>
+          <script
+            src="https://utteranc.es/client.js"
+            repo="laurensdewaele/blog"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async
+          ></script>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <p>a blog <a href="./about.html">about</a> software development</p>
+    </footer>
+
+    <script async="" src="assets/js/prism.js"></script>
+  </body>
+</html>
