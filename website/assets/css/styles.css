@@ -306,6 +306,11 @@ footer a {
   padding: 1rem;
 }
 
+.about-content a {
+  color: var(--gray-h1);
+  border-bottom: 2px solid var(--blue);
+}
+
 @media (max-width: 62rem) {
   .article-blogpost-page {
     max-width: 50rem;
