@@ -13,7 +13,7 @@
     "imagemin-pngquant": "^8.0.0",
     "imagemin-svgo": "^7.0.0",
     "imagemin-webp": "^5.1.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "prettier": "^1.18.2",
     "prompts": "^2.2.1",
     "sharp": "^0.23.0",
